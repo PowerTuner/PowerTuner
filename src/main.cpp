@@ -16,15 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <QApplication>
+#include <QFontDatabase>
 
 #include "mainwindow.h"
+
+using namespace Qt::StringLiterals;
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     MainWindow w;
     QFont font = w.font();
 
-    font.setPointSize(12);
+    QFontDatabase::addApplicationFont(u":/fonts/fontawesome"_s);
+    font.setPointSize(14);
     font.setWeight(QFont::Medium);
 
     w.setWindowTitle("PowerTuner");
