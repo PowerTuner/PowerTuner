@@ -19,6 +19,7 @@
 #include <QFontDatabase>
 
 #include "mainwindow.h"
+#include "../version.h"
 
 using namespace Qt::StringLiterals;
 
@@ -31,7 +32,7 @@ int main(int argc, char *argv[]) {
     font.setPointSize(14);
     font.setWeight(QFont::Medium);
 
-    w.setWindowTitle("PowerTuner");
+    w.setWindowTitle(QString("PowerTuner %1.%2").arg(VER_MAJOR).arg(VER_MINOR));
     w.resize(1024, 600);
     w.setFont(font);
     w.show();
