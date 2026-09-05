@@ -24,7 +24,7 @@ namespace PWT::UI::PAGE {
     Home::Home() {
         product = new Label(u"Product"_s, noValue);
         manufacturer = new Label(u"Manufacturer"_s, noValue);
-        os = new Label(u"Operaring system"_s, noValue);
+        os = new Label(u"Operating system"_s, noValue);
         kernel = new Label(u"Kernel"_s, noValue);
         arch = new Label(u"Architecture"_s, noValue);
         biosVendor = new Label(u"Bios vendor"_s, noValue);
