@@ -36,7 +36,7 @@ namespace PWT::UI {
         const QRect bgRect {2, 0, textRect.width() + 35, textRect.height() + 4};
         QPainter p(this);
 
-        p.setRenderHint(QPainter::Antialiasing);
+        p.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
         p.setPen(appTheme->titleBackground());
         p.setBrush(appTheme->titleBackground());
