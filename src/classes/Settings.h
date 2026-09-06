@@ -17,10 +17,12 @@
  */
 #pragma once
 #include "../styles/Style.h"
+#include "../styles/StyleType.h"
 
 namespace PWT::App {
     class Settings final {
     private:
+        Style::StyleType styleType = Style::StyleType::VoidPurple;
         std::shared_ptr<Style::Style> style;
 
         Settings() = default;

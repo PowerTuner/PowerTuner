@@ -16,7 +16,6 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "Settings.h"
-#include "../styles/PwtStyleType.h"
 #include "../styles/VoidPurpleStyle.h"
 
 namespace PWT::App {

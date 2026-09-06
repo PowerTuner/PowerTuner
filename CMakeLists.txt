@@ -23,7 +23,7 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     src/mainwindow.cpp
     src/mainwindow.h
 
-    src/styles/PwtStyleType.h
+    src/styles/StyleType.h
     src/styles/Style.h
     src/styles/VoidPurpleStyle.h
 
