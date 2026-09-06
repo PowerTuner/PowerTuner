@@ -29,7 +29,6 @@ namespace PWT::UI {
         static constexpr int markW = 26;
         static constexpr int markH = 3;
         static constexpr QRect markRect {(btnWH / 2) - (markW / 2), btnWH - markH - 1, markW, markH};
-        QColor markColor;
         bool isHovered = false;
         bool isActive = false;
 

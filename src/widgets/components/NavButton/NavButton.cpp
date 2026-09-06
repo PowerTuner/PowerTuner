@@ -30,26 +30,22 @@ namespace PWT::UI {
     void NavButton::paintEvent(QPaintEvent *) {
         QPainter p(this);
 
-        p.setRenderHint(QPainter::Antialiasing);
+        p.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
         paintIcon(p);
 
         if (isHovered || isActive) {
             p.setPen(Qt::NoPen);
-            p.setBrush(markColor);
+            p.setBrush(isHovered ? appTheme->navButtonHovered() : appTheme->navButtonActive());
             p.drawRoundedRect(markRect, 2, 2);
         }
     }
 
     void NavButton::enterEvent(QEnterEvent *) {
         isHovered = true;
-        markColor = appTheme->navButtonHovered();
         update();
     }
 
     void NavButton::leaveEvent(QEvent *) {
-        if (isActive) [[unlikely]]
-            markColor = appTheme->navButtonActive();
-
         isHovered = false;
         update();
     }
@@ -65,7 +61,6 @@ namespace PWT::UI {
             return;
 
         isActive = active;
-        markColor = appTheme->navButtonActive();
         update();
     }
 }
