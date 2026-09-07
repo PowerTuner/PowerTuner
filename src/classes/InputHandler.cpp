@@ -21,7 +21,7 @@
 #include "InputHandler.h"
 
 namespace PWT::App {
-    InputHandler::InputHandler() {
+    InputHandler::InputHandler(QObject *parent): QObject(parent) {
 
     }
 

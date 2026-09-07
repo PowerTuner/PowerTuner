@@ -16,20 +16,20 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "Navbar.h"
-#include "../../components/Scrollarea/ScrollArea.h"
 
 namespace PWT::UI {
     using namespace Qt::StringLiterals;
 
     Navbar::Navbar() {
         QVBoxLayout *navLyt = new QVBoxLayout();
-        ScrollArea *scrollArea = new ScrollArea(Qt::Vertical, true);
+        QVBoxLayout *actionsLyt = new QVBoxLayout();
         NavButton *deviceNav = new NavButton(u"Device"_s, u"\ue4e5"_s);
         NavButton *logsNav = new NavButton(u"Logs"_s, u"\uf022"_s);
         NavButton *settingsNav = new NavButton(u"Settings"_s, u"\uf013"_s);
 
         lyt = new QVBoxLayout();
         active = deviceNav;
+        scrollArea = new ScrollArea(Qt::Vertical, true);
         refreshBtn = new NavButtonSinRotate(u"Refresh"_s, u"\uf2f1"_s);
         applyBtn = new NavButton(u"Apply"_s, u"\uf019"_s);
 
@@ -39,14 +39,17 @@ namespace PWT::UI {
         setFocusPolicy(Qt::NoFocus);
 
         lyt->setContentsMargins(0, 0, 0, 0);
+        lyt->setAlignment(Qt::AlignTop);
         lyt->addWidget(deviceNav);
         lyt->addWidget(logsNav);
         lyt->addWidget(settingsNav);
-        lyt->addStretch();
-        lyt->addWidget(refreshBtn);
-        lyt->addWidget(applyBtn);
+        actionsLyt->setContentsMargins(0, 0, 0, 0);
+        actionsLyt->addWidget(refreshBtn);
+        actionsLyt->addWidget(applyBtn);
         navLyt->setContentsMargins(0, 0, 0, 0);
         navLyt->addWidget(scrollArea);
+        navLyt->addStretch();
+        navLyt->addLayout(actionsLyt);
 
         setLayout(navLyt);
 
@@ -57,17 +60,37 @@ namespace PWT::UI {
         QObject::connect(applyBtn, &NavButton::clicked, this, &Navbar::onApplyClicked);
     }
 
-    void Navbar::onNavButtonClicked() {
-        NavButton *btn = qobject_cast<NavButton *>(QObject::sender());
-
-        if (!btn)
+    void Navbar::switchPage(const int idx, NavButton *btn) {
+        if (btn == nullptr)
             return;
 
         active->setActive(false);
         btn->setActive(true);
         active = btn;
 
-        emit pageChanged(lyt->indexOf(btn));
+        scrollArea->ensureWidgetVisible(active);
+        emit pageChanged(idx);
+    }
+
+    void Navbar::switchPageUp() {
+        const int idx = lyt->indexOf(active) - 1;
+        const int prev = idx < 0 ? (lyt->count() - 1) : idx;
+
+        switchPage(prev, qobject_cast<NavButton *>(lyt->itemAt(prev)->widget()));
+    }
+
+    void Navbar::switchPageDown() {
+        const int idx = lyt->indexOf(active) + 1;
+        const int next = idx >= lyt->count() ? 0 : idx;
+
+        switchPage(next, qobject_cast<NavButton *>(lyt->itemAt(next)->widget()));
+    }
+
+    void Navbar::onNavButtonClicked() {
+        NavButton *btn = qobject_cast<NavButton *>(QObject::sender());
+
+        if (btn != nullptr && btn != active) [[likely]]
+            switchPage(lyt->indexOf(btn), btn);
     }
 
     void Navbar::onRefreshClicked() {

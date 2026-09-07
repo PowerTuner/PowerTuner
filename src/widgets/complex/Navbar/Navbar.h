@@ -19,6 +19,7 @@
 #include <QVBoxLayout>
 
 #include "../../components/NavButton/NavButtonSinRotate.h"
+#include "../../components/Scrollarea/ScrollArea.h"
 
 namespace PWT::UI {
     class Navbar final: public QWidget {
@@ -26,12 +27,18 @@ namespace PWT::UI {
 
     private:
         QVBoxLayout *lyt = nullptr;
+        ScrollArea *scrollArea = nullptr;
         NavButton *active = nullptr;
         NavButtonSinRotate *refreshBtn = nullptr;
         NavButton *applyBtn = nullptr;
 
+        void switchPage(int idx, NavButton *btn);
+
     public:
         Navbar();
+
+        void switchPageUp();
+        void switchPageDown();
 
     private slots:
         void onNavButtonClicked();

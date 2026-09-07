@@ -31,7 +31,7 @@ namespace PWT::App {
         void handleMouse(Qt::MouseButton btn);
 
     public:
-        InputHandler();
+        InputHandler(QObject *parent);
 
         bool eventFilter(QObject *watched, QEvent *event) override;
 

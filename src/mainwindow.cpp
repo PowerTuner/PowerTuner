@@ -17,6 +17,7 @@
  */
 #include "mainwindow.h"
 #include "../ui_mainwindow.h"
+#include "classes/InputHandler.h"
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -25,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     const std::shared_ptr<PWT::Style::Style> style = appSettings.getStyle();
     QVBoxLayout *windowLyt = new QVBoxLayout();
     QHBoxLayout *mainLyt = new QHBoxLayout();
-
+    PWT::App::InputHandler *inputHandler = new PWT::App::InputHandler(this);
     QPalette pal = palette();
 
     navbar = new PWT::UI::Navbar();
@@ -34,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     home = new PWT::UI::PAGE::Home();
     logs = new PWT::UI::PAGE::Logs();
 
+    installEventFilter(inputHandler);
     pal.setColor(QPalette::Window, style->mainWindowBackground());
     pal.setColor(QPalette::WindowText, style->mainWindowText());
     setPalette(pal);
@@ -49,6 +51,23 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     ui->centralwidget->setLayout(windowLyt);
 
     QObject::connect(navbar, &PWT::UI::Navbar::pageChanged, this, &MainWindow::navbarPageChanged);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::navbarUpKey, this, &MainWindow::navbarUpKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::navbarDownKey, this, &MainWindow::navbarDownKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::refreshKey, this, &MainWindow::refreshKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::applyKey, this, &MainWindow::applyKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::upKey, this, &MainWindow::upKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::downKey, this, &MainWindow::downKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::leftKey, this, &MainWindow::leftKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::rightKey, this, &MainWindow::rightKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::fastLeftKey, this, &MainWindow::fastLeftKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::fastRightKey, this, &MainWindow::fastRightKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::actionKey, this, &MainWindow::actionKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::backKey, this, &MainWindow::backKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::scrollUpKey, this, &MainWindow::scrollUpKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::scrollDownKey, this, &MainWindow::scrollDownKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::scrollTopKey, this, &MainWindow::scrollTopKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::scrollBottomKey, this, &MainWindow::scrollBottomKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::inputModeKey, this, &MainWindow::inputModeKeyPressed);
 }
 
 MainWindow::~MainWindow() {
@@ -57,4 +76,57 @@ MainWindow::~MainWindow() {
 
 void MainWindow::navbarPageChanged(const int idx) const {
     pages->setCurrentIndex(idx);
+}
+
+void MainWindow::navbarUpKeyPressed() const {
+    navbar->switchPageUp();
+}
+
+void MainWindow::navbarDownKeyPressed() const {
+    navbar->switchPageDown();
+}
+
+void MainWindow::refreshKeyPressed() const {
+}
+
+void MainWindow::applyKeyPressed() const {
+}
+
+void MainWindow::upKeyPressed(const bool gamepad) const {
+}
+
+void MainWindow::downKeyPressed(const bool gamepad) const {
+}
+
+void MainWindow::leftKeyPressed(const bool gamepad) const {
+}
+
+void MainWindow::rightKeyPressed(const bool gamepad) const {
+}
+
+void MainWindow::fastLeftKeyPressed(const bool gamepad) const {
+}
+
+void MainWindow::fastRightKeyPressed(const bool gamepad) const {
+}
+
+void MainWindow::actionKeyPressed(const bool gamepad) const {
+}
+
+void MainWindow::backKeyPressed(const bool gamepad) const {
+}
+
+void MainWindow::scrollUpKeyPressed(const bool gamepad) const {
+}
+
+void MainWindow::scrollDownKeyPressed(const bool gamepad) const {
+}
+
+void MainWindow::scrollTopKeyPressed(const bool gamepad) const {
+}
+
+void MainWindow::scrollBottomKeyPressed(const bool gamepad) const {
+}
+
+void MainWindow::inputModeKeyPressed(const bool gamepad) const {
 }

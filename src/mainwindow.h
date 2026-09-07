@@ -49,4 +49,21 @@ public:
 
 private slots:
     void navbarPageChanged(int idx) const;
+    void navbarUpKeyPressed() const;
+    void navbarDownKeyPressed() const;
+    void refreshKeyPressed() const;
+    void applyKeyPressed() const;
+    void upKeyPressed(bool gamepad) const;
+    void downKeyPressed(bool gamepad) const;
+    void leftKeyPressed(bool gamepad) const;
+    void rightKeyPressed(bool gamepad) const;
+    void fastLeftKeyPressed(bool gamepad) const;
+    void fastRightKeyPressed(bool gamepad) const;
+    void actionKeyPressed(bool gamepad) const;
+    void backKeyPressed(bool gamepad) const;
+    void scrollUpKeyPressed(bool gamepad) const;
+    void scrollDownKeyPressed(bool gamepad) const;
+    void scrollTopKeyPressed(bool gamepad) const;
+    void scrollBottomKeyPressed(bool gamepad) const;
+    void inputModeKeyPressed(bool gamepad) const;
 };
