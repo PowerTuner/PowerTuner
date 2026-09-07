@@ -24,7 +24,6 @@ namespace PWT::UI::PAGE {
     using namespace Qt::StringLiterals;
 
     Logs::Logs() {
-        QHBoxLayout *clearLyt = new QHBoxLayout();
         Button *clearBtn = new Button(u"Clear"_s);
 
         logsBox = new TextEdit();
@@ -33,11 +32,10 @@ namespace PWT::UI::PAGE {
         logsBox->setTextInteractionFlags(Qt::TextSelectableByKeyboard | Qt::TextSelectableByMouse);
         logsBox->setReadOnly(true);
         logsBox->setFontPointSize(12);
+        clearBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-        clearLyt->addStretch();
-        clearLyt->addWidget(clearBtn);
         lyt->addWidget(logsBox);
-        lyt->addLayout(clearLyt);
+        lyt->addWidget(clearBtn, 0, Qt::AlignRight);
 
         QObject::connect(clearBtn, &Button::clicked, this, &Logs::clearBtnClicked);
     }
