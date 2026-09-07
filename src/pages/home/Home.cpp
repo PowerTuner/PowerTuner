@@ -57,6 +57,7 @@ namespace PWT::UI::PAGE {
         lyt->addWidget(biosVersion);
         lyt->addWidget(biosDate);
         lyt->addWidget(ram);
+        lyt->addSpacing(14);
         lyt->addWidget(new Title(u"\uf2db CPU"_s));
         lyt->addWidget(cpuBrand);
         lyt->addWidget(cpuCodename);
