@@ -24,9 +24,9 @@ namespace PWT::UI {
     Navbar::Navbar() {
         QVBoxLayout *navLyt = new QVBoxLayout();
         ScrollArea *scrollArea = new ScrollArea(Qt::Vertical, true);
-        NavButton *deviceNav = new NavButton(u"device"_s, u"\ue4e5"_s);
+        NavButton *deviceNav = new NavButton(u"Device"_s, u"\ue4e5"_s);
         NavButton *logsNav = new NavButton(u"Logs"_s, u"\uf022"_s);
-        NavButton *settingsNav = new NavButton(u"settings"_s, u"\uf013"_s);
+        NavButton *settingsNav = new NavButton(u"Settings"_s, u"\uf013"_s);
 
         lyt = new QVBoxLayout();
         active = deviceNav;
