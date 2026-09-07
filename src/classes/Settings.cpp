@@ -40,8 +40,4 @@ namespace PWT::App {
     bool Settings::save() const {
         return true;
     }
-
-    std::shared_ptr<Style::Style> Settings::getStyle() const {
-        return style;
-    }
 }

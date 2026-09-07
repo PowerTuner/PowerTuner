@@ -29,6 +29,8 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
 
     src/classes/Settings.cpp
     src/classes/Settings.h
+    src/classes/InputHandler.cpp
+    src/classes/InputHandler.h
 
     src/widgets/components/Switch/SwitchButton.cpp
     src/widgets/components/Switch/SwitchButton.h
