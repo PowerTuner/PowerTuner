@@ -28,7 +28,15 @@ namespace PWT::App {
     bool InputHandler::eventFilter(QObject *watched, QEvent *event) {
         switch (event->type()) {
             case QEvent::KeyRelease: {
-                handleKeyboardKey(static_cast<Qt::Key>(static_cast<QKeyEvent *>(event)->key()));
+                const QKeyEvent *kevt = static_cast<QKeyEvent *>(event);
+
+                if (!kevt->isAutoRepeat())
+                    handleKeyboardReleaseKey(static_cast<Qt::Key>(kevt->key()));
+
+                return true;
+            }
+            case QEvent::KeyPress: {
+                handleKeyboardPressKey(static_cast<Qt::Key>(static_cast<QKeyEvent *>(event)->key()));
                 return true;
             }
             case QEvent::MouseButtonRelease: {
@@ -42,7 +50,7 @@ namespace PWT::App {
         return QObject::eventFilter(watched, event);
     }
 
-    void InputHandler::handleKeyboardKey(const Qt::Key key) {
+    void InputHandler::handleKeyboardReleaseKey(const Qt::Key key) {
         if (key == appSettings.getKeyboardNavbarUp())
             emit navbarUpKey();
         else if (key == appSettings.getKeyboardNavbarDown())
@@ -51,36 +59,39 @@ namespace PWT::App {
             emit refreshKey();
         else if (key == appSettings.getKeyboardApply())
             emit applyKey();
-        else if (key == appSettings.getKeyboardUp())
-            emit upKey(false);
-        else if (key == appSettings.getKeyboardDown())
-            emit downKey(false);
-        else if (key == appSettings.getKeyboardLeft())
-            emit leftKey(false);
-        else if (key == appSettings.getKeyboardRight())
-            emit rightKey(false);
-        else if (key == appSettings.getKeyboardFastLeft())
-            emit fastLeftKey(false);
-        else if (key == appSettings.getKeyboardFastRight())
-            emit fastRightKey(false);
         else if (key == appSettings.getKeyboardAction())
-            emit actionKey(false);
+            emit buttonPressed(ButtonKey::Action, false);
         else if (key == appSettings.getKeyboardBack())
-            emit backKey(false);
-        else if (key == appSettings.getKeyboardScrollUp())
-            emit scrollUpKey(false);
-        else if (key == appSettings.getKeyboardScrollDown())
-            emit scrollDownKey(false);
+            emit buttonPressed(ButtonKey::Back, false);
         else if (key == appSettings.getKeyboardScrollTop())
-            emit scrollTopKey(false);
+            emit buttonPressed(ButtonKey::ScrollTop, false);
         else if (key == appSettings.getKeyboardScrollBottom())
-            emit scrollBottomKey(false);
+            emit buttonPressed(ButtonKey::ScrollBottom, false);
         else if (key == appSettings.getKeyboardInputMode())
-            emit inputModeKey(false);
+            emit buttonPressed(ButtonKey::InputMode, false);
     }
 
-    void InputHandler::handleMouse(const Qt::MouseButton btn) {
+    void InputHandler::handleKeyboardPressKey(const Qt::Key key) {
+        if (key == appSettings.getKeyboardUp())
+            emit buttonPressed(ButtonKey::Up, false);
+        else if (key == appSettings.getKeyboardDown())
+            emit buttonPressed(ButtonKey::Down, false);
+        else if (key == appSettings.getKeyboardLeft())
+            emit buttonPressed(ButtonKey::Left, false);
+        else if (key == appSettings.getKeyboardRight())
+            emit buttonPressed(ButtonKey::Right, false);
+        else if (key == appSettings.getKeyboardFastLeft())
+            emit buttonPressed(ButtonKey::FastLeft, false);
+        else if (key == appSettings.getKeyboardFastRight())
+            emit buttonPressed(ButtonKey::FastRight, false);
+        else if (key == appSettings.getKeyboardScrollUp())
+            emit buttonPressed(ButtonKey::ScrollUp, false);
+        else if (key == appSettings.getKeyboardScrollDown())
+            emit buttonPressed(ButtonKey::ScrollDown, false);
+    }
+
+    void InputHandler::handleMouse(const Qt::MouseButton btn) {//todo check mouse inside widget
         if (btn == Qt::LeftButton)
-            emit actionKey(false);
+            emit buttonPressed(ButtonKey::Action, false);
     }
 }

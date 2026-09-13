@@ -18,10 +18,10 @@
 
  */
 #pragma once
-#include "../PWidget.h"
+#include <QWidget>
 
 namespace PWT::UI {
-    class Label final: public PWidget {
+    class Label final: public QWidget {
     public:
         Label(const QString &title, const QString &text);
     };

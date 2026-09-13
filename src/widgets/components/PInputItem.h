@@ -15,36 +15,18 @@
   * You should have received a copy of the GNU General Public License
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <QPainter>
-
-#include "PWidget.h"
+#pragma once
+#include "../../include/ButtonKey.h"
 
 namespace PWT::UI {
-    PWidget::PWidget() {
-        setFocusPolicy(Qt::NoFocus);
-        setContentsMargins(6,6,6,6);
-    }
+    class PInputItem {
+    protected:
+        bool isFocused = false;
 
-    void PWidget::paintEvent(QPaintEvent *event) {
-        QWidget::paintEvent(event);
+    public:
+        virtual ~PInputItem() = default;
 
-        if (isFocused || isHovered) {
-            const QPen border(appTheme->pwidgetFocused(), 2);
-            QPainter p(this);
-
-            p.setPen(border);
-            p.setBrush(Qt::NoBrush);
-            p.drawRoundedRect(rect().adjusted(1, 1, -1, -1), 8, 8);
-        }
-    }
-
-    void PWidget::enterEvent(QEnterEvent *) {
-        isHovered = true;
-        update();
-    }
-
-    void PWidget::leaveEvent(QEvent *) {
-        isHovered = false;
-        update();
-    }
+        virtual void setFocused(bool enable) = 0;
+        virtual void handleButton(ButtonKey key, bool gamepad) = 0;
+    };
 }

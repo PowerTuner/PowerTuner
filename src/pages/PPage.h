@@ -16,17 +16,32 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <QWidget>
 #include <QVBoxLayout>
+
+#include "../widgets/components/PInputItem.h"
+#include "../widgets/components/Scrollarea/ScrollArea.h"
 
 namespace PWT::UI::PAGE {
     class PPage: public QWidget {
         Q_OBJECT
 
+    private:
+        ScrollArea *scrollArea = nullptr;
+        QVector<std::pair<QWidget *, PInputItem *>> inputList;
+        int focusedIdx = -1;
+
+        [[nodiscard]] bool tryFocusComponent(int idx);
+
     protected:
         QVBoxLayout *lyt = nullptr;
 
+        void collectPageInputs(const QLayout *layout);
+        void focusFirstWidget();
+        void focusLastWidget();
+
     public:
         PPage();
+
+        virtual void handleButton(ButtonKey key, bool gamepad);
     };
 }

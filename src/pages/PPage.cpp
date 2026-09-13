@@ -15,22 +15,116 @@
   * You should have received a copy of the GNU General Public License
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <QScrollBar>
+
 #include "PPage.h"
-#include "../widgets/components/Scrollarea/ScrollArea.h"
 
 namespace PWT::UI::PAGE {
     PPage::PPage() {
         QVBoxLayout *pageLyt = new QVBoxLayout();
-        ScrollArea *scrollArea = new ScrollArea(Qt::Vertical, true);
 
         lyt = new QVBoxLayout();
-
-        setFocusPolicy(Qt::NoFocus);
+        scrollArea = new ScrollArea(Qt::Vertical, true);
 
         lyt->setContentsMargins(0, 0, 0, 0);
         scrollArea->widget()->setLayout(lyt);
         pageLyt->addWidget(scrollArea);
 
         setLayout(pageLyt);
+        setFocusPolicy(Qt::NoFocus);
+    }
+
+    bool PPage::tryFocusComponent(const int idx) {//todo scroll up/down focus
+        const auto [component, pinput] = inputList[idx];
+
+        if (component->isHidden() || !component->isEnabled())
+            return false;
+
+        if (focusedIdx >= 0 && focusedIdx < inputList.size())
+            inputList[focusedIdx].second->setFocused(false);
+
+        scrollArea->ensureWidgetVisible(component);
+        pinput->setFocused(true);
+        focusedIdx = idx;
+        return true;
+    }
+
+    void PPage::collectPageInputs(const QLayout *layout) {
+        for (int i=0,l=layout->count(); i<l; ++i) {
+            QLayoutItem *itm = layout->itemAt(i);
+
+            if (itm->layout() != nullptr) {
+                collectPageInputs(itm->layout());
+
+            } else if (itm->widget() != nullptr) {
+                PInputItem *inpt = dynamic_cast<PInputItem *>(itm->widget());
+
+                if (inpt != nullptr)
+                    inputList.push_back(std::make_pair(itm->widget(), inpt));
+            }
+        }
+    }
+
+    void PPage::focusFirstWidget() {
+        for (int i=0,l=inputList.size(); i<l; ++i) {
+            if (tryFocusComponent(i))
+                break;
+        }
+    }
+
+    void PPage::focusLastWidget() {
+        for (int i=inputList.size()-1; i>=0; --i) {
+            if (tryFocusComponent(i))
+                break;
+        }
+    }
+
+    void PPage::handleButton(const ButtonKey key, const bool gamepad) {
+        switch (key) {
+            case ButtonKey::Up: {
+                for (int i=focusedIdx-1,l=inputList.size(); i>=0 && i<l; --i) {
+                    if (tryFocusComponent(i))
+                        break;
+                }
+            }
+                break;
+            case ButtonKey::Down: {
+                for (int i=focusedIdx+1,l=inputList.size(); i<l; ++i) {
+                    if (tryFocusComponent(i))
+                        break;
+                }
+            }
+                break;
+            case ButtonKey::ScrollUp: {
+                QScrollBar *sbar = scrollArea->verticalScrollBar();
+
+                sbar->setValue(sbar->value() - std::max(1, ((10 * sbar->maximum()) / 100)));
+            }
+                break;
+            case ButtonKey::ScrollDown: {
+                QScrollBar *sbar = scrollArea->verticalScrollBar();
+
+                sbar->setValue(sbar->value() + std::max(1, ((10 * sbar->maximum()) / 100)));
+            }
+                break;
+            case ButtonKey::ScrollTop: {
+                if (scrollArea->verticalScrollBar()->maximum() == 0)
+                    break;
+
+                scrollArea->verticalScrollBar()->setValue(0);
+                focusFirstWidget();
+            }
+                break;
+            case ButtonKey::ScrollBottom: {
+                if (scrollArea->verticalScrollBar()->maximum() == 0)
+                    break;
+
+                scrollArea->verticalScrollBar()->setValue(scrollArea->verticalScrollBar()->maximum());
+                focusLastWidget();
+            }
+                break;
+            default:
+                break;
+        }
     }
 }

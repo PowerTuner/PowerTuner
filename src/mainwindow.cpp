@@ -55,19 +55,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     QObject::connect(inputHandler, &PWT::App::InputHandler::navbarDownKey, this, &MainWindow::navbarDownKeyPressed);
     QObject::connect(inputHandler, &PWT::App::InputHandler::refreshKey, this, &MainWindow::refreshKeyPressed);
     QObject::connect(inputHandler, &PWT::App::InputHandler::applyKey, this, &MainWindow::applyKeyPressed);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::upKey, this, &MainWindow::upKeyPressed);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::downKey, this, &MainWindow::downKeyPressed);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::leftKey, this, &MainWindow::leftKeyPressed);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::rightKey, this, &MainWindow::rightKeyPressed);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::fastLeftKey, this, &MainWindow::fastLeftKeyPressed);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::fastRightKey, this, &MainWindow::fastRightKeyPressed);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::actionKey, this, &MainWindow::actionKeyPressed);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::backKey, this, &MainWindow::backKeyPressed);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::scrollUpKey, this, &MainWindow::scrollUpKeyPressed);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::scrollDownKey, this, &MainWindow::scrollDownKeyPressed);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::scrollTopKey, this, &MainWindow::scrollTopKeyPressed);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::scrollBottomKey, this, &MainWindow::scrollBottomKeyPressed);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::inputModeKey, this, &MainWindow::inputModeKeyPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::buttonPressed, this, &MainWindow::buttonPressed);
 }
 
 MainWindow::~MainWindow() {
@@ -92,41 +80,6 @@ void MainWindow::refreshKeyPressed() const {
 void MainWindow::applyKeyPressed() const {
 }
 
-void MainWindow::upKeyPressed(const bool gamepad) const {
-}
-
-void MainWindow::downKeyPressed(const bool gamepad) const {
-}
-
-void MainWindow::leftKeyPressed(const bool gamepad) const {
-}
-
-void MainWindow::rightKeyPressed(const bool gamepad) const {
-}
-
-void MainWindow::fastLeftKeyPressed(const bool gamepad) const {
-}
-
-void MainWindow::fastRightKeyPressed(const bool gamepad) const {
-}
-
-void MainWindow::actionKeyPressed(const bool gamepad) const {
-}
-
-void MainWindow::backKeyPressed(const bool gamepad) const {
-}
-
-void MainWindow::scrollUpKeyPressed(const bool gamepad) const {
-}
-
-void MainWindow::scrollDownKeyPressed(const bool gamepad) const {
-}
-
-void MainWindow::scrollTopKeyPressed(const bool gamepad) const {
-}
-
-void MainWindow::scrollBottomKeyPressed(const bool gamepad) const {
-}
-
-void MainWindow::inputModeKeyPressed(const bool gamepad) const {
+void MainWindow::buttonPressed(const PWT::ButtonKey key, const bool gamepad) const {
+    static_cast<PWT::UI::PAGE::PPage *>(pages->currentWidget())->handleButton(key, gamepad);
 }

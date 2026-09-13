@@ -16,26 +16,21 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <QWidget>
 
-#include "../../classes/Settings.h"
-
-namespace PWT::UI {
-    class PWidget: public QWidget {
-        Q_OBJECT
-
-    private:
-        bool isHovered = false;
-        bool isFocused = false;
-
-    protected:
-        const std::shared_ptr<Style::Style> appTheme = App::Settings::get().getStyle();
-
-        void paintEvent(QPaintEvent *event) override;
-        void enterEvent(QEnterEvent *) override;
-        void leaveEvent(QEvent *) override;
-
-    public:
-        PWidget();
+namespace PWT {
+    enum class ButtonKey: int {
+        Up = 0,
+        Down,
+        Left,
+        Right,
+        FastLeft,
+        FastRight,
+        Action,
+        Back,
+        ScrollUp,
+        ScrollDown,
+        ScrollTop,
+        ScrollBottom,
+        InputMode,
     };
 }

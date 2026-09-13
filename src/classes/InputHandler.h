@@ -19,6 +19,7 @@
 #include <QObject>
 
 #include "Settings.h"
+#include "../include/ButtonKey.h"
 
 namespace PWT::App {
     class InputHandler: public QObject {
@@ -27,11 +28,12 @@ namespace PWT::App {
     private:
         Settings &appSettings = Settings::get();
 
-        void handleKeyboardKey(Qt::Key key);
+        void handleKeyboardReleaseKey(Qt::Key key);
+        void handleKeyboardPressKey(Qt::Key key);
         void handleMouse(Qt::MouseButton btn);
 
     public:
-        InputHandler(QObject *parent);
+        explicit InputHandler(QObject *parent);
 
         bool eventFilter(QObject *watched, QEvent *event) override;
 
@@ -40,18 +42,6 @@ namespace PWT::App {
         void navbarDownKey();
         void refreshKey();
         void applyKey();
-        void upKey(bool gamepad);
-        void downKey(bool gamepad);
-        void leftKey(bool gamepad);
-        void rightKey(bool gamepad);
-        void fastLeftKey(bool gamepad);
-        void fastRightKey(bool gamepad);
-        void actionKey(bool gamepad);
-        void backKey(bool gamepad);
-        void scrollUpKey(bool gamepad);
-        void scrollDownKey(bool gamepad);
-        void scrollTopKey(bool gamepad);
-        void scrollBottomKey(bool gamepad);
-        void inputModeKey(bool gamepad);
+        void buttonPressed(ButtonKey key, bool gamepad);
     };
 }

@@ -76,4 +76,18 @@ namespace PWT::UI::PAGE {
         lyt->addWidget(cpuL3Cache);
         lyt->addStretch();
     }
+
+    void Home::handleButton(const ButtonKey key, const bool gamepad) {
+        switch (key) {
+            case ButtonKey::Up:
+                PPage::handleButton(ButtonKey::ScrollUp, gamepad);
+                break;
+            case ButtonKey::Down:
+                PPage::handleButton(ButtonKey::ScrollDown, gamepad);
+                break;
+            default:
+                PPage::handleButton(key, gamepad);
+                break;
+        }
+    }
 }

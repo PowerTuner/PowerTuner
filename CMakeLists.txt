@@ -27,11 +27,14 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     src/styles/Style.h
     src/styles/VoidPurpleStyle.h
 
+    src/include/ButtonKey.h
+
     src/classes/Settings.cpp
     src/classes/Settings.h
     src/classes/InputHandler.cpp
     src/classes/InputHandler.h
 
+    src/widgets/components/PInputItem.h
     src/widgets/components/Switch/SwitchButton.cpp
     src/widgets/components/Switch/SwitchButton.h
     src/widgets/components/Slider/Slider.cpp
@@ -60,17 +63,15 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     src/widgets/complex/Statusbar/Statusbar.cpp
     src/widgets/complex/Statusbar/Statusbar.h
 
-    src/widgets/pages/PWidget.cpp
-    src/widgets/pages/PWidget.h
     src/widgets/pages/Label/Label.cpp
     src/widgets/pages/Label/Label.h
+    src/widgets/pages/Title/Title.cpp
+    src/widgets/pages/Title/Title.h
 
     src/pages/PPage.cpp
     src/pages/PPage.h
     src/pages/home/Home.cpp
     src/pages/home/Home.h
-    src/widgets/pages/Title/Title.cpp
-    src/widgets/pages/Title/Title.h
     src/pages/logs/Logs.cpp
     src/pages/logs/Logs.h
 )

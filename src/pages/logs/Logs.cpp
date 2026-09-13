@@ -36,6 +36,8 @@ namespace PWT::UI::PAGE {
 
         lyt->addWidget(logsBox);
         lyt->addWidget(clearBtn, 0, Qt::AlignRight);
+        collectPageInputs(lyt);
+        focusFirstWidget();
 
         QObject::connect(clearBtn, &Button::clicked, this, &Logs::clearBtnClicked);
     }

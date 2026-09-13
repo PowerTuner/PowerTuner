@@ -53,5 +53,7 @@ namespace PWT::UI::PAGE {
 
     public:
         Home();
+
+        void handleButton(ButtonKey key, bool gamepad) override;
     };
 }

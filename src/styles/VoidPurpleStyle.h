@@ -69,7 +69,7 @@ namespace PWT::Style {
         [[nodiscard]] const QColor &navButtonActive() const override { return neonMagenta; }
         [[nodiscard]] const QColor &scrollbar() const override { return softNeonMagenta; }
         [[nodiscard]] const QColor &statusReady() const override { return neonGreen; }
-        [[nodiscard]] const QColor &pwidgetFocused() const override { return electricMagenta; }
+        [[nodiscard]] const QColor &focusBorder() const override { return electricMagenta; }
         [[nodiscard]] const QColor &titleBackground() const override { return electricViolet; }
         [[nodiscard]] const QColor &titleText() const override { return deepPlum; }
     };

@@ -18,10 +18,11 @@
 #pragma once
 #include <QPushButton>
 
+#include "../PInputItem.h"
 #include "../../../classes/Settings.h"
 
 namespace PWT::UI {
-    class Button final: public QPushButton {
+    class Button final: public QPushButton, public PInputItem {
         Q_OBJECT
 
     private:
@@ -38,5 +39,8 @@ namespace PWT::UI {
 
     public:
         explicit Button(const QString &text, bool rounded = true);
+
+        void setFocused(bool enable) override;
+        void handleButton(ButtonKey key, bool gamepad) override;
     };
 }

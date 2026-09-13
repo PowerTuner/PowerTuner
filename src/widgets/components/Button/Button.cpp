@@ -32,8 +32,7 @@ namespace PWT::UI {
         QPainter p(this);
 
         p.setRenderHint(QPainter::Antialiasing);
-
-        p.setPen(appTheme->buttonBorder());
+        p.setPen(isFocused ? QPen(appTheme->focusBorder(), 2) : appTheme->buttonBorder());
         p.setBrush(isHovered ? appTheme->buttonHovered() : appTheme->button());
 
         if (isRounded)
@@ -71,5 +70,14 @@ namespace PWT::UI {
         }
 
         QPushButton::mouseReleaseEvent(event);
+    }
+
+    void Button::setFocused(const bool enable) {
+        isFocused = enable;
+        update();
+    }
+
+    void Button::handleButton(const ButtonKey key, const bool gamepad) {
+
     }
 }

@@ -15,6 +15,8 @@
   * You should have received a copy of the GNU General Public License
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <QPainter>
+
 #include "TextEdit.h"
 #include "../../../classes/Settings.h"
 
@@ -27,5 +29,26 @@ namespace PWT::UI {
         pal.setBrush(QPalette::Text, appTheme->textEditText());
         viewport()->setPalette(pal);
         setFocusPolicy(Qt::NoFocus);
+    }
+
+    void TextEdit::paintEvent(QPaintEvent *event) {
+        QTextEdit::paintEvent(event);
+
+        if (isFocused) {
+            QPainter p(viewport());
+
+            p.setRenderHint(QPainter::Antialiasing);
+            p.setPen(QPen(appTheme->focusBorder(), 2));
+            p.drawRoundedRect(viewport()->rect(), 4, 4);
+        }
+    }
+
+    void TextEdit::setFocused(const bool enable) {
+        isFocused = enable;
+        update();
+    }
+
+    void TextEdit::handleButton(const ButtonKey key, const bool gamepad) {
+
     }
 }

@@ -18,11 +18,23 @@
 #pragma once
 #include <QTextEdit>
 
+#include "../PInputItem.h"
+#include "../../../classes/Settings.h"
+
 namespace PWT::UI {
-    class TextEdit final: public QTextEdit {
+    class TextEdit final: public QTextEdit, public PInputItem {
         Q_OBJECT
+
+    private:
+        const std::shared_ptr<Style::Style> appTheme = App::Settings::get().getStyle();
+
+    protected:
+        void paintEvent(QPaintEvent *event) override;
 
     public:
         TextEdit();
+
+        void setFocused(bool enable) override;
+        void handleButton(ButtonKey key, bool gamepad) override;
     };
 }
