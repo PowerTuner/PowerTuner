@@ -21,8 +21,7 @@
 #include "../../../classes/Settings.h"
 
 namespace PWT::UI {
-    TextEdit::TextEdit() {
-        const std::shared_ptr<Style::Style> appTheme = App::Settings::get().getStyle();
+    TextEdit::TextEdit(): PInputItem(this) {
         QPalette pal = viewport()->palette();
 
         pal.setBrush(QPalette::Base, appTheme->textEdit());
