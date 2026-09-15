@@ -22,7 +22,7 @@
 #include "../include/ButtonKey.h"
 
 namespace PWT::App {
-    class InputHandler: public QObject {
+    class InputHandler final: public QObject {
         Q_OBJECT
 
     private:
