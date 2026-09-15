@@ -37,8 +37,8 @@ namespace PWT::App {
         Qt::Key kbBack = Qt::Key_Escape;
         Qt::Key kbScrollUp = Qt::Key_PageUp;
         Qt::Key kbScrollDown = Qt::Key_PageDown;
-        Qt::Key kbScrollTop = Qt::Key_A;
-        Qt::Key kbScrollBottom = Qt::Key_S;
+        Qt::Key kbScrollTop = Qt::Key_F3;
+        Qt::Key kbScrollBottom = Qt::Key_F4;
         Qt::Key kbInputMode = Qt::Key_Tab;
         std::shared_ptr<Style::Style> style;
 
