@@ -25,7 +25,7 @@ namespace PWT::UI {
         QVBoxLayout *actionsLyt = new QVBoxLayout();
         NavButton *deviceNav = new NavButton(u"Device"_s, u"\ue4e5"_s);
         NavButton *logsNav = new NavButton(u"Logs"_s, u"\uf022"_s);
-        NavButton *settingsNav = new NavButton(u"Settings"_s, u"\uf013"_s);
+        NavButton *settingsNav = new NavButton(u"Client Settings"_s, u"\uf013"_s);
 
         lyt = new QVBoxLayout();
         active = deviceNav;
@@ -54,8 +54,8 @@ namespace PWT::UI {
         setLayout(navLyt);
 
         QObject::connect(deviceNav, &NavButton::clicked, this, &Navbar::onNavButtonClicked);
-        QObject::connect(settingsNav, &NavButton::clicked, this, &Navbar::onNavButtonClicked);
         QObject::connect(logsNav, &NavButton::clicked, this, &Navbar::onNavButtonClicked);
+        QObject::connect(settingsNav, &NavButton::clicked, this, &Navbar::onNavButtonClicked);
         QObject::connect(refreshBtn, &NavButton::clicked, this, &Navbar::onRefreshClicked);
         QObject::connect(applyBtn, &NavButton::clicked, this, &Navbar::onApplyClicked);
     }
