@@ -16,14 +16,11 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <QKeyEvent>
-#include <QMouseEvent>
 
 #include "InputHandler.h"
 
 namespace PWT::App {
-    InputHandler::InputHandler(QObject *parent): QObject(parent) {
-
-    }
+    InputHandler::InputHandler(QObject *parent): QObject(parent) {}
 
     bool InputHandler::eventFilter(QObject *watched, QEvent *event) {
         switch (event->type()) {
@@ -37,10 +34,6 @@ namespace PWT::App {
             }
             case QEvent::KeyPress: {
                 handleKeyboardPressKey(static_cast<Qt::Key>(static_cast<QKeyEvent *>(event)->key()));
-                return true;
-            }
-            case QEvent::MouseButtonRelease: {
-                handleMouse(static_cast<QMouseEvent *>(event)->button());
                 return true;
             }
             default:
@@ -88,10 +81,5 @@ namespace PWT::App {
             emit buttonPressed(ButtonKey::ScrollUp, false);
         else if (key == appSettings.getKeyboardScrollDown())
             emit buttonPressed(ButtonKey::ScrollDown, false);
-    }
-
-    void InputHandler::handleMouse(const Qt::MouseButton btn) {//todo check mouse inside widget
-        if (btn == Qt::LeftButton)
-            emit buttonPressed(ButtonKey::Action, false);
     }
 }

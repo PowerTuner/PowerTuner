@@ -30,7 +30,6 @@ namespace PWT::App {
 
         void handleKeyboardReleaseKey(Qt::Key key);
         void handleKeyboardPressKey(Qt::Key key);
-        void handleMouse(Qt::MouseButton btn);
 
     public:
         explicit InputHandler(QObject *parent);
