@@ -16,6 +16,7 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <QPainter>
+#include <QScroller>
 
 #include "TextEdit.h"
 #include "../../../classes/Settings.h"
@@ -24,10 +25,12 @@ namespace PWT::UI {
     TextEdit::TextEdit(): PInputItem(this) {
         QPalette pal = viewport()->palette();
 
+        QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
         pal.setBrush(QPalette::Base, appTheme->textEdit());
         pal.setBrush(QPalette::Text, appTheme->textEditText());
         viewport()->setPalette(pal);
         setFocusPolicy(Qt::NoFocus);
+        setWordWrapMode(QTextOption::NoWrap);
     }
 
     void TextEdit::paintEvent(QPaintEvent *event) {
