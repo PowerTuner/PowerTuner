@@ -65,6 +65,7 @@ namespace PWT::Style {
         [[nodiscard]] const QColor &selectComboBoxListItmSelected() const override { return winePurple; }
         [[nodiscard]] const QColor &textEdit() const override { return deeperPurple; }
         [[nodiscard]] const QColor &textEditBorder() const override { return slateBlue; }
+        [[nodiscard]] const QColor &textEditActive() const override { return white; }
         [[nodiscard]] const QColor &textEditText() const override { return iceWhite; }
         [[nodiscard]] const QColor &navButtonIcon() const override { return iceWhite; }
         [[nodiscard]] const QColor &navButtonHovered() const override { return softNeonMagenta; }

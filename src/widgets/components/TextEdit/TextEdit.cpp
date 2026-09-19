@@ -16,6 +16,7 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <QPainter>
+#include <QScrollBar>
 #include <QScroller>
 
 #include "TextEdit.h"
@@ -36,21 +37,61 @@ namespace PWT::UI {
     void TextEdit::paintEvent(QPaintEvent *event) {
         QTextEdit::paintEvent(event);
 
-        if (isFocused) {
+        if (isFocused || isActive) {
             QPainter p(viewport());
 
             p.setRenderHint(QPainter::Antialiasing);
-            p.setPen(QPen(appTheme->focusBorder(), 2));
+            p.setPen(QPen(isActive ? appTheme->textEditActive() : appTheme->focusBorder(), 2));
             p.drawRoundedRect(viewport()->rect(), 4, 4);
         }
     }
 
-    void TextEdit::setFocused(const bool enable) {
-        isFocused = enable;
+    void TextEdit::activate() {
+        isActive = true;
         update();
     }
 
     void TextEdit::handleButton(const ButtonKey key, const bool gamepad) {
+        switch (key) {
+            case ButtonKey::Up:
+            case ButtonKey::Down: {
+                QScrollBar *sb = verticalScrollBar();
 
+                if (sb)
+                    sb->setValue(sb->value() + (key == ButtonKey::Up ? -2 : 2));
+            }
+                break;
+            case ButtonKey::Left:
+            case ButtonKey::Right: {
+                QScrollBar *sb = horizontalScrollBar();
+
+                if (sb)
+                    sb->setValue(sb->value() + (key == ButtonKey::Left ? -2 : 2));
+            }
+                break;
+            case ButtonKey::ScrollUp:
+            case ButtonKey::ScrollDown: {
+                QScrollBar *sb = verticalScrollBar();
+
+                if (sb)
+                    sb->setValue(sb->value() + (key == ButtonKey::ScrollUp ? -sb->pageStep() : sb->pageStep()));
+            }
+                break;
+            case ButtonKey::FastLeft:
+            case ButtonKey::FastRight: {
+                QScrollBar *sb = horizontalScrollBar();
+
+                if (sb)
+                    sb->setValue(sb->value() + (key == ButtonKey::FastLeft ? -sb->pageStep() : sb->pageStep()));
+            }
+                break;
+            case ButtonKey::Back: {
+                isActive = false;
+                update();
+            }
+                break;
+            default:
+                break;
+        }
     }
 }

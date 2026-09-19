@@ -34,7 +34,7 @@ namespace PWT::UI {
     public:
         TextEdit();
 
-        void setFocused(bool enable) override;
+        void activate() override;
         void handleButton(ButtonKey key, bool gamepad) override;
     };
 }
