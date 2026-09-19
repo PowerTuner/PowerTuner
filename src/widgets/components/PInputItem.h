@@ -16,17 +16,35 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+#include <QWidget>
+
 #include "../../include/ButtonKey.h"
 
 namespace PWT::UI {
     class PInputItem {
+    private:
+        QWidget * const item;
+
     protected:
         bool isFocused = false;
+        bool isActive = false;
 
     public:
+        explicit PInputItem(QWidget *wdg): item(wdg) {}
         virtual ~PInputItem() = default;
 
-        virtual void setFocused(bool enable) = 0;
-        virtual void handleButton(ButtonKey key, bool gamepad) = 0;
+        virtual void activate() = 0;
+
+        virtual void handleButton(ButtonKey key, bool gamepad) {}
+
+        void setFocused(const bool enable) {
+            isFocused = enable;
+            item->update();
+        }
+
+        [[nodiscard]]
+        bool active() const {
+            return isActive;
+        }
     };
 }
