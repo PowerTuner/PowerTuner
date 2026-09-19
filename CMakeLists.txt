@@ -28,6 +28,7 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     src/styles/VoidPurpleStyle.h
 
     src/include/ButtonKey.h
+    src/include/keyMap.h
 
     src/classes/Settings.cpp
     src/classes/Settings.h
@@ -79,6 +80,8 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     src/pages/home/Home.h
     src/pages/logs/Logs.cpp
     src/pages/logs/Logs.h
+    src/pages/clientSettings/ClientSettings.cpp
+    src/pages/clientSettings/ClientSettings.h
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt::Core Qt::Widgets)

@@ -24,6 +24,7 @@
 #include "widgets/complex/Statusbar/Statusbar.h"
 #include "pages/home/Home.h"
 #include "pages/logs/Logs.h"
+#include "pages/clientSettings/ClientSettings.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -37,11 +38,12 @@ class MainWindow final: public QMainWindow {
 private:
     Ui::MainWindow *ui;
     PWT::App::Settings &appSettings = PWT::App::Settings::get();
-    QStackedWidget *pages = nullptr;
-    PWT::UI::Navbar *navbar = nullptr;
-    PWT::UI::Statusbar *statusbar = nullptr;
-    PWT::UI::PAGE::Home *home = nullptr;
-    PWT::UI::PAGE::Logs *logs = nullptr;
+    QStackedWidget *pages;
+    PWT::UI::Navbar *navbar;
+    PWT::UI::Statusbar *statusbar;
+    PWT::UI::PAGE::Home *home;
+    PWT::UI::PAGE::Logs *logs;
+    PWT::UI::PAGE::ClientSettings *clientSettings;
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);

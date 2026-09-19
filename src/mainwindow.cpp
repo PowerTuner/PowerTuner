@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     statusbar = new PWT::UI::Statusbar();
     home = new PWT::UI::PAGE::Home();
     logs = new PWT::UI::PAGE::Logs();
+    clientSettings = new PWT::UI::PAGE::ClientSettings();
 
     installEventFilter(inputHandler);
     pal.setColor(QPalette::Window, style->mainWindowBackground());
@@ -41,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     setPalette(pal);
     pages->addWidget(home);
     pages->addWidget(logs);
+    pages->addWidget(clientSettings);
     pages->setCurrentIndex(0);
 
     mainLyt->addWidget(navbar);
