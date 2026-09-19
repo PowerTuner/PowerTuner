@@ -33,7 +33,7 @@ namespace PWT::App {
         Qt::Key kbRight = Qt::Key_Right;
         Qt::Key kbFastLeft = Qt::Key_Home;
         Qt::Key kbFastRight = Qt::Key_End;
-        Qt::Key kbAction = Qt::Key_X;
+        Qt::Key kbAction = Qt::Key_Return;
         Qt::Key kbBack = Qt::Key_Escape;
         Qt::Key kbScrollUp = Qt::Key_PageUp;
         Qt::Key kbScrollDown = Qt::Key_PageDown;
