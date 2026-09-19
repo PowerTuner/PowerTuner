@@ -68,6 +68,9 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     src/widgets/pages/Title/Title.cpp
     src/widgets/pages/Title/Title.h
 
+    src/layouts/FlowLayout.cpp
+    src/layouts/FlowLayout.h
+
     src/pages/PPage.cpp
     src/pages/PPage.h
     src/pages/home/Home.cpp
