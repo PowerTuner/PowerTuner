@@ -18,10 +18,11 @@
 #pragma once
 #include <QAbstractButton>
 
+#include "../PInputItem.h"
 #include "../../../classes/Settings.h"
 
 namespace PWT::UI {
-    class SwitchButton final: public QAbstractButton {
+    class SwitchButton final: public QAbstractButton, public PInputItem {
         Q_OBJECT
 
     private:
@@ -42,5 +43,7 @@ namespace PWT::UI {
 
     public:
         SwitchButton();
+
+        void activate() override;
     };
 }

@@ -20,7 +20,7 @@
 #include "SwitchButton.h"
 
 namespace PWT::UI {
-    SwitchButton::SwitchButton() {
+    SwitchButton::SwitchButton(): PInputItem(this) {
         setCheckable(true);
         setFixedSize(controlW, controlH);
         setFocusPolicy(Qt::NoFocus);
@@ -34,11 +34,11 @@ namespace PWT::UI {
 
         if (isChecked()) {
             thumb.moveLeft(trackR.right() - thumWH2);
-            p.setPen(appTheme->switchButtonTrackActiveBorder());
+            p.setPen(isFocused ? QPen(appTheme->focusBorderContrast(), 2) : appTheme->switchButtonTrackActiveBorder());
             p.setBrush(appTheme->switchButtonTrackActive());
 
         } else {
-            p.setPen(appTheme->switchButtonTrackBorder());
+            p.setPen(isFocused ? QPen(appTheme->focusBorder(), 2) : appTheme->switchButtonTrackBorder());
             p.setBrush(appTheme->switchButtonTrack());
         }
 
@@ -47,5 +47,9 @@ namespace PWT::UI {
         p.setPen(appTheme->switchButtonThumbBorder());
         p.setBrush(appTheme->switchButtonThumb());
         p.drawRoundedRect(thumb, 18, 18);
+    }
+
+    void SwitchButton::activate() {
+        toggle();
     }
 }

@@ -83,6 +83,7 @@ namespace PWT::Style {
         [[nodiscard]] virtual const QColor &scrollbar() const = 0;
         [[nodiscard]] virtual const QColor &statusReady() const = 0;
         [[nodiscard]] virtual const QColor &focusBorder() const = 0;
+        [[nodiscard]] virtual const QColor &focusBorderContrast() const = 0;
         [[nodiscard]] virtual const QColor &titleBackground() const = 0;
         [[nodiscard]] virtual const QColor &titleText() const = 0;
     };
