@@ -30,14 +30,16 @@ namespace PWT::UI::PAGE {
         QVector<std::pair<QWidget *, PInputItem *>> inputList;
         int focusedIdx = -1;
 
+        [[nodiscard]] bool isValidFocusIndex() const;
         [[nodiscard]] bool tryFocusComponent(int idx);
+        void focusLastWidget();
+        void focusPrevNextViewportWidget(bool next);
 
     protected:
         QVBoxLayout *lyt = nullptr;
 
         void collectPageInputs(const QLayout *layout);
         void focusFirstWidget();
-        void focusLastWidget();
 
     public:
         PPage();

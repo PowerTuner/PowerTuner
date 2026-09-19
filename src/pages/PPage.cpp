@@ -34,13 +34,17 @@ namespace PWT::UI::PAGE {
         setFocusPolicy(Qt::NoFocus);
     }
 
-    bool PPage::tryFocusComponent(const int idx) {//todo scroll up/down focus
+    bool PPage::isValidFocusIndex() const {
+        return focusedIdx >= 0 && focusedIdx < inputList.size();
+    }
+
+    bool PPage::tryFocusComponent(const int idx) {
         const auto [component, pinput] = inputList[idx];
 
         if (component->isHidden() || !component->isEnabled())
             return false;
 
-        if (focusedIdx >= 0 && focusedIdx < inputList.size())
+        if (isValidFocusIndex())
             inputList[focusedIdx].second->setFocused(false);
 
         scrollArea->ensureWidgetVisible(component);
@@ -79,7 +83,41 @@ namespace PWT::UI::PAGE {
         }
     }
 
+    void PPage::focusPrevNextViewportWidget(const bool next) {
+        const QRect wrect = scrollArea->viewport()->rect();
+        constexpr QPoint zeroP = {0, 0};
+        const int add = next ? 1 : -1;
+
+        if (isValidFocusIndex()) {
+            const auto [curComponent, curPInput] = inputList[focusedIdx];
+            QRect curCompRect = curComponent->rect();
+
+            curCompRect.moveTopLeft(scrollArea->viewport()->mapFromGlobal(curComponent->mapToGlobal(zeroP)));
+
+            if (wrect.contains(curCompRect))
+                return;
+        }
+
+        for (int i=focusedIdx,l=inputList.size(); i>=0 && i<l; i+=add) {
+            const auto [component, pinput] = inputList[i];
+            QRect compRect = component->rect();
+
+            compRect.moveTopLeft(scrollArea->viewport()->mapFromGlobal(component->mapToGlobal(zeroP)));
+
+            if (component->isHidden() || !component->isEnabled() || !wrect.contains(compRect))
+                continue;
+
+            inputList[focusedIdx].second->setFocused(false);
+            pinput->setFocused(true);
+            focusedIdx = i;
+            break;
+        }
+    }
+
     void PPage::handleButton(const ButtonKey key, const bool gamepad) {
+        if (isValidFocusIndex() && inputList[focusedIdx].second->active())
+            return inputList[focusedIdx].second->handleButton(key, gamepad);
+
         switch (key) {
             case ButtonKey::Up: {
                 for (int i=focusedIdx-1,l=inputList.size(); i>=0 && i<l; --i) {
@@ -95,16 +133,18 @@ namespace PWT::UI::PAGE {
                 }
             }
                 break;
-            case ButtonKey::ScrollUp: {
-                QScrollBar *sbar = scrollArea->verticalScrollBar();
-
-                sbar->setValue(sbar->value() - std::max(1, ((10 * sbar->maximum()) / 100)));
+            case ButtonKey::Action: {
+                if (isValidFocusIndex())
+                    inputList[focusedIdx].second->activate();
             }
                 break;
+            case ButtonKey::ScrollUp:
             case ButtonKey::ScrollDown: {
                 QScrollBar *sbar = scrollArea->verticalScrollBar();
+                const bool isUp = key == ButtonKey::ScrollUp;
 
-                sbar->setValue(sbar->value() + std::max(1, ((10 * sbar->maximum()) / 100)));
+                sbar->setValue(sbar->value() + (isUp ? -sbar->pageStep() : sbar->pageStep()));
+                focusPrevNextViewportWidget(!isUp);
             }
                 break;
             case ButtonKey::ScrollTop: {
