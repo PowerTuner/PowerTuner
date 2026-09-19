@@ -25,31 +25,31 @@ namespace PWT::UI::PAGE {
 
     private:
         static inline const QString noValue = "-";
-        Label *product = nullptr;
-        Label *manufacturer = nullptr;
-        Label *os = nullptr;
-        Label *kernel = nullptr;
-        Label *arch = nullptr;
-        Label *biosVendor = nullptr;
-        Label *biosVersion = nullptr;
-        Label *biosDate = nullptr;
-        Label *ram = nullptr;
-        Label *swap = nullptr;
-        Label *cpuBrand = nullptr;
-        Label *cpuCodename = nullptr;
-        Label *cpuTechNode = nullptr;
-        Label *cpuVendor = nullptr;
-        Label *cpuFamily = nullptr;
-        Label *cpuExtFamily = nullptr;
-        Label *cpuModel = nullptr;
-        Label *cpuExtModel = nullptr;
-        Label *cpuCores = nullptr;
-        Label *cpuThreads = nullptr;
-        Label *cpuStepping = nullptr;
-        Label *cpuL1DCache = nullptr;
-        Label *cpuL1ICache = nullptr;
-        Label *cpuL2Cache = nullptr;
-        Label *cpuL3Cache = nullptr;
+        Label *product;
+        Label *manufacturer;
+        Label *os;
+        Label *kernel;
+        Label *arch;
+        Label *biosVendor;
+        Label *biosVersion;
+        Label *biosDate;
+        Label *ram;
+        Label *swap;
+        Label *cpuBrand;
+        Label *cpuCodename;
+        Label *cpuTechNode;
+        Label *cpuVendor;
+        Label *cpuFamily;
+        Label *cpuExtFamily;
+        Label *cpuModel;
+        Label *cpuExtModel;
+        Label *cpuCores;
+        Label *cpuThreads;
+        Label *cpuStepping;
+        Label *cpuL1DCache;
+        Label *cpuL1ICache;
+        Label *cpuL2Cache;
+        Label *cpuL3Cache;
 
     public:
         Home();

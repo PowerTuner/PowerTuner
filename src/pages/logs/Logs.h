@@ -27,7 +27,7 @@ namespace PWT::UI::PAGE {
         Q_OBJECT
 
     private:
-        TextEdit *logsBox = nullptr;
+        TextEdit *logsBox;
 
     public:
         Logs();
