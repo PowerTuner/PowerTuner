@@ -19,14 +19,15 @@
 #include <QComboBox>
 #include <QStyledItemDelegate>
 
+#include "../PInputItem.h"
 #include "../../../classes/Settings.h"
 
 namespace PWT::UI {
-    class Select final: public QComboBox {
+    class Select final: public QComboBox, public PInputItem {
         Q_OBJECT
 
     private:
-        class StyleItemDelegate: public QStyledItemDelegate {
+        class StyleItemDelegate final: public QStyledItemDelegate {
         private:
             const std::shared_ptr<Style::Style> appTheme = App::Settings::get().getStyle();
 
@@ -34,12 +35,24 @@ namespace PWT::UI {
             void paint(QPainter *p, const QStyleOptionViewItem &opt, const QModelIndex &idx) const override;
         };
 
+        class ViewEvents final: public QObject {
+        public:
+            explicit ViewEvents(QObject *parent): QObject(parent) {}
+
+            bool eventFilter(QObject *watched, QEvent *event) override;
+        };
+
         const std::shared_ptr<Style::Style> appTheme = App::Settings::get().getStyle();
 
     protected:
         void paintEvent(QPaintEvent *) override;
+        void keyPressEvent(QKeyEvent *) override {}
+        void keyReleaseEvent(QKeyEvent *) override {}
 
     public:
-        explicit Select();
+        Select();
+
+        void activate() override;
+        void handleButton(ButtonKey key, bool gamepad) override;
     };
 }

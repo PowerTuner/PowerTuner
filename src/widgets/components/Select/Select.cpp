@@ -16,12 +16,16 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <QPainter>
+#include <QEvent>
+#include <QAbstractItemView>
 
 #include "Select.h"
 
 namespace PWT::UI {
-    Select::Select() {
+    Select::Select(): PInputItem(this) {
         setItemDelegate(new StyleItemDelegate);
+        view()->installEventFilter(new ViewEvents(this));
+        view()->setFocusPolicy(Qt::NoFocus);
         setMinimumWidth(40);
         setFocusPolicy(Qt::NoFocus);
     }
@@ -31,17 +35,27 @@ namespace PWT::UI {
 
         p->save();
         p->setRenderHint(QPainter::Antialiasing);
+
         p->setPen(Qt::NoPen);
-
-        if (opt.state & QStyle::State_Selected)
-            p->setBrush(appTheme->selectComboBoxListItmSelected());
-        else
-            p->setBrush(appTheme->selectComboBox());
-
+        p->setBrush(opt.state & QStyle::State_Selected ? appTheme->selectComboBoxListItmSelected() : appTheme->selectComboBox());
         p->drawRect(itmRect);
+
         p->setPen(appTheme->selectComboBoxText());
         p->drawText(itmRect.adjusted(10, 0, -10, 0), Qt::AlignVCenter | Qt::AlignLeft, idx.data(Qt::DisplayRole).toString());
         p->restore();
+    }
+
+    bool Select::ViewEvents::eventFilter(QObject *watched, QEvent *event) {
+        switch (event->type()) {
+            case QEvent::KeyPress:
+            case QEvent::KeyRelease:
+            case QEvent::ShortcutOverride:
+                return true;
+            default:
+                break;
+        }
+
+        return QObject::eventFilter(watched, event);
     }
 
     void Select::paintEvent(QPaintEvent *) {
@@ -53,8 +67,8 @@ namespace PWT::UI {
 
         p.setRenderHint(QPainter::Antialiasing);
 
-        p.setPen(appTheme->selectComboBoxBorder());
-        p.setBrush(appTheme->selectComboBox());
+        p.setPen(isFocused && !isActive ? QPen(appTheme->focusBorder(), 2) : appTheme->selectComboBoxBorder());
+        p.setBrush(isActive ? appTheme->selectComboBoxActive() : appTheme->selectComboBox());
         p.drawRoundedRect(comboBox, 5, 5);
 
         p.setPen(appTheme->selectComboBoxText());
@@ -63,5 +77,37 @@ namespace PWT::UI {
         p.setPen(Qt::NoPen);
         p.setBrush(appTheme->selectComboBoxText());
         p.drawPolygon(arrow);
+    }
+
+    void Select::activate() {
+        isActive = true;
+        update();
+    }
+
+    void Select::handleButton(const ButtonKey key, const bool gamepad) {
+        switch (key) {
+            case ButtonKey::Up: {
+                const int prev = currentIndex() - 1;
+
+                if (prev >= 0)
+                    setCurrentIndex(prev);
+            }
+                break;
+            case ButtonKey::Down: {
+                const int next = currentIndex() + 1;
+
+                if (next < count())
+                    setCurrentIndex(next);
+            }
+                break;
+            case ButtonKey::Action:
+            case ButtonKey::Back: {
+                isActive = false;
+                update();
+            }
+                break;
+            default:
+                break;
+        }
     }
 }

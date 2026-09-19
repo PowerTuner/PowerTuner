@@ -72,6 +72,7 @@ namespace PWT::Style {
         [[nodiscard]] virtual const QColor &selectComboBox() const = 0;
         [[nodiscard]] virtual const QColor &selectComboBoxBorder() const = 0;
         [[nodiscard]] virtual const QColor &selectComboBoxText() const = 0;
+        [[nodiscard]] virtual const QColor &selectComboBoxActive() const = 0;
         [[nodiscard]] virtual const QColor &selectComboBoxListItmSelected() const = 0;
         [[nodiscard]] virtual const QColor &textEdit() const = 0;
         [[nodiscard]] virtual const QColor &textEditBorder() const = 0;

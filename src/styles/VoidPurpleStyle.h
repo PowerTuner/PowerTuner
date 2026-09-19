@@ -58,6 +58,7 @@ namespace PWT::Style {
         [[nodiscard]] const QColor &buttonBorder() const override { return slateBlue; }
         [[nodiscard]] const QColor &buttonHovered() const override { return winePurple; }
         [[nodiscard]] const QColor &selectComboBox() const override { return deeperPurple; }
+        [[nodiscard]] const QColor &selectComboBoxActive() const override { return winePurple; }
         [[nodiscard]] const QColor &selectComboBoxBorder() const override { return slateBlue; }
         [[nodiscard]] const QColor &selectComboBoxText() const override { return iceWhite; }
         [[nodiscard]] const QColor &selectComboBoxListItmSelected() const override { return winePurple; }
