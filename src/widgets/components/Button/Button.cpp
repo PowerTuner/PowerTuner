@@ -21,7 +21,7 @@
 #include "Button.h"
 
 namespace PWT::UI {
-    Button::Button(const QString &text, const bool rounded): QPushButton(text) {
+    Button::Button(const QString &text, const bool rounded): QPushButton(text), PInputItem(this) {
         isRounded = rounded;
 
         setFocusPolicy(Qt::NoFocus);
@@ -72,12 +72,7 @@ namespace PWT::UI {
         QPushButton::mouseReleaseEvent(event);
     }
 
-    void Button::setFocused(const bool enable) {
-        isFocused = enable;
-        update();
-    }
-
-    void Button::handleButton(const ButtonKey key, const bool gamepad) {
-
+    void Button::activate() {
+        emit clicked();
     }
 }

@@ -40,7 +40,6 @@ namespace PWT::UI {
     public:
         explicit Button(const QString &text, bool rounded = true);
 
-        void setFocused(bool enable) override;
-        void handleButton(ButtonKey key, bool gamepad) override;
+        void activate() override;
     };
 }
