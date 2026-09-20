@@ -23,11 +23,13 @@
 #include "../Button/Button.h"
 
 namespace PWT::UI {
+    using namespace Qt::StringLiterals;
+
     SpinBox::SpinBox() {
         QHBoxLayout *lyt = new QHBoxLayout();
         QVBoxLayout *btnLyt = new QVBoxLayout();
-        Button *plus = new Button("+", false);
-        Button *minus = new Button("-", false);
+        Button *plus = new Button(u"+"_s, false);
+        Button *minus = new Button(u"-"_s, false);
 
         editBox = new LineEdit();
 
