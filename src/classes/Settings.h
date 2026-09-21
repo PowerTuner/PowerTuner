@@ -22,6 +22,11 @@
 namespace PWT::App {
     class Settings final {
     private:
+        QString path;
+        std::shared_ptr<Style::Style> style;
+        bool closeToTray = false;
+        bool rememberWindowState = true;
+        bool runAtStartup = false;
         Style::StyleType styleType = Style::StyleType::VoidPurple;
         Qt::Key kbNavbarUp = Qt::Key_F1;
         Qt::Key kbNavbarDown = Qt::Key_F2;
@@ -40,17 +45,20 @@ namespace PWT::App {
         Qt::Key kbScrollTop = Qt::Key_F3;
         Qt::Key kbScrollBottom = Qt::Key_F4;
         Qt::Key kbInputMode = Qt::Key_Tab;
-        std::shared_ptr<Style::Style> style;
 
-        Settings() = default;
+        Settings();
 
-        [[nodiscard]] std::shared_ptr<Style::Style> loadStyle(int type) const;
+        void loadStyle();
 
     public:
         Settings(const Settings &) = delete;
         Settings &operator=(const Settings &) = delete;
 
+        [[nodiscard]] bool getCloseToTray() const { return closeToTray; }
+        [[nodiscard]] bool getRememberWindowState() const { return rememberWindowState; }
+        [[nodiscard]] bool getRunAtStartup() const { return runAtStartup; }
         [[nodiscard]] std::shared_ptr<Style::Style> getStyle() const { return style; }
+        [[nodiscard]] Style::StyleType getTheme() const { return styleType; }
         [[nodiscard]] Qt::Key getKeyboardNavbarUp() const { return kbNavbarUp; }
         [[nodiscard]] Qt::Key getKeyboardNavbarDown() const { return kbNavbarDown; }
         [[nodiscard]] Qt::Key getKeyboardRefresh() const { return kbRefresh; }
@@ -68,8 +76,30 @@ namespace PWT::App {
         [[nodiscard]] Qt::Key getKeyboardScrollTop() const { return kbScrollTop; }
         [[nodiscard]] Qt::Key getKeyboardScrollBottom() const { return kbScrollBottom; }
         [[nodiscard]] Qt::Key getKeyboardInputMode() const { return kbInputMode; }
+        void setCloseToTray(const bool enable) { closeToTray = enable; }
+        void setRememberWindowState(const bool enable) { rememberWindowState = enable; }
+        void setRunAtStartup(const bool enable) { runAtStartup = enable; }
+        void setTheme(const Style::StyleType type) { styleType = type; }
+        void setKeyboardNavbarUp(const Qt::Key key) { kbNavbarUp = key; }
+        void setKeyboardNavbarDown(const Qt::Key key) { kbNavbarDown = key; }
+        void setKeyboardRefresh(const Qt::Key key) { kbRefresh = key; }
+        void setKeyboardApply(const Qt::Key key) { kbApply = key; }
+        void setKeyboardUp(const Qt::Key key) { kbUp = key; }
+        void setKeyboardDown(const Qt::Key key) { kbDown = key; }
+        void setKeyboardLeft(const Qt::Key key) { kbLeft = key; }
+        void setKeyboardRight(const Qt::Key key) { kbRight = key; }
+        void setKeyboardFastLeft(const Qt::Key key) { kbFastLeft = key; }
+        void setKeyboardFastRight(const Qt::Key key) { kbFastRight = key; }
+        void setKeyboardAction(const Qt::Key key) { kbAction = key; }
+        void setKeyboardBack(const Qt::Key key) { kbBack = key; }
+        void setKeyboardScrollUp(const Qt::Key key) { kbScrollUp = key; }
+        void setKeyboardScrollDown(const Qt::Key key) { kbScrollDown = key; }
+        void setKeyboardScrollTop(const Qt::Key key) { kbScrollTop = key; }
+        void setKeyboardScrollBottom(const Qt::Key key) { kbScrollBottom = key; }
+        void setKeyboardInputMode(const Qt::Key key) { kbInputMode = key; }
 
         [[nodiscard]] static Settings &get();
+        void setPath(const QString &diskPath);
         [[nodiscard]] bool load();
         [[nodiscard]] bool save() const;
     };

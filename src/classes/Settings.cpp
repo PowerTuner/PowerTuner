@@ -15,29 +15,107 @@
   * You should have received a copy of the GNU General Public License
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <QFile>
+#include <QSaveFile>
+#include <QDataStream>
+
 #include "Settings.h"
 #include "../styles/VoidPurpleStyle.h"
 
 namespace PWT::App {
+    Settings::Settings() {
+        style = std::make_shared<Style::VoidPurpleStyle>();
+    }
+
     Settings &Settings::get() {
         static Settings instance;
 
         return instance;
     }
 
-    std::shared_ptr<Style::Style> Settings::loadStyle(const int type) const {
-        switch (static_cast<Style::StyleType>(type)) {
+    void Settings::loadStyle() {
+        switch (styleType) {
             default:
-                return std::make_shared<Style::VoidPurpleStyle>();
+                break;
         }
     }
 
+    void Settings::setPath(const QString &diskPath) {
+        if (!diskPath.isEmpty())
+            path = QString("%1/settings.bin").arg(diskPath);
+    }
+
     bool Settings::load() {
-        style = loadStyle(0);
+        if (path.isEmpty())
+            return false;
+
+        QFile in(path);
+
+        if (!in.open(QFile::ReadOnly))
+            return false;
+
+        QDataStream ds(&in);
+
+        ds >> closeToTray >>
+            rememberWindowState >>
+            runAtStartup >>
+            styleType >>
+            kbNavbarUp >>
+            kbNavbarDown >>
+            kbRefresh >>
+            kbApply >>
+            kbUp >>
+            kbDown >>
+            kbLeft >>
+            kbRight >>
+            kbFastLeft >>
+            kbFastRight >>
+            kbAction >>
+            kbBack >>
+            kbScrollUp >>
+            kbScrollDown >>
+            kbScrollTop >>
+            kbScrollBottom >>
+            kbInputMode;
+
+        in.close();
+        loadStyle();
         return true;
     }
 
     bool Settings::save() const {
-        return true;
+        if (path.isEmpty())
+            return false;
+
+        QSaveFile out(path);
+
+        if (!out.open(QSaveFile::WriteOnly))
+            return false;
+
+        QDataStream ds(&out);
+
+        ds << closeToTray <<
+            rememberWindowState <<
+            runAtStartup <<
+            styleType <<
+            kbNavbarUp <<
+            kbNavbarDown <<
+            kbRefresh <<
+            kbApply <<
+            kbUp <<
+            kbDown <<
+            kbLeft <<
+            kbRight <<
+            kbFastLeft <<
+            kbFastRight <<
+            kbAction <<
+            kbBack <<
+            kbScrollUp <<
+            kbScrollDown <<
+            kbScrollTop <<
+            kbScrollBottom <<
+            kbInputMode;
+
+        return out.commit();
     }
 }

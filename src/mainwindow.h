@@ -45,6 +45,8 @@ private:
     PWT::UI::PAGE::Logs *logs;
     PWT::UI::PAGE::ClientSettings *clientSettings;
 
+    [[nodiscard]] QString getAppDataPath() const;
+
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
@@ -56,4 +58,5 @@ private slots:
     void refreshKeyPressed() const;
     void applyKeyPressed() const;
     void buttonPressed(PWT::ButtonKey key, bool gamepad) const;
+    void onLogSent(const QString &msg) const;
 };

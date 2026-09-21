@@ -18,7 +18,10 @@
 #pragma once
 
 namespace PWT::Style {
+    Q_NAMESPACE
+
     enum class StyleType: int {
         VoidPurple
     };
+    Q_ENUM_NS(StyleType)
 }

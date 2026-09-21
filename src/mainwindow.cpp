@@ -15,15 +15,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <QStandardPaths>
+#include <QDir>
+
 #include "mainwindow.h"
 #include "../ui_mainwindow.h"
 #include "classes/InputHandler.h"
 
+using namespace Qt::StringLiterals;
+
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    appSettings.load();
 
-    const std::shared_ptr<PWT::Style::Style> style = appSettings.getStyle();
+    const QString dataPath = getAppDataPath();
+
+    appSettings.setPath(dataPath);
+
+    const bool isDefaultSettings = !appSettings.load();
     QVBoxLayout *windowLyt = new QVBoxLayout();
     QHBoxLayout *mainLyt = new QHBoxLayout();
     PWT::App::InputHandler *inputHandler = new PWT::App::InputHandler(this);
@@ -36,20 +44,25 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     logs = new PWT::UI::PAGE::Logs();
     clientSettings = new PWT::UI::PAGE::ClientSettings();
 
+    logs->write(QString("client data path: %1").arg(dataPath));
+
+    if (isDefaultSettings)
+        logs->write(u"failed to load client settings, using defaults"_s);
+
     installEventFilter(inputHandler);
-    pal.setColor(QPalette::Window, style->mainWindowBackground());
-    pal.setColor(QPalette::WindowText, style->mainWindowText());
+    pal.setColor(QPalette::Window, appSettings.getStyle()->mainWindowBackground());
+    pal.setColor(QPalette::WindowText, appSettings.getStyle()->mainWindowText());
     setPalette(pal);
     pages->addWidget(home);
     pages->addWidget(logs);
     pages->addWidget(clientSettings);
     pages->setCurrentIndex(0);
+    clientSettings->refresh();
 
     mainLyt->addWidget(navbar);
     mainLyt->addWidget(pages);
     windowLyt->addLayout(mainLyt);
     windowLyt->addWidget(statusbar);
-
     ui->centralwidget->setLayout(windowLyt);
 
     QObject::connect(navbar, &PWT::UI::Navbar::pageChanged, this, &MainWindow::navbarPageChanged);
@@ -58,10 +71,21 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     QObject::connect(inputHandler, &PWT::App::InputHandler::refreshKey, this, &MainWindow::refreshKeyPressed);
     QObject::connect(inputHandler, &PWT::App::InputHandler::applyKey, this, &MainWindow::applyKeyPressed);
     QObject::connect(inputHandler, &PWT::App::InputHandler::buttonPressed, this, &MainWindow::buttonPressed);
+    QObject::connect(clientSettings, &PWT::UI::PAGE::ClientSettings::logSent, this, &MainWindow::onLogSent);
 }
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+QString MainWindow::getAppDataPath() const {
+    QString path = QString("%1/PowerTuner").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+    const QDir qdir;
+
+    if (!qdir.exists(path) && !qdir.mkpath(path))
+        return "";
+
+    return path;
 }
 
 void MainWindow::navbarPageChanged(const int idx) const {
@@ -84,4 +108,8 @@ void MainWindow::applyKeyPressed() const {
 
 void MainWindow::buttonPressed(const PWT::ButtonKey key, const bool gamepad) const {
     static_cast<PWT::UI::PAGE::PPage *>(pages->currentWidget())->handleButton(key, gamepad);
+}
+
+void MainWindow::onLogSent(const QString &msg) const {
+    logs->write(msg);
 }

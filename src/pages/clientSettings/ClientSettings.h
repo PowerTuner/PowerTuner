@@ -17,6 +17,7 @@
  */
 #pragma once
 #include "../PPage.h"
+#include "../../classes/Settings.h"
 #include "../../widgets/components/Select/Select.h"
 #include "../../widgets/components/Switch/SwitchButton.h"
 #include "../../widgets/components/Button/Button.h"
@@ -26,10 +27,12 @@ namespace PWT::UI::PAGE {
         Q_OBJECT
 
     private:
-        Select *daemon;
+        App::Settings &settings = App::Settings::get();
+        Select *defaultDaemon;
         Select *quitBehavior;
         SwitchButton *rememberWindowState;
         SwitchButton *startup;
+        Select *theme;
         Select *kbMapUp;
         Select *kbMapDown;
         Select *kbMapLeft;
@@ -51,5 +54,13 @@ namespace PWT::UI::PAGE {
 
     public:
         ClientSettings();
+
+        void refresh() const;
+
+    private slots:
+        void onApplyClicked();
+
+    signals:
+        void logSent(const QString &msg);
     };
 }
