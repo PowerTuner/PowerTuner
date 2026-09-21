@@ -19,6 +19,7 @@
 
 #include "ClientSettings.h"
 #include "../../widgets/pages/Title/Title.h"
+#include "../../widgets/components/Button/Button.h"
 #include "../../include/keyMap.h"
 #include "../PageUtils.h"
 
@@ -26,6 +27,7 @@ namespace PWT::UI::PAGE {
     ClientSettings::ClientSettings() {
         QHBoxLayout *applyBtnLyt = new QHBoxLayout();
         const QMetaEnum styleEnumMeta = QMetaEnum::fromType<Style::StyleType>();
+        Button *applyBtn = new Button(u"Apply"_s);
 
         defaultDaemon = new Select();
         quitBehavior = new Select();
@@ -49,7 +51,6 @@ namespace PWT::UI::PAGE {
         kbNavbarDown = new Select();
         kbMapRefresh = new Select();
         kbMapApply = new Select();
-        applyBtn = new Button(u"Apply"_s);
 
         defaultDaemon->addItem(u"Unset"_s);
         quitBehavior->addItems({u"Quit"_s, u"Tray"_s});

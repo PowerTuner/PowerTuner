@@ -20,7 +20,6 @@
 #include "../../classes/Settings.h"
 #include "../../widgets/components/Select/Select.h"
 #include "../../widgets/components/Switch/SwitchButton.h"
-#include "../../widgets/components/Button/Button.h"
 
 namespace PWT::UI::PAGE {
     class ClientSettings final: public PPage {
@@ -50,7 +49,6 @@ namespace PWT::UI::PAGE {
         Select *kbNavbarDown;
         Select *kbMapRefresh;
         Select *kbMapApply;
-        Button *applyBtn;
 
     public:
         ClientSettings();
