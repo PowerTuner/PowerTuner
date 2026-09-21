@@ -112,4 +112,5 @@ void MainWindow::buttonPressed(const PWT::ButtonKey key, const bool gamepad) con
 
 void MainWindow::onLogSent(const QString &msg) const {
     logs->write(msg);
+    navbar->setIndicator(1);
 }

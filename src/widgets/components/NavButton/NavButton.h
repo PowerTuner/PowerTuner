@@ -29,8 +29,10 @@ namespace PWT::UI {
         static constexpr int markW = 26;
         static constexpr int markH = 3;
         static constexpr QRect markRect {(btnWH / 2) - (markW / 2), btnWH - markH - 1, markW, markH};
+        static constexpr QRect indicatorRect {btnWH - 10, 10, 9, 9};
         bool isHovered = false;
         bool isActive = false;
+        bool hasIndicator = false;
 
     protected:
         const std::shared_ptr<Style::Style> appTheme = App::Settings::get().getStyle();
@@ -44,5 +46,6 @@ namespace PWT::UI {
         NavButton(const QString &title, const QString &icon);
 
         void setActive(bool active);
+        void setIndicator(bool enable);
     };
 }

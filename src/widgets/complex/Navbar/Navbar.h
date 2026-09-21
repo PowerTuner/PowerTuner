@@ -26,11 +26,12 @@ namespace PWT::UI {
         Q_OBJECT
 
     private:
-        QVBoxLayout *lyt = nullptr;
-        ScrollArea *scrollArea = nullptr;
-        NavButton *active = nullptr;
-        NavButtonSinRotate *refreshBtn = nullptr;
-        NavButton *applyBtn = nullptr;
+        QVBoxLayout *lyt;
+        ScrollArea *scrollArea;
+        NavButton *active;
+        int activeIdx;
+        NavButtonSinRotate *refreshBtn;
+        NavButton *applyBtn;
 
         void switchPage(int idx, NavButton *btn);
 
@@ -39,6 +40,7 @@ namespace PWT::UI {
 
         void switchPageUp();
         void switchPageDown();
+        void setIndicator(int idx) const;
 
     private slots:
         void onNavButtonClicked();

@@ -29,6 +29,7 @@ namespace PWT::UI {
 
         lyt = new QVBoxLayout();
         active = deviceNav;
+        activeIdx = 0;
         scrollArea = new ScrollArea(Qt::Vertical, true);
         refreshBtn = new NavButtonSinRotate(u"Refresh"_s, u"\uf2f1"_s);
         applyBtn = new NavButton(u"Apply"_s, u"\uf019"_s);
@@ -61,29 +62,33 @@ namespace PWT::UI {
     }
 
     void Navbar::switchPage(const int idx, NavButton *btn) {
-        if (btn == nullptr)
-            return;
-
         active->setActive(false);
         btn->setActive(true);
+        btn->setIndicator(false);
         active = btn;
+        activeIdx = idx;
 
         scrollArea->ensureWidgetVisible(active);
         emit pageChanged(idx);
     }
 
     void Navbar::switchPageUp() {
-        const int idx = lyt->indexOf(active) - 1;
+        const int idx = activeIdx - 1;
         const int prev = idx < 0 ? (lyt->count() - 1) : idx;
 
-        switchPage(prev, qobject_cast<NavButton *>(lyt->itemAt(prev)->widget()));
+        switchPage(prev, static_cast<NavButton *>(lyt->itemAt(prev)->widget()));
     }
 
     void Navbar::switchPageDown() {
-        const int idx = lyt->indexOf(active) + 1;
+        const int idx = activeIdx + 1;
         const int next = idx >= lyt->count() ? 0 : idx;
 
-        switchPage(next, qobject_cast<NavButton *>(lyt->itemAt(next)->widget()));
+        switchPage(next, static_cast<NavButton *>(lyt->itemAt(next)->widget()));
+    }
+
+    void Navbar::setIndicator(const int idx) const {
+        if (idx >= 0 && idx < lyt->count() && idx != activeIdx)
+            static_cast<NavButton *>(lyt->itemAt(idx)->widget())->setIndicator(true);
     }
 
     void Navbar::onNavButtonClicked() {

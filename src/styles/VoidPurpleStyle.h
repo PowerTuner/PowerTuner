@@ -35,6 +35,7 @@ namespace PWT::Style {
         static constexpr QColor electricViolet = hexToQ("A855FF");
         static constexpr QColor deepPlum = hexToQ("4A145C");
         static constexpr QColor white = hexToQ("ffffff");
+        static constexpr QColor yellow = hexToQ("F8F800");
 
     public:
         ~VoidPurpleStyle() override = default;
@@ -70,6 +71,7 @@ namespace PWT::Style {
         [[nodiscard]] const QColor &navButtonIcon() const override { return iceWhite; }
         [[nodiscard]] const QColor &navButtonHovered() const override { return softNeonMagenta; }
         [[nodiscard]] const QColor &navButtonActive() const override { return neonMagenta; }
+        [[nodiscard]] const QColor &navButtonIndicator() const override { return yellow; }
         [[nodiscard]] const QColor &scrollbar() const override { return softNeonMagenta; }
         [[nodiscard]] const QColor &statusReady() const override { return neonGreen; }
         [[nodiscard]] const QColor &focusBorder() const override { return electricMagenta; }

@@ -81,6 +81,7 @@ namespace PWT::Style {
         [[nodiscard]] virtual const QColor &navButtonIcon() const = 0;
         [[nodiscard]] virtual const QColor &navButtonHovered() const = 0;
         [[nodiscard]] virtual const QColor &navButtonActive() const = 0;
+        [[nodiscard]] virtual const QColor &navButtonIndicator() const = 0;
         [[nodiscard]] virtual const QColor &scrollbar() const = 0;
         [[nodiscard]] virtual const QColor &statusReady() const = 0;
         [[nodiscard]] virtual const QColor &focusBorder() const = 0;

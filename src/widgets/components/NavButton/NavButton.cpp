@@ -33,6 +33,12 @@ namespace PWT::UI {
         p.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
         paintIcon(p);
 
+        if (hasIndicator) {
+            p.setPen(Qt::NoPen);
+            p.setBrush(appTheme->navButtonIndicator());
+            p.drawRoundedRect(indicatorRect, 20, 20);
+        }
+
         if (isHovered || isActive) {
             p.setPen(Qt::NoPen);
             p.setBrush(isHovered ? appTheme->navButtonHovered() : appTheme->navButtonActive());
@@ -61,6 +67,14 @@ namespace PWT::UI {
             return;
 
         isActive = active;
+        update();
+    }
+
+    void NavButton::setIndicator(const bool enable) {
+        if (hasIndicator == enable)
+            return;
+
+        hasIndicator = enable;
         update();
     }
 }
