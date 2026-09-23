@@ -109,7 +109,9 @@ namespace PWT::UI::PAGE {
             if (component->isHidden() || !component->isEnabled() || !wrect.contains(compRect))
                 continue;
 
-            inputList[focusedIdx].second->setFocused(false);
+            if (isValidFocusIndex())
+                inputList[focusedIdx].second->setFocused(false);
+
             pinput->setFocused(true);
             focusedIdx = i;
             break;
