@@ -65,6 +65,8 @@ namespace PWT::UI::PAGE {
 
                 if (inpt != nullptr)
                     inputList.push_back(std::make_pair(itm->widget(), inpt));
+                else if (itm->widget()->layout() != nullptr)
+                    collectPageInputs(itm->widget()->layout());
             }
         }
     }
