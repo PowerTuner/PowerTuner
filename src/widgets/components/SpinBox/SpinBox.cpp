@@ -122,7 +122,7 @@ namespace PWT::UI {
         editBox->activate();
     }
 
-    void SpinBox::handleButton(const ButtonKey key, const bool gamepad) {
+    void SpinBox::handleButton(const ButtonKey key) {
         switch (key) {
             case ButtonKey::Up: {
                 onPlusClicked();
@@ -135,7 +135,7 @@ namespace PWT::UI {
             case ButtonKey::Back: {
                 clampToRange();
                 isActive = false;
-                editBox->handleButton(key, gamepad);
+                editBox->handleButton(key);
             }
                 break;
             default:

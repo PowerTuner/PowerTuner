@@ -37,7 +37,7 @@ namespace PWT::UI {
         LineEdit();
 
         void activate() override;
-        void handleButton(ButtonKey key, bool gamepad) override;
+        void handleButton(ButtonKey key) override;
 
     signals:
         void mouseActivation(PInputItem *itm);

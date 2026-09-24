@@ -42,7 +42,7 @@ namespace PWT::UI {
 
         void setFocused(bool enable) override;
         void activate() override;
-        void handleButton(ButtonKey key, bool gamepad) override;
+        void handleButton(ButtonKey key) override;
 
     private slots:
         void onPlusClicked() const;

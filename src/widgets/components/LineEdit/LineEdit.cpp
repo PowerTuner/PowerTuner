@@ -43,7 +43,7 @@ namespace PWT::UI {
 
     void LineEdit::keyReleaseEvent(QKeyEvent *event) {
         if (static_cast<Qt::Key>(event->key()) == Qt::Key_Return && isActive) {
-            handleButton(ButtonKey::Back, false);
+            handleButton(ButtonKey::Back);
             emit returnPressed();
             return;
         }
@@ -62,7 +62,7 @@ namespace PWT::UI {
         update();
     }
 
-    void LineEdit::handleButton(const ButtonKey key, const bool gamepad) {
+    void LineEdit::handleButton(const ButtonKey key) {
         switch (key) {
             case ButtonKey::Back: {
                 isActive = false;

@@ -35,6 +35,6 @@ namespace PWT::UI {
         TextEdit();
 
         void activate() override;
-        void handleButton(ButtonKey key, bool gamepad) override;
+        void handleButton(ButtonKey key) override;
     };
 }

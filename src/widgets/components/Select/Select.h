@@ -53,6 +53,6 @@ namespace PWT::UI {
         Select();
 
         void activate() override;
-        void handleButton(ButtonKey key, bool gamepad) override;
+        void handleButton(ButtonKey key) override;
     };
 }

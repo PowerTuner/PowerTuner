@@ -84,7 +84,7 @@ namespace PWT::UI {
         update();
     }
 
-    void Select::handleButton(const ButtonKey key, const bool gamepad) {
+    void Select::handleButton(const ButtonKey key) {
         switch (key) {
             case ButtonKey::Up: {
                 const int prev = currentIndex() - 1;

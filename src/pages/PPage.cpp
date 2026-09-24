@@ -125,7 +125,7 @@ namespace PWT::UI::PAGE {
 
             if (i != focusedIdx) {
                 inputList[focusedIdx].second->setFocused(false);
-                inputList[focusedIdx].second->handleButton(ButtonKey::Back, false);
+                inputList[focusedIdx].second->handleButton(ButtonKey::Back);
             }
 
             inputList.removeAt(i);
@@ -143,7 +143,7 @@ namespace PWT::UI::PAGE {
 
     void PPage::handleButton(const ButtonKey key, const bool gamepad) {
         if (isValidFocusIndex() && inputList[focusedIdx].second->active())
-            return inputList[focusedIdx].second->handleButton(key, gamepad);
+            return inputList[focusedIdx].second->handleButton(key);
 
         switch (key) {
             case ButtonKey::Up: {
@@ -206,7 +206,7 @@ namespace PWT::UI::PAGE {
         }
 
         if (isValidFocusIndex()) {
-            inputList[focusedIdx].second->handleButton(ButtonKey::Back, false);
+            inputList[focusedIdx].second->handleButton(ButtonKey::Back);
             inputList[focusedIdx].second->setFocused(false);
         }
 

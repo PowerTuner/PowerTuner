@@ -51,7 +51,7 @@ namespace PWT::UI {
         update();
     }
 
-    void TextEdit::handleButton(const ButtonKey key, const bool gamepad) {
+    void TextEdit::handleButton(const ButtonKey key) {
         switch (key) {
             case ButtonKey::Up:
             case ButtonKey::Down: {
