@@ -29,6 +29,7 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
 
     src/include/ButtonKey.h
     src/include/keyMap.h
+    src/include/Daemon.h
 
     src/classes/Settings.cpp
     src/classes/Settings.h
