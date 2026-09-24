@@ -25,6 +25,7 @@
 #include "pages/home/Home.h"
 #include "pages/logs/Logs.h"
 #include "pages/clientSettings/ClientSettings.h"
+#include "pages/daemons/Daemons.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -44,6 +45,7 @@ private:
     PWT::UI::PAGE::Home *home;
     PWT::UI::PAGE::Logs *logs;
     PWT::UI::PAGE::ClientSettings *clientSettings;
+    PWT::UI::PAGE::Daemons *daemons;
 
     [[nodiscard]] QString getAppDataPath() const;
 
@@ -59,4 +61,6 @@ private slots:
     void applyKeyPressed() const;
     void buttonPressed(PWT::ButtonKey key, bool gamepad) const;
     void onLogSent(const QString &msg) const;
+    void onActiveDaemonChanged();
+    void onDaemonListChanged() const;
 };

@@ -118,6 +118,29 @@ namespace PWT::UI::PAGE {
         }
     }
 
+    void PPage::deleteWidget(const QWidget *wdg) {
+        for (int i=0,l=inputList.size(); i<l; ++i) {
+            if (inputList[i].first != wdg)
+                continue;
+
+            if (i != focusedIdx) {
+                inputList[focusedIdx].second->setFocused(false);
+                inputList[focusedIdx].second->handleButton(ButtonKey::Back, false);
+            }
+
+            inputList.removeAt(i);
+            focusedIdx = std::clamp(i, 0, static_cast<int>(inputList.size() - 1));;
+            break;
+        }
+
+        const int add = (focusedIdx + 1) < inputList.size() ? 1 : -1;
+
+        for (int i=focusedIdx,l=inputList.size(); i>=0 && i<l; i+=add) {
+            if (tryFocusComponent(i))
+                break;
+        }
+    }
+
     void PPage::handleButton(const ButtonKey key, const bool gamepad) {
         if (isValidFocusIndex() && inputList[focusedIdx].second->active())
             return inputList[focusedIdx].second->handleButton(key, gamepad);
@@ -131,7 +154,7 @@ namespace PWT::UI::PAGE {
             }
                 break;
             case ButtonKey::Down: {
-                for (int i=focusedIdx+1,l=inputList.size(); i<l; ++i) {
+                for (int i=focusedIdx+1,l=inputList.size(); i>=0 && i<l; ++i) {
                     if (tryFocusComponent(i))
                         break;
                 }
@@ -170,5 +193,25 @@ namespace PWT::UI::PAGE {
             default:
                 break;
         }
+    }
+
+    void PPage::onPinputMouseActivation(PInputItem *itm) {
+        int idx = 0;
+
+        for (const auto [component, pinput]: inputList) {
+            if (pinput == itm)
+                break;
+
+            ++idx;
+        }
+
+        if (isValidFocusIndex()) {
+            inputList[focusedIdx].second->handleButton(ButtonKey::Back, false);
+            inputList[focusedIdx].second->setFocused(false);
+        }
+
+        itm->setFocused(true);
+        itm->activate();
+        focusedIdx = idx;
     }
 }

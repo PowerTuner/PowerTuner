@@ -40,10 +40,17 @@ namespace PWT::UI::PAGE {
 
         void collectPageInputs(const QLayout *layout);
         void focusFirstWidget();
+        void deleteWidget(const QWidget *wdg);
 
     public:
         PPage();
 
         virtual void handleButton(ButtonKey key, bool gamepad);
+
+    protected slots:
+        void onPinputMouseActivation(PInputItem *itm);
+
+    signals:
+        void logSent(const QString &msg);
     };
 }

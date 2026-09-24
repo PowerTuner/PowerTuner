@@ -43,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     home = new PWT::UI::PAGE::Home();
     logs = new PWT::UI::PAGE::Logs();
     clientSettings = new PWT::UI::PAGE::ClientSettings();
+    daemons = new PWT::UI::PAGE::Daemons();
 
     logs->write(QString("client data path: %1").arg(dataPath));
 
@@ -56,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     pages->addWidget(home);
     pages->addWidget(logs);
     pages->addWidget(clientSettings);
+    pages->addWidget(daemons);
     pages->setCurrentIndex(0);
     clientSettings->refresh();
 
@@ -72,6 +74,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     QObject::connect(inputHandler, &PWT::App::InputHandler::applyKey, this, &MainWindow::applyKeyPressed);
     QObject::connect(inputHandler, &PWT::App::InputHandler::buttonPressed, this, &MainWindow::buttonPressed);
     QObject::connect(clientSettings, &PWT::UI::PAGE::ClientSettings::logSent, this, &MainWindow::onLogSent);
+    QObject::connect(daemons, &PWT::UI::PAGE::Daemons::logSent, this, &MainWindow::onLogSent);
+    QObject::connect(daemons, &PWT::UI::PAGE::Daemons::activeDaemonChanged, this, &MainWindow::onActiveDaemonChanged);
+    QObject::connect(daemons, &PWT::UI::PAGE::Daemons::daemonListChanged, this, &MainWindow::onDaemonListChanged);
 }
 
 MainWindow::~MainWindow() {
@@ -113,4 +118,12 @@ void MainWindow::buttonPressed(const PWT::ButtonKey key, const bool gamepad) con
 void MainWindow::onLogSent(const QString &msg) const {
     logs->write(msg);
     navbar->setIndicator(1);
+}
+
+void MainWindow::onActiveDaemonChanged() {
+
+}
+
+void MainWindow::onDaemonListChanged() const {
+    clientSettings->refreshDaemonList();
 }

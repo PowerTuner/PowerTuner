@@ -16,8 +16,9 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <QHBoxLayout>
+#include <QVBoxLayout>
 
 namespace PWT::UI::PAGE {
     [[nodiscard]] QHBoxLayout *makeHItem(const QString &label, QWidget *widget);
+    [[nodiscard]] QVBoxLayout *makeVItem(const QString &label, QWidget *widget);
 }

@@ -83,6 +83,8 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     src/pages/logs/Logs.h
     src/pages/clientSettings/ClientSettings.cpp
     src/pages/clientSettings/ClientSettings.h
+    src/pages/daemons/Daemons.cpp
+    src/pages/daemons/Daemons.h
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt::Core Qt::Widgets)

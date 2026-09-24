@@ -52,7 +52,7 @@ namespace PWT::UI::PAGE {
         kbMapRefresh = new Select();
         kbMapApply = new Select();
 
-        defaultDaemon->addItem(u"Unset"_s);
+        refreshDaemonList();
         quitBehavior->addItems({u"Quit"_s, u"Tray"_s});
 
         for (int i=0,l=styleEnumMeta.keyCount(); i<l; ++i)
@@ -118,6 +118,7 @@ namespace PWT::UI::PAGE {
     }
 
     void ClientSettings::refresh() const {
+        defaultDaemon->setCurrentIndex(settings.getDefaultDaemon());
         quitBehavior->setCurrentIndex(settings.getCloseToTray());
         rememberWindowState->setChecked(settings.getRememberWindowState());
         startup->setChecked(settings.getRunAtStartup());
@@ -141,7 +142,15 @@ namespace PWT::UI::PAGE {
         kbMapApply->setCurrentIndex(kbMapApply->findData(settings.getKeyboardApply()));
     }
 
+    void ClientSettings::refreshDaemonList() const {
+        defaultDaemon->clear();
+
+        for (const Daemon &d: settings.getDaemonList())
+            defaultDaemon->addItem(d.name);
+    }
+
     void ClientSettings::onApplyClicked() {
+        settings.setDefaultDaemon(defaultDaemon->currentIndex());
         settings.setCloseToTray(quitBehavior->currentIndex());
         settings.setRememberWindowState(rememberWindowState->isChecked());
         settings.setRunAtStartup(startup->isChecked());

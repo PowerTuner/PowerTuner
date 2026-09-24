@@ -54,11 +54,9 @@ namespace PWT::UI::PAGE {
         ClientSettings();
 
         void refresh() const;
+        void refreshDaemonList() const;
 
     private slots:
         void onApplyClicked();
-
-    signals:
-        void logSent(const QString &msg);
     };
 }

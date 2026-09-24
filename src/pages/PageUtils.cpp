@@ -29,4 +29,13 @@ namespace PWT::UI::PAGE {
 
         return hlyt;
     }
+
+    QVBoxLayout *makeVItem(const QString &label, QWidget *widget) {
+        QVBoxLayout *vlyt = new QVBoxLayout();
+
+        vlyt->addWidget(new QLabel(label));
+        vlyt->addWidget(widget);
+
+        return vlyt;
+    }
 }
