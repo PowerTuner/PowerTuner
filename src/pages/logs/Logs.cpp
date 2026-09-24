@@ -16,6 +16,7 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <QFileInfo>
+#include <QDateTime>
 
 #include "Logs.h"
 #include "../../widgets/components/Button/Button.h"
@@ -44,8 +45,9 @@ namespace PWT::UI::PAGE {
 
     void Logs::write(const QString &msg, const std::source_location loc) const {
         const QFileInfo finfo(loc.file_name());
+        const QDateTime now = QDateTime::currentDateTime();
 
-        logsBox->append(QString("%1[%2:%3]: %4").arg(finfo.baseName()).arg(loc.line()).arg(loc.column()).arg(msg));
+        logsBox->append(QString("(%1) %2[%3:%4]: %5").arg(now.toString("MMMM ddd d hh:mm"), finfo.baseName()).arg(loc.line()).arg(loc.column()).arg(msg));
     }
 
     void Logs::clearBtnClicked() const {
