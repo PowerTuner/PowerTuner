@@ -36,15 +36,11 @@ namespace PWT::UI {
         virtual void activate() = 0;
 
         virtual void handleButton(ButtonKey key, bool gamepad) {}
+        [[nodiscard]] bool active() const { return isActive; }
 
-        void setFocused(const bool enable) {
+        virtual void setFocused(const bool enable) {
             isFocused = enable;
             item->update();
-        }
-
-        [[nodiscard]]
-        bool active() const {
-            return isActive;
         }
     };
 }

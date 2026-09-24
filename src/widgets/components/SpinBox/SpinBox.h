@@ -16,16 +16,19 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+#include "../PInputItem.h"
 #include "../LineEdit/LineEdit.h"
 
 namespace PWT::UI {
-    class SpinBox final: public QWidget {
+    class SpinBox final: public QWidget, public PInputItem {
         Q_OBJECT
 
     private:
         LineEdit *editBox = nullptr;
-        unsigned long rmin = 0;
-        unsigned long rmax = UINT_MAX;
+        unsigned long range_min = 0;
+        unsigned long range_max = UINT_MAX;
+
+        void clampToRange() const;
 
     protected:
         void wheelEvent(QWheelEvent *event) override;
@@ -37,8 +40,17 @@ namespace PWT::UI {
         void setValue(unsigned long v) const;
         [[nodiscard]] unsigned long value() const;
 
+        void setFocused(bool enable) override;
+        void activate() override;
+        void handleButton(ButtonKey key, bool gamepad) override;
+
     private slots:
         void onPlusClicked() const;
         void onMinusClicked() const;
+        void onEditReturnPressed();
+        void onEditMouseActivation(PInputItem *);
+
+    signals:
+        void mouseActivation(PInputItem *itm);
     };
 }
