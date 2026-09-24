@@ -68,6 +68,7 @@ namespace PWT::Style {
         [[nodiscard]] const QColor &textEditBorder() const override { return slateBlue; }
         [[nodiscard]] const QColor &textEditActive() const override { return white; }
         [[nodiscard]] const QColor &textEditText() const override { return iceWhite; }
+        [[nodiscard]] const QColor &lineEditActive() const override { return winePurple; }
         [[nodiscard]] const QColor &navButtonIcon() const override { return iceWhite; }
         [[nodiscard]] const QColor &navButtonHovered() const override { return softNeonMagenta; }
         [[nodiscard]] const QColor &navButtonActive() const override { return neonMagenta; }

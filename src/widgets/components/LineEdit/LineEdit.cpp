@@ -16,27 +16,62 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <QPainter>
+#include <QKeyEvent>
 
 #include "LineEdit.h"
 
 namespace PWT::UI {
-    LineEdit::LineEdit() {
+    LineEdit::LineEdit(): PInputItem(this) {
         QPalette pal = palette();
 
-        pal.setBrush(QPalette::Base, appTheme->textEdit());
+        pal.setBrush(QPalette::Base, Qt::transparent);
         pal.setBrush(QPalette::Text, appTheme->textEditText());
         setPalette(pal);
+        setFocusPolicy(Qt::NoFocus);
     }
 
     void LineEdit::paintEvent(QPaintEvent *event) {
         QPainter p(this);
 
         p.setRenderHint(QPainter::Antialiasing);
-
-        p.setPen(appTheme->textEditBorder());
-        p.setBrush(appTheme->textEdit());
+        p.setPen(isFocused && !isActive ? QPen(appTheme->focusBorder(), 2) : appTheme->textEditBorder());
+        p.setBrush(isActive ? appTheme->lineEditActive() : appTheme->textEdit());
         p.drawRoundedRect(rect(), 5, 5);
 
         QLineEdit::paintEvent(event);
+    }
+
+    void LineEdit::keyReleaseEvent(QKeyEvent *event) {
+        if (static_cast<Qt::Key>(event->key()) == Qt::Key_Return && isActive) {
+            handleButton(ButtonKey::Back, false);
+            emit returnPressed();
+            return;
+        }
+
+        QLineEdit::keyReleaseEvent(event);
+    }
+
+    void LineEdit::mouseReleaseEvent(QMouseEvent *event) {
+        if (!isActive && event->button() == Qt::LeftButton)
+            emit mouseActivation(this);
+    }
+
+    void LineEdit::activate() {
+        isActive = true;
+        setFocus();
+        update();
+    }
+
+    void LineEdit::handleButton(const ButtonKey key, const bool gamepad) {
+        switch (key) {
+            case ButtonKey::Back: {
+                isActive = false;
+                clearFocus();
+                update();
+            }
+                break;
+            default:
+                break;
+        }
     }
 }

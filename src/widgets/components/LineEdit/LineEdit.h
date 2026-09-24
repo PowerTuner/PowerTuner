@@ -18,10 +18,11 @@
 #pragma once
 #include <QLineEdit>
 
+#include "../PInputItem.h"
 #include "../../../classes/Settings.h"
 
 namespace PWT::UI {
-    class LineEdit final: public QLineEdit {
+    class LineEdit final: public QLineEdit, public PInputItem {
         Q_OBJECT
 
     private:
@@ -29,8 +30,16 @@ namespace PWT::UI {
 
     protected:
         void paintEvent(QPaintEvent *event) override;
+        void keyReleaseEvent(QKeyEvent *event) override;
+        void mouseReleaseEvent(QMouseEvent *event) override;
 
     public:
         LineEdit();
+
+        void activate() override;
+        void handleButton(ButtonKey key, bool gamepad) override;
+
+    signals:
+        void mouseActivation(PInputItem *itm);
     };
 }

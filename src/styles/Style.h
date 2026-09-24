@@ -78,6 +78,7 @@ namespace PWT::Style {
         [[nodiscard]] virtual const QColor &textEditBorder() const = 0;
         [[nodiscard]] virtual const QColor &textEditActive() const = 0;
         [[nodiscard]] virtual const QColor &textEditText() const = 0;
+        [[nodiscard]] virtual const QColor &lineEditActive() const = 0;
         [[nodiscard]] virtual const QColor &navButtonIcon() const = 0;
         [[nodiscard]] virtual const QColor &navButtonHovered() const = 0;
         [[nodiscard]] virtual const QColor &navButtonActive() const = 0;
