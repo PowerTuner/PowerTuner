@@ -18,12 +18,15 @@
 #pragma once
 #include "../styles/Style.h"
 #include "../styles/StyleType.h"
+#include "../include/Daemon.h"
 
 namespace PWT::App {
     class Settings final {
     private:
         QString path;
         std::shared_ptr<Style::Style> style;
+        QVector<Daemon> daemonList;
+        int defaultDaemon = 0;
         bool closeToTray = false;
         bool rememberWindowState = true;
         bool runAtStartup = false;
@@ -49,11 +52,14 @@ namespace PWT::App {
         Settings();
 
         void loadStyle();
+        void addLocalDaemon();
 
     public:
         Settings(const Settings &) = delete;
         Settings &operator=(const Settings &) = delete;
 
+        [[nodiscard]] QVector<Daemon> getDaemonList() const { return daemonList; }
+        [[nodiscard]] int getDefaultDaemon() const { return defaultDaemon; }
         [[nodiscard]] bool getCloseToTray() const { return closeToTray; }
         [[nodiscard]] bool getRememberWindowState() const { return rememberWindowState; }
         [[nodiscard]] bool getRunAtStartup() const { return runAtStartup; }
@@ -76,6 +82,8 @@ namespace PWT::App {
         [[nodiscard]] Qt::Key getKeyboardScrollTop() const { return kbScrollTop; }
         [[nodiscard]] Qt::Key getKeyboardScrollBottom() const { return kbScrollBottom; }
         [[nodiscard]] Qt::Key getKeyboardInputMode() const { return kbInputMode; }
+        void addDaemon(const Daemon &d) { daemonList.push_back(d); }
+        void setDefaultDaemon(const int idx) { defaultDaemon = idx; }
         void setCloseToTray(const bool enable) { closeToTray = enable; }
         void setRememberWindowState(const bool enable) { rememberWindowState = enable; }
         void setRunAtStartup(const bool enable) { runAtStartup = enable; }
@@ -100,6 +108,7 @@ namespace PWT::App {
 
         [[nodiscard]] static Settings &get();
         void setPath(const QString &diskPath);
+        void removeDaemon(const Daemon &d);
         [[nodiscard]] bool load();
         [[nodiscard]] bool save() const;
     };

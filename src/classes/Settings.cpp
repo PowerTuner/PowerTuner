@@ -25,6 +25,8 @@
 namespace PWT::App {
     Settings::Settings() {
         style = std::make_shared<Style::VoidPurpleStyle>();
+
+        addLocalDaemon();
     }
 
     Settings &Settings::get() {
@@ -40,9 +42,29 @@ namespace PWT::App {
         }
     }
 
+    void Settings::addLocalDaemon() {
+        daemonList.push_back({"Local", "localhost", 56000});
+    }
+
     void Settings::setPath(const QString &diskPath) {
         if (!diskPath.isEmpty())
             path = QString("%1/settings.bin").arg(diskPath);
+    }
+
+    void Settings::removeDaemon(const Daemon &d) {
+        int i = 0;
+
+        for (const Daemon &daemon: daemonList) {
+            if (daemon.name == d.name)
+                break;
+
+            ++i;
+        }
+
+        daemonList.removeAt(i);
+
+        if (defaultDaemon == i)
+            defaultDaemon = 0;
     }
 
     bool Settings::load() {
@@ -56,7 +78,10 @@ namespace PWT::App {
 
         QDataStream ds(&in);
 
-        ds >> closeToTray >>
+        ds >>
+            daemonList >>
+            defaultDaemon >>
+            closeToTray >>
             rememberWindowState >>
             runAtStartup >>
             styleType >>
@@ -80,6 +105,10 @@ namespace PWT::App {
 
         in.close();
         loadStyle();
+
+        if (daemonList.isEmpty())
+            addLocalDaemon();
+
         return true;
     }
 
@@ -94,7 +123,10 @@ namespace PWT::App {
 
         QDataStream ds(&out);
 
-        ds << closeToTray <<
+        ds <<
+            daemonList <<
+            defaultDaemon <<
+            closeToTray <<
             rememberWindowState <<
             runAtStartup <<
             styleType <<
