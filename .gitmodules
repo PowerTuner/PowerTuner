@@ -1,0 +1,6 @@
+[submodule "src/extern/SDL"]
+	path = src/extern/SDL
+	url = https://github.com/libsdl-org/SDL
+[submodule "src/extern/SDL_GameControllerDB"]
+	path = src/extern/SDL_GameControllerDB
+	url = https://github.com/mdqinc/SDL_GameControllerDB

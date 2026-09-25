@@ -16,6 +16,31 @@ qt_add_resources(QT_RESOURCE
     resources/resources.qrc
 )
 
+set(SDL_TESTS OFF)
+set(SDL_TEST_LIBRARY OFF)
+set(SDL_EXAMPLES OFF)
+set(SDL_DISABLE_INSTALL ON)
+set(SDL_DISABLE_INSTALL_DOCS ON)
+set(SDL_INSTALL_TESTS OFF)
+set(SDL_STATIC ON)
+set(SDL_SHARED OFF)
+set(SDL_SHARED_DEFAULT OFF)
+set(SDL_SHARED_AVAILABLE OFF)
+set(SDL_AUDIO OFF)
+set(SDL_VIDEO OFF)
+set(SDL_GPU OFF)
+set(SDL_RENDER OFF)
+set(SDL_CAMERA OFF)
+set(SDL_HAPTIC OFF)
+set(SDL_POWER OFF)
+set(SDL_JOYSTICK ON)
+set(SDL_VIRTUAL_JOYSTICK OFF)
+set(SDL_SENSOR OFF)
+set(SDL_DIALOG OFF)
+set(SDL_UNIX_CONSOLE_BUILD ON)
+add_subdirectory(src/extern/SDL EXCLUDE_FROM_ALL)
+set_property(TARGET SDL3-static PROPERTY POSITION_INDEPENDENT_CODE ON)
+
 qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     mainwindow.ui
 
@@ -87,7 +112,7 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     src/pages/daemons/Daemons.h
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt::Core Qt::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt::Core Qt::Widgets SDL3::SDL3)
 
 check_ipo_supported(RESULT has_ipo OUTPUT ipo_error)
 if (has_ipo)
