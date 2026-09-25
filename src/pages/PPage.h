@@ -17,6 +17,7 @@
  */
 #pragma once
 #include <QVBoxLayout>
+#include <source_location>
 
 #include "../widgets/components/PInputItem.h"
 #include "../widgets/components/Scrollarea/ScrollArea.h"
@@ -51,6 +52,6 @@ namespace PWT::UI::PAGE {
         void onPinputMouseActivation(PInputItem *itm);
 
     signals:
-        void logSent(const QString &msg);
+        void logSent(const QString &msg, std::source_location loc = std::source_location::current());
     };
 }

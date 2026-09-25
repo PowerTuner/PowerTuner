@@ -115,8 +115,8 @@ void MainWindow::buttonPressed(const PWT::ButtonKey key, const bool gamepad) con
     static_cast<PWT::UI::PAGE::PPage *>(pages->currentWidget())->handleButton(key, gamepad);
 }
 
-void MainWindow::onLogSent(const QString &msg) const {
-    logs->write(msg);
+void MainWindow::onLogSent(const QString &msg, const std::source_location loc) const {
+    logs->write(msg, loc);
     navbar->setIndicator(1);
 }
 
