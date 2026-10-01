@@ -77,12 +77,12 @@ namespace PWT::UI {
                     sb->setValue(sb->value() + (key == ButtonKey::ScrollUp ? -sb->pageStep() : sb->pageStep()));
             }
                 break;
-            case ButtonKey::FastLeft:
-            case ButtonKey::FastRight: {
+            case ButtonKey::ScrollTop:
+            case ButtonKey::ScrollBottom: {
                 QScrollBar *sb = horizontalScrollBar();
 
                 if (sb)
-                    sb->setValue(sb->value() + (key == ButtonKey::FastLeft ? -sb->pageStep() : sb->pageStep()));
+                    sb->setValue(sb->value() + (key == ButtonKey::ScrollTop ? -sb->pageStep() : sb->pageStep()));
             }
                 break;
             case ButtonKey::Back: {
