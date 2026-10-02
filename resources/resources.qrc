@@ -17,7 +17,9 @@
   -->
 <RCC>
     <qresource prefix="/fonts">
-        <file alias="fontawesome">fa7-Solid-900.otf</file><!-- https://github.com/FortAwesome/Font-Awesome (desktop release) -->
+        <!-- https://github.com/FortAwesome/Font-Awesome -->
+        <file alias="fontawesome-solid">fonts/fontawesome-731/solid-900.otf</file>
+        <file alias="fontawesome-brands">fonts/fontawesome-731/brands-400.otf</file>
     </qresource>
     <qresource prefix="/sdl">
         <file alias="db">../src/extern/SDL_GameControllerDB/gamecontrollerdb.txt</file>

@@ -28,7 +28,8 @@ int main(int argc, char *argv[]) {
     MainWindow w;
     QFont font = w.font();
 
-    QFontDatabase::addApplicationFont(u":/fonts/fontawesome"_s);
+    QFontDatabase::addApplicationFont(u":/fonts/fontawesome-solid"_s);
+    QFontDatabase::addApplicationFont(u":/fonts/fontawesome-brands"_s);
     font.setPointSize(14);
     font.setWeight(QFont::Medium);
 
