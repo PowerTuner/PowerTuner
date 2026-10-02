@@ -59,7 +59,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     pages->addWidget(clientSettings);
     pages->addWidget(daemons);
     pages->setCurrentIndex(0);
-    clientSettings->refresh();
 
     mainLyt->addWidget(navbar);
     mainLyt->addWidget(pages);

@@ -32,28 +32,29 @@ namespace PWT::UI::PAGE {
         SwitchButton *rememberWindowState;
         SwitchButton *startup;
         Select *theme;
-        Select *kbMapUp;
-        Select *kbMapDown;
-        Select *kbMapLeft;
-        Select *kbMapRight;
-        Select *kbMapFastLeft;
-        Select *kbMapFastRight;
-        Select *kbMapAction;
-        Select *kbMapBack;
-        Select *kbMapScrollUp;
-        Select *kbMapScrollDown;
-        Select *kbMapScrollTop;
-        Select *kbMapScrollBottom;
-        Select *kbMapInputMode;
+        Select *kbUp;
+        Select *kbDown;
+        Select *kbLeft;
+        Select *kbRight;
+        Select *kbFastLeft;
+        Select *kbFastRight;
+        Select *kbAction;
+        Select *kbBack;
+        Select *kbScrollUp;
+        Select *kbScrollDown;
+        Select *kbScrollTop;
+        Select *kbScrollBottom;
+        Select *kbInputMode;
         Select *kbNavbarUp;
         Select *kbNavbarDown;
-        Select *kbMapRefresh;
-        Select *kbMapApply;
+        Select *kbRefresh;
+        Select *kbApply;
+
+        void loadSettings();
 
     public:
         ClientSettings();
 
-        void refresh() const;
         void refreshDaemonList() const;
 
     private slots:
