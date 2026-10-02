@@ -41,7 +41,7 @@ namespace PWT::UI {
         p->drawRect(itmRect);
 
         p->setPen(appTheme->selectComboBoxText());
-        p->drawText(itmRect.adjusted(10, 0, -10, 0), Qt::AlignVCenter | Qt::AlignLeft, idx.data(Qt::DisplayRole).toString());
+        p->drawText(itmRect.adjusted(10, 0, -2, 0), Qt::AlignVCenter | Qt::AlignLeft, idx.data(Qt::DisplayRole).toString());
         p->restore();
     }
 
