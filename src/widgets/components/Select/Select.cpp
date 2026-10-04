@@ -28,6 +28,7 @@ namespace PWT::UI {
         view()->setFocusPolicy(Qt::NoFocus);
         setMinimumWidth(40);
         setFocusPolicy(Qt::NoFocus);
+        setSizeAdjustPolicy(QComboBox::AdjustToContents);
     }
 
     void Select::StyleItemDelegate::paint(QPainter *p, const QStyleOptionViewItem &opt, const QModelIndex &idx) const {
