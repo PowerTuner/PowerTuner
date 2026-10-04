@@ -161,8 +161,10 @@ namespace PWT::UI::PAGE {
             }
                 break;
             case ButtonKey::Action: {
-                if (isValidFocusIndex())
+                if (isValidFocusIndex()) {
+                    scrollArea->ensureWidgetVisible(inputList[focusedIdx].first);
                     inputList[focusedIdx].second->activate();
+                }
             }
                 break;
             case ButtonKey::ScrollUp:
