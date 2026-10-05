@@ -39,14 +39,13 @@ namespace PWT::UI {
         void setRange(unsigned long min, unsigned long max);
         void setValue(unsigned long v) const;
         [[nodiscard]] unsigned long value() const;
-
+        void addToValue() const;
+        void subtractFromValue() const;
         void setFocused(bool enable) override;
         void activate() override;
         void handleButton(ButtonKey key) override;
 
     private slots:
-        void onPlusClicked() const;
-        void onMinusClicked() const;
         void onEditReturnPressed();
         void onEditMouseActivation(PInputItem *);
 

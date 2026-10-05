@@ -27,41 +27,28 @@ namespace PWT::UI {
 
     SpinBox::SpinBox(): PInputItem(this) {
         QHBoxLayout *lyt = new QHBoxLayout();
-        QVBoxLayout *btnLyt = new QVBoxLayout();
-        Button *plus = new Button(u"+"_s, false);
-        Button *minus = new Button(u"-"_s, false);
 
         editBox = new LineEdit();
 
-        editBox->setValidator(new QRegularExpressionValidator(QRegularExpression(R"([0-9]+)"), this));
-        plus->setFixedSize(26, 22);
-        minus->setFixedSize(26, 22);
+        editBox->setValidator(new QRegularExpressionValidator(QRegularExpression(uR"([0-9]+)"_s), this));
         setFocusPolicy(Qt::NoFocus);
 
-        btnLyt->setContentsMargins(0, 0, 0, 0);
-        btnLyt->setSpacing(0);
-        btnLyt->addWidget(plus);
-        btnLyt->addWidget(minus);
         lyt->setContentsMargins(0, 0, 0, 0);
-        lyt->setSpacing(0);
         lyt->addWidget(editBox);
-        lyt->addLayout(btnLyt);
 
         setLayout(lyt);
 
         QObject::connect(editBox, &LineEdit::returnPressed, this, &SpinBox::onEditReturnPressed);
         QObject::connect(editBox, &LineEdit::mouseActivation, this, &SpinBox::onEditMouseActivation);
-        QObject::connect(plus, &Button::clicked, this, &SpinBox::onPlusClicked);
-        QObject::connect(minus, &Button::clicked, this, &SpinBox::onMinusClicked);
     }
 
     void SpinBox::wheelEvent(QWheelEvent *event) {
         const int y = event->angleDelta().y();
 
         if (y > 0)
-            onPlusClicked();
+            addToValue();
         else if (y < 0)
-            onMinusClicked();
+            subtractFromValue();
         else
             return event->ignore();
 
@@ -113,6 +100,28 @@ namespace PWT::UI {
         return std::clamp(v, range_min, range_max);
     }
 
+    void SpinBox::addToValue() const {
+        if (editBox->text().isEmpty())
+            return editBox->setText(QString::number(range_min));
+
+        bool res;
+        unsigned long v = editBox->text().toULong(&res);
+
+        if (res)
+            editBox->setText(QString::number(std::clamp(++v, range_min, range_max)));
+    }
+
+    void SpinBox::subtractFromValue() const {
+        if (editBox->text().isEmpty())
+            return editBox->setText(QString::number(range_min));
+
+        bool res;
+        unsigned long v = editBox->text().toULong(&res);
+
+        if (res)
+            editBox->setText(QString::number(std::clamp(--v, range_min, range_max)));
+    }
+
     void SpinBox::setFocused(const bool enable) {
         editBox->setFocused(enable);
     }
@@ -125,11 +134,11 @@ namespace PWT::UI {
     void SpinBox::handleButton(const ButtonKey key) {
         switch (key) {
             case ButtonKey::Up: {
-                onPlusClicked();
+                addToValue();
             }
                 break;
             case ButtonKey::Down: {
-                onMinusClicked();
+                subtractFromValue();
             }
                 break;
             case ButtonKey::Back: {
@@ -141,28 +150,6 @@ namespace PWT::UI {
             default:
                 break;
         }
-    }
-
-    void SpinBox::onPlusClicked() const {
-        if (editBox->text().isEmpty())
-            return editBox->setText(QString::number(range_min));
-
-        bool res;
-        unsigned long v = editBox->text().toULong(&res);
-
-        if (res)
-            editBox->setText(QString::number(std::clamp(++v, range_min, range_max)));
-    }
-
-    void SpinBox::onMinusClicked() const {
-        if (editBox->text().isEmpty())
-            return editBox->setText(QString::number(range_min));
-
-        bool res;
-        unsigned long v = editBox->text().toULong(&res);
-
-        if (res)
-            editBox->setText(QString::number(std::clamp(--v, range_min, range_max)));
     }
 
     void SpinBox::onEditReturnPressed() {
