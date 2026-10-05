@@ -47,7 +47,7 @@ namespace PWT::UI::PAGE {
         const QFileInfo finfo(loc.file_name());
         const QDateTime now = QDateTime::currentDateTime();
 
-        logsBox->append(QString("(%1) %2[%3:%4]: %5").arg(now.toString("MMMM ddd d hh:mm"), finfo.baseName()).arg(loc.line()).arg(loc.column()).arg(msg));
+        logsBox->append(u"(%1) %2[%3:%4]: %5"_s.arg(now.toString(u"MMMM ddd d hh:mm"_s), finfo.baseName()).arg(loc.line()).arg(loc.column()).arg(msg));
     }
 
     void Logs::clearBtnClicked() const {

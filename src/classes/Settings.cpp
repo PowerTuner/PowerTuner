@@ -23,6 +23,8 @@
 #include "../styles/VoidPurpleStyle.h"
 
 namespace PWT::App {
+    using namespace Qt::StringLiterals;
+
     Settings::Settings() {
         style = std::make_shared<Style::VoidPurpleStyle>();
 
@@ -48,7 +50,7 @@ namespace PWT::App {
 
     void Settings::setPath(const QString &diskPath) {
         if (!diskPath.isEmpty())
-            path = QString("%1/settings.bin").arg(diskPath);
+            path = u"%1/settings.bin"_s.arg(diskPath);
     }
 
     void Settings::removeDaemon(const Daemon &d) {

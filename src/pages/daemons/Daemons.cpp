@@ -77,14 +77,14 @@ namespace PWT::UI::PAGE {
         QWidget *handle = new QWidget();
         QHBoxLayout *daemonLyt = new QHBoxLayout(handle);
         QHBoxLayout *labelLyt = new QHBoxLayout();
-        Button *delBtn = new Button("Delete");
+        Button *delBtn = new Button(u"Delete"_s);
 
         handle->setProperty("name", d.name);
         handle->setProperty("adr", d.address);
         handle->setProperty("port", d.port);
-        labelLyt->addWidget(new QLabel(QString("\uf390 %1").arg(d.name)));
+        labelLyt->addWidget(new QLabel(u"\uf390 %1"_s.arg(d.name)));
         labelLyt->addSpacing(16);
-        labelLyt->addWidget(new QLabel(QString("\uf6ff %1:%2").arg(d.address).arg(d.port)));
+        labelLyt->addWidget(new QLabel(u"\uf6ff %1:%2"_s.arg(d.address).arg(d.port)));
         daemonLyt->addLayout(labelLyt);
         daemonLyt->addStretch();
         daemonLyt->addWidget(delBtn);
@@ -108,7 +108,7 @@ namespace PWT::UI::PAGE {
         daemonAddr->clear();
         activeDaemon->addItem(d.name);
         settings.addDaemon(d);
-        emit logSent(!settings.save() ? u"failed to save daemons changes to disk"_s : QString("%1 daemon saved successfully").arg(name));
+        emit logSent(!settings.save() ? u"failed to save daemons changes to disk"_s : u"%1 daemon saved successfully"_s.arg(name));
         emit daemonListChanged();
     }
 
@@ -127,7 +127,7 @@ namespace PWT::UI::PAGE {
         deleteWidget(w);
         activeDaemon->removeItem(activeDaemon->findText(d.name));
         settings.removeDaemon(d);
-        emit logSent(!settings.save() ? u"failed to save daemons changes to disk"_s : QString("%1 daemon removed successfully").arg(d.name));
+        emit logSent(!settings.save() ? u"failed to save daemons changes to disk"_s : u"%1 daemon removed successfully"_s.arg(d.name));
         emit daemonListChanged();
     }
 

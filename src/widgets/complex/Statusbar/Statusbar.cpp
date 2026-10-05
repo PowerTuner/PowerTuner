@@ -22,9 +22,11 @@
 #include "Statusbar.h"
 
 namespace PWT::UI {
+    using namespace Qt::StringLiterals;
+
     Statusbar::Statusbar() {
         QHBoxLayout *lyt = new QHBoxLayout();
-        QLabel *repo = new QLabel(QString(R"(<a style="color:%1" href="https://github.com/PowerTuner">Sources</a>)").arg(appTheme->linkText()));
+        QLabel *repo = new QLabel(uR"(<a style="color:%1" href="https://github.com/PowerTuner">Sources</a>)"_s.arg(appTheme->linkText()));
         QFont barFont = font();
 
         barFont.setPointSize(barFont.pointSize() - 1);

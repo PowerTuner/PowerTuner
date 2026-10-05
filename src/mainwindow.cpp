@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     clientSettings = new PWT::UI::PAGE::ClientSettings();
     daemons = new PWT::UI::PAGE::Daemons();
 
-    logs->write(QString("client data path: %1").arg(dataPath));
+    logs->write(u"client data path: %1"_s.arg(dataPath));
 
     if (isDefaultSettings)
         logs->write(u"failed to load client settings, using defaults"_s);
@@ -89,7 +89,7 @@ MainWindow::~MainWindow() {
 }
 
 QString MainWindow::getAppDataPath() const {
-    QString path = QString("%1/PowerTuner").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+    QString path = u"%1/PowerTuner"_s.arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
     const QDir qdir;
 
     if (!qdir.exists(path) && !qdir.mkpath(path))

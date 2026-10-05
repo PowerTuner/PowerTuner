@@ -178,7 +178,7 @@ namespace PWT::App {
                 SDL_Gamepad *pad = SDL_OpenGamepad(id);
 
                 if (pad == nullptr) {
-                    emit logSent(QString("gamepad connection error: %1").arg(SDL_GetError()));
+                    emit logSent(u"gamepad connection error: %1"_s.arg(SDL_GetError()));
                     SDL_ClearError();
 
                 } else {
