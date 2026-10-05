@@ -21,7 +21,7 @@
 namespace PWT {
     using namespace Qt::StringLiterals;
 
-    const QMap<Qt::Key, QString> KeyMap = {
+    static const QMap<Qt::Key, QString> KeyMap = {
         {Qt::Key_A, u"A"_s}, {Qt::Key_B, u"B"_s}, {Qt::Key_C, u"C"_s}, {Qt::Key_D, u"D"_s},
         {Qt::Key_E, u"E"_s}, {Qt::Key_F, u"F"_s}, {Qt::Key_G, u"G"_s}, {Qt::Key_H, u"H"_s},
         {Qt::Key_I, u"I"_s}, {Qt::Key_J, u"J"_s}, {Qt::Key_K, u"K"_s}, {Qt::Key_L, u"L"_s},

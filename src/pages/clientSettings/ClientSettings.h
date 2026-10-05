@@ -16,6 +16,8 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+#include <QLabel>
+
 #include "../PPage.h"
 #include "../../classes/Settings.h"
 #include "../../widgets/components/Select/Select.h"
@@ -27,6 +29,8 @@ namespace PWT::UI::PAGE {
 
     private:
         App::Settings &settings = App::Settings::get();
+        QHash<QString, GamepadMapping> gamepadMappings;
+        int prevGamepadMapIdx = -1;
         Select *defaultDaemon;
         Select *quitBehavior;
         SwitchButton *rememberWindowState;
@@ -49,8 +53,32 @@ namespace PWT::UI::PAGE {
         Select *kbNavbarDown;
         Select *kbRefresh;
         Select *kbApply;
+        Select *gamepadMap;
+        QLabel *gamepadStatus;
+        Select *gpUp;
+        Select *gpDown;
+        Select *gpLeft;
+        Select *gpRight;
+        Select *gpFastLeft;
+        Select *gpFastRight;
+        Select *gpAction;
+        Select *gpBack;
+        Select *gpScrollUp;
+        Select *gpScrollDown;
+        Select *gpScrollTop;
+        Select *gpScrollBottom;
+        Select *gpInputMode;
+        Select *gpNavbarUp;
+        Select *gpNavbarDown;
+        Select *gpRefresh;
+        Select *gpApply;
+        Select *gpComboSlot1;
+        Select *gpComboSlot2;
+        Select *gpComboSlot3;
 
         void loadSettings();
+        void setGamepadButtons() const;
+        void saveGamepadMapping();
 
     public:
         ClientSettings();
@@ -59,5 +87,11 @@ namespace PWT::UI::PAGE {
 
     private slots:
         void onApplyClicked();
+        void onGamepadMapChanged(const QString &text);
+        void onGamepadMapDeleted();
+
+    public slots:
+        void onGamepadAdded(const QString &id) const;
+        void onGamepadRemoved(const QString &id) const;
     };
 }

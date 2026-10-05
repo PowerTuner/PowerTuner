@@ -17,9 +17,11 @@
  */
 #pragma once
 #include <QObject>
+#include <QThread>
 
 #include "Settings.h"
 #include "../include/ButtonKey.h"
+#include "GamepadWorker.h"
 
 namespace PWT::App {
     class InputHandler final: public QObject {
@@ -27,20 +29,36 @@ namespace PWT::App {
 
     private:
         Settings &appSettings = Settings::get();
+        GamepadWorker *gamepadWorker = nullptr;
+        QThread *gamepadThread = nullptr;
 
         void handleKeyboardReleaseKey(Qt::Key key);
         void handleKeyboardPressKey(Qt::Key key);
 
     public:
         explicit InputHandler(QObject *parent);
+        ~InputHandler() override;
 
         bool eventFilter(QObject *watched, QEvent *event) override;
+        void startGamepadThread();
+
+    private slots:
+        void onLogSent(const QString &msg, std::source_location loc);
+        void onSDLInitFail();
+        void onGamepadConnected(const QString &gid);
+        void onGamepadDisconnected(const QString &gid);
+        void onGamepadButton(const QString &gid, GamepadButton button);
 
     signals:
+        void logSent(const QString &msg, std::source_location loc = std::source_location::current());
         void navbarUpKey();
         void navbarDownKey();
         void refreshKey();
         void applyKey();
         void buttonPressed(ButtonKey key, bool gamepad);
+        void appFocusChange(bool focused);
+        void gamepadConnected(const QString &gid);
+        void gamepadDisconnected(const QString &gid);
+        void showWindow();
     };
 }

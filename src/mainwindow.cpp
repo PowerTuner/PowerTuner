@@ -67,15 +67,21 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     ui->centralwidget->setLayout(windowLyt);
 
     QObject::connect(navbar, &PWT::UI::Navbar::pageChanged, this, &MainWindow::navbarPageChanged);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::logSent, this, &MainWindow::onLogSent);
     QObject::connect(inputHandler, &PWT::App::InputHandler::navbarUpKey, this, &MainWindow::navbarUpKeyPressed);
     QObject::connect(inputHandler, &PWT::App::InputHandler::navbarDownKey, this, &MainWindow::navbarDownKeyPressed);
     QObject::connect(inputHandler, &PWT::App::InputHandler::refreshKey, this, &MainWindow::refreshKeyPressed);
     QObject::connect(inputHandler, &PWT::App::InputHandler::applyKey, this, &MainWindow::applyKeyPressed);
     QObject::connect(inputHandler, &PWT::App::InputHandler::buttonPressed, this, &MainWindow::buttonPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::showWindow, this, &MainWindow::onShowAppWindow);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::gamepadConnected, clientSettings, &PWT::UI::PAGE::ClientSettings::onGamepadAdded);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::gamepadDisconnected, clientSettings, &PWT::UI::PAGE::ClientSettings::onGamepadRemoved);
     QObject::connect(clientSettings, &PWT::UI::PAGE::ClientSettings::logSent, this, &MainWindow::onLogSent);
     QObject::connect(daemons, &PWT::UI::PAGE::Daemons::logSent, this, &MainWindow::onLogSent);
     QObject::connect(daemons, &PWT::UI::PAGE::Daemons::activeDaemonChanged, this, &MainWindow::onActiveDaemonChanged);
     QObject::connect(daemons, &PWT::UI::PAGE::Daemons::daemonListChanged, this, &MainWindow::onDaemonListChanged);
+
+    inputHandler->startGamepadThread();
 }
 
 MainWindow::~MainWindow() {
@@ -112,6 +118,17 @@ void MainWindow::applyKeyPressed() const {
 
 void MainWindow::buttonPressed(const PWT::ButtonKey key, const bool gamepad) const {
     static_cast<PWT::UI::PAGE::PPage *>(pages->currentWidget())->handleButton(key, gamepad);
+}
+
+void MainWindow::onShowAppWindow() {
+    if (windowState() == Qt::WindowActive && appSettings.getCloseToTray()) {
+        setWindowState(Qt::WindowMinimized);
+        setVisible(false);
+
+    } else {
+        setWindowState(Qt::WindowActive);
+        setVisible(true);
+    }
 }
 
 void MainWindow::onLogSent(const QString &msg, const std::source_location loc) const {

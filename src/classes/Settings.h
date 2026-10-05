@@ -16,16 +16,22 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+#include <QHash>
+#include <QMutex>
+
 #include "../styles/Style.h"
 #include "../styles/StyleType.h"
 #include "../include/Daemon.h"
+#include "../include/GamepadMapping.h"
 
 namespace PWT::App {
     class Settings final {
     private:
         QString path;
+        mutable QMutex qmux;
         std::shared_ptr<Style::Style> style;
         QVector<Daemon> daemonList;
+        QHash<QString, GamepadMapping> gamepadMappings;
         int defaultDaemon = 0;
         bool closeToTray = false;
         bool rememberWindowState = true;
@@ -82,6 +88,7 @@ namespace PWT::App {
         [[nodiscard]] Qt::Key getKeyboardScrollTop() const { return kbScrollTop; }
         [[nodiscard]] Qt::Key getKeyboardScrollBottom() const { return kbScrollBottom; }
         [[nodiscard]] Qt::Key getKeyboardInputMode() const { return kbInputMode; }
+        [[nodiscard]] QHash<QString, GamepadMapping> getGamepadMappings() const { return gamepadMappings; }
         void addDaemon(const Daemon &d) { daemonList.push_back(d); }
         void setDefaultDaemon(const int idx) { defaultDaemon = idx; }
         void setCloseToTray(const bool enable) { closeToTray = enable; }
@@ -109,6 +116,8 @@ namespace PWT::App {
         [[nodiscard]] static Settings &get();
         void setPath(const QString &diskPath);
         void removeDaemon(const Daemon &d);
+        [[nodiscard]] GamepadMapping getGamepadMapping(const QString &gid) const;
+        void setGamepadMappings(const QHash<QString, GamepadMapping> &mappings);
         [[nodiscard]] bool load();
         [[nodiscard]] bool save() const;
     };

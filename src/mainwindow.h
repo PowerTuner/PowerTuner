@@ -60,6 +60,7 @@ private slots:
     void refreshKeyPressed() const;
     void applyKeyPressed() const;
     void buttonPressed(PWT::ButtonKey key, bool gamepad) const;
+    void onShowAppWindow();
     void onLogSent(const QString &msg, std::source_location loc) const;
     void onActiveDaemonChanged();
     void onDaemonListChanged() const;

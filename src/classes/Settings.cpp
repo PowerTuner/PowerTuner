@@ -67,6 +67,18 @@ namespace PWT::App {
             defaultDaemon = 0;
     }
 
+    GamepadMapping Settings::getGamepadMapping(const QString &gid) const {
+        QMutexLocker lock(&qmux);
+
+        return gamepadMappings.value(gid, GamepadMapping());
+    }
+
+    void Settings::setGamepadMappings(const QHash<QString, GamepadMapping> &mappings) {
+        QMutexLocker lock(&qmux);
+
+        gamepadMappings = mappings;
+    }
+
     bool Settings::load() {
         if (path.isEmpty())
             return false;
@@ -80,6 +92,7 @@ namespace PWT::App {
 
         ds >>
             daemonList >>
+            gamepadMappings >>
             defaultDaemon >>
             closeToTray >>
             rememberWindowState >>
@@ -125,6 +138,7 @@ namespace PWT::App {
 
         ds <<
             daemonList <<
+            gamepadMappings <<
             defaultDaemon <<
             closeToTray <<
             rememberWindowState <<

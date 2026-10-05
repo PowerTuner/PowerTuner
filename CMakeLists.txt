@@ -53,13 +53,18 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     src/styles/VoidPurpleStyle.h
 
     src/include/ButtonKey.h
+    src/include/GamepadButton.h
     src/include/keyMap.h
+    src/include/GamepadButtonMap.h
+    src/include/GamepadMapping.h
     src/include/Daemon.h
 
     src/classes/Settings.cpp
     src/classes/Settings.h
     src/classes/InputHandler.cpp
     src/classes/InputHandler.h
+    src/classes/GamepadWorker.cpp
+    src/classes/GamepadWorker.h
 
     src/widgets/components/PInputItem.h
     src/widgets/components/Switch/SwitchButton.cpp
