@@ -23,6 +23,9 @@ namespace PWT::Style {
     private:
         static constexpr QColor voidPurple = hexToQ("16001F");
         static constexpr QColor deeperPurple = hexToQ("0A0116", "AA");
+        static constexpr QColor blackenedPurple = hexToQ("1f1724", "AA");
+        static constexpr QColor purpleGray = hexToQ("453c4d");
+        static constexpr QColor mutedPurple = hexToQ("32253d");
         static constexpr QColor winePurple = hexToQ("40063E", "C8");
         static constexpr QColor petrolBlue = hexToQ("39C6E9");
         static constexpr QColor iceWhite = hexToQ("E1E7F5");
@@ -42,6 +45,8 @@ namespace PWT::Style {
 
         [[nodiscard]] const QColor &mainWindowText() const override { return iceWhite; }
         [[nodiscard]] const QColor &mainWindowBackground() const override { return voidPurple; }
+        [[nodiscard]] const QColor &disabled() const override { return blackenedPurple; }
+        [[nodiscard]] const QColor &disabledText() const override { return purpleGray; }
         [[nodiscard]] std::string_view linkText() const override { return "#F9FAF5"; }
         [[nodiscard]] const QColor &switchButtonTrack() const override { return deeperPurple; }
         [[nodiscard]] const QColor &switchButtonTrackBorder() const override { return slateBlue; }
@@ -49,6 +54,7 @@ namespace PWT::Style {
         [[nodiscard]] const QColor &switchButtonTrackActiveBorder() const override { return deeperPurple; }
         [[nodiscard]] const QColor &switchButtonThumb() const override { return iceWhite; }
         [[nodiscard]] const QColor &switchButtonThumbBorder() const override { return slateBlue; }
+        [[nodiscard]] const QColor &switchButtonDisabled() const override { return mutedPurple; }
         [[nodiscard]] const QColor &sliderTrack() const override { return deeperPurple; }
         [[nodiscard]] const QColor &sliderTrackBorder() const override { return slateBlue; }
         [[nodiscard]] const QColor &sliderTrackActive() const override { return roseRed; }

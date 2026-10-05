@@ -33,14 +33,14 @@ namespace PWT::UI {
 
         p.setRenderHint(QPainter::Antialiasing);
         p.setPen(isFocused ? QPen(appTheme->focusBorder(), 2) : appTheme->buttonBorder());
-        p.setBrush(isHovered ? appTheme->buttonHovered() : appTheme->button());
+        p.setBrush(!isEnabled() ? appTheme->disabled() : (isHovered ? appTheme->buttonHovered() : appTheme->button()));
 
         if (isRounded)
             p.drawRoundedRect(btnRect, 5, 5);
         else
             p.drawRect(btnRect);
 
-        p.setPen(appTheme->buttonLabel());
+        p.setPen(isEnabled() ? appTheme->buttonLabel() : appTheme->disabledText());
         p.drawText(btnRect, Qt::AlignCenter, text());
     }
 

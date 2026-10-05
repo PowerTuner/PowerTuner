@@ -69,7 +69,7 @@ namespace PWT::UI {
         p.setRenderHint(QPainter::Antialiasing);
 
         p.setPen(isFocused && !isActive ? QPen(appTheme->focusBorder(), 2) : appTheme->selectComboBoxBorder());
-        p.setBrush(isActive ? appTheme->selectComboBoxActive() : appTheme->selectComboBox());
+        p.setBrush(!isEnabled() ? appTheme->disabled() : (isActive ? appTheme->selectComboBoxActive() : appTheme->selectComboBox()));
         p.drawRoundedRect(comboBox, 5, 5);
 
         p.setPen(appTheme->selectComboBoxText());

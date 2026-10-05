@@ -35,17 +35,17 @@ namespace PWT::UI {
         if (isChecked()) {
             thumb.moveLeft(trackR.right() - thumWH2);
             p.setPen(isFocused ? QPen(appTheme->focusBorderContrast(), 2) : appTheme->switchButtonTrackActiveBorder());
-            p.setBrush(appTheme->switchButtonTrackActive());
+            p.setBrush(isEnabled() ? appTheme->switchButtonTrackActive() : appTheme->switchButtonDisabled());
 
         } else {
             p.setPen(isFocused ? QPen(appTheme->focusBorder(), 2) : appTheme->switchButtonTrackBorder());
-            p.setBrush(appTheme->switchButtonTrack());
+            p.setBrush(isEnabled() ? appTheme->switchButtonTrack() : appTheme->switchButtonDisabled());
         }
 
         p.drawRoundedRect(trackR, 7, 7);
 
         p.setPen(appTheme->switchButtonThumbBorder());
-        p.setBrush(appTheme->switchButtonThumb());
+        p.setBrush(isEnabled() ? appTheme->switchButtonThumb() : appTheme->switchButtonDisabled());
         p.drawRoundedRect(thumb, 18, 18);
     }
 

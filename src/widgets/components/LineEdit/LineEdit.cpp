@@ -35,7 +35,7 @@ namespace PWT::UI {
 
         p.setRenderHint(QPainter::Antialiasing);
         p.setPen(isFocused && !isActive ? QPen(appTheme->focusBorder(), 2) : appTheme->textEditBorder());
-        p.setBrush(isActive ? appTheme->lineEditActive() : appTheme->textEdit());
+        p.setBrush(!isEnabled() ? appTheme->disabled() : (isActive ? appTheme->lineEditActive() : appTheme->textEdit()));
         p.drawRoundedRect(rect(), 5, 5);
 
         QLineEdit::paintEvent(event);

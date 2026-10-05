@@ -52,6 +52,8 @@ namespace PWT::Style {
 
         [[nodiscard]] virtual const QColor &mainWindowText() const = 0;
         [[nodiscard]] virtual const QColor &mainWindowBackground() const = 0;
+        [[nodiscard]] virtual const QColor &disabled() const = 0;
+        [[nodiscard]] virtual const QColor &disabledText() const = 0;
         [[nodiscard]] virtual std::string_view linkText() const = 0;
         [[nodiscard]] virtual const QColor &switchButtonTrack() const = 0;
         [[nodiscard]] virtual const QColor &switchButtonTrackBorder() const = 0;
@@ -59,6 +61,7 @@ namespace PWT::Style {
         [[nodiscard]] virtual const QColor &switchButtonTrackActiveBorder() const = 0;
         [[nodiscard]] virtual const QColor &switchButtonThumb() const = 0;
         [[nodiscard]] virtual const QColor &switchButtonThumbBorder() const = 0;
+        [[nodiscard]] virtual const QColor &switchButtonDisabled() const = 0;
         [[nodiscard]] virtual const QColor &sliderTrack() const = 0;
         [[nodiscard]] virtual const QColor &sliderTrackBorder() const = 0;
         [[nodiscard]] virtual const QColor &sliderTrackActive() const = 0;
