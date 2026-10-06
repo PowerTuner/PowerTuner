@@ -47,7 +47,6 @@ namespace PWT::Style {
         [[nodiscard]] const QColor &mainWindowBackground() const override { return voidPurple; }
         [[nodiscard]] const QColor &disabled() const override { return blackenedPurple; }
         [[nodiscard]] const QColor &disabledText() const override { return purpleGray; }
-        [[nodiscard]] std::string_view linkText() const override { return "#F9FAF5"; }
         [[nodiscard]] const QColor &switchButtonTrack() const override { return deeperPurple; }
         [[nodiscard]] const QColor &switchButtonTrackBorder() const override { return slateBlue; }
         [[nodiscard]] const QColor &switchButtonTrackActive() const override { return roseRed; }

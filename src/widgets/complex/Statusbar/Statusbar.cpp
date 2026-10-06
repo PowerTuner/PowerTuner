@@ -17,29 +17,34 @@
  */
 #include <QHBoxLayout>
 #include <QPainter>
-#include <QLabel>
+#include <QDesktopServices>
 
 #include "Statusbar.h"
+#include "../../components/LabelButton/LabelButton.h"
 
 namespace PWT::UI {
     using namespace Qt::StringLiterals;
 
     Statusbar::Statusbar() {
         QHBoxLayout *lyt = new QHBoxLayout();
-        QLabel *repo = new QLabel(uR"(<a style="color:%1" href="https://github.com/PowerTuner">Sources</a>)"_s.arg(appTheme->linkText()));
-        QFont barFont = font();
+        LabelButton *github = new LabelButton(u"\uf09b"_s);
+        QFont sbfont = font();
 
-        barFont.setPointSize(barFont.pointSize() - 1);
-        setFont(barFont);
-        repo->setTextFormat(Qt::RichText);
-        repo->setTextInteractionFlags(Qt::TextBrowserInteraction);
-        repo->setOpenExternalLinks(true);
+        sbfont.setPointSize(11);
+        setFont(sbfont);
         setFocusPolicy(Qt::NoFocus);
+        setToolTip(u"Sources (github)"_s);
 
         lyt->setContentsMargins(0, 0, 0, 0);
         lyt->addStretch();
-        lyt->addWidget(repo);
+        lyt->addWidget(github);
 
         setLayout(lyt);
+
+        QObject::connect(github, &LabelButton::clicked, this, &Statusbar::onRepoClicked);
+    }
+
+    void Statusbar::onRepoClicked() const {
+        QDesktopServices::openUrl(u"https://github.com/PowerTuner"_s);
     }
 }

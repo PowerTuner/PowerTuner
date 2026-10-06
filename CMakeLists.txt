@@ -89,6 +89,8 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     src/widgets/components/Scrollarea/Scrollbar.h
     src/widgets/components/Scrollarea/ScrollArea.cpp
     src/widgets/components/Scrollarea/ScrollArea.h
+    src/widgets/components/LabelButton/LabelButton.h
+    src/widgets/components/LabelButton/LabelButton.cpp
 
     src/widgets/complex/Navbar/Navbar.cpp
     src/widgets/complex/Navbar/Navbar.h

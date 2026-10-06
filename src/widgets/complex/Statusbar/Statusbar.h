@@ -22,10 +22,15 @@
 
 namespace PWT::UI {
     class Statusbar final: public QWidget {
+        Q_OBJECT
+
     private:
         const std::shared_ptr<Style::Style> appTheme = App::Settings::get().getStyle();
 
     public:
         Statusbar();
+
+    private slots:
+        void onRepoClicked() const;
     };
 }
