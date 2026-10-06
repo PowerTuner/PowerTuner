@@ -256,6 +256,11 @@ namespace PWT::UI::PAGE {
     }
 
     void ClientSettings::saveGamepadMapping() {
+        const QString id = gamepadMap->itemText(prevGamepadMapIdx);
+
+        if (id.isEmpty())
+            return;
+
         const GamepadMapping map = {
             .navbarUp = static_cast<GamepadButton>(gpNavbarUp->currentData().toInt()),
             .navbarDown = static_cast<GamepadButton>(gpNavbarDown->currentData().toInt()),
@@ -279,7 +284,7 @@ namespace PWT::UI::PAGE {
             .appComboSlot3 = static_cast<GamepadButton>(gpComboSlot3->currentData().toInt())
         };
 
-        gamepadMappings.insert_or_assign(gamepadMap->itemText(prevGamepadMapIdx), map);
+        gamepadMappings.insert_or_assign(id, map);
     }
 
     void ClientSettings::refreshDaemonList() const {
