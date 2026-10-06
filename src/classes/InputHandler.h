@@ -59,6 +59,6 @@ namespace PWT::App {
         void appFocusChange(bool focused);
         void gamepadConnected(const QString &gid);
         void gamepadDisconnected(const QString &gid);
-        void showWindow();
+        void toggleAppWindow();
     };
 }

@@ -18,6 +18,8 @@
 #pragma once
 #include <QMainWindow>
 #include <QStackedWidget>
+#include <QSystemTrayIcon>
+#include <QScopedPointer>
 
 #include "classes/Settings.h"
 #include "widgets/complex/Navbar/Navbar.h"
@@ -38,6 +40,7 @@ class MainWindow final: public QMainWindow {
 
 private:
     Ui::MainWindow *ui;
+    QScopedPointer<QSystemTrayIcon> trayIcon;
     PWT::App::Settings &appSettings = PWT::App::Settings::get();
     QStackedWidget *pages;
     PWT::UI::Navbar *navbar;
@@ -48,6 +51,10 @@ private:
     PWT::UI::PAGE::Daemons *daemons;
 
     [[nodiscard]] QString getAppDataPath() const;
+    void setTrayIcon();
+
+protected:
+    void closeEvent(QCloseEvent *event) override;
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
@@ -60,8 +67,10 @@ private slots:
     void refreshKeyPressed() const;
     void applyKeyPressed() const;
     void buttonPressed(PWT::ButtonKey key, bool gamepad) const;
-    void onShowAppWindow();
+    void onToggleAppWindow();
     void onLogSent(const QString &msg, std::source_location loc) const;
     void onActiveDaemonChanged();
     void onDaemonListChanged() const;
+    void onSettingsSaved(bool writeResult);
+    void onTrayIconClicked(QSystemTrayIcon::ActivationReason reason);
 };

@@ -93,5 +93,8 @@ namespace PWT::UI::PAGE {
     public slots:
         void onGamepadAdded(const QString &id) const;
         void onGamepadRemoved(const QString &id) const;
+
+    signals:
+        void saved(bool writeResult);
     };
 }

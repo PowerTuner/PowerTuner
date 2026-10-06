@@ -17,6 +17,8 @@
  */
 #include <QStandardPaths>
 #include <QDir>
+#include <QMenu>
+#include <QCloseEvent>
 
 #include "mainwindow.h"
 #include "../ui_mainwindow.h"
@@ -51,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
         logs->write(u"failed to load client settings, using defaults"_s);
 
     installEventFilter(inputHandler);
+    setTrayIcon();
     pal.setColor(QPalette::Window, appSettings.getStyle()->mainWindowBackground());
     pal.setColor(QPalette::WindowText, appSettings.getStyle()->mainWindowText());
     setPalette(pal);
@@ -73,10 +76,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     QObject::connect(inputHandler, &PWT::App::InputHandler::refreshKey, this, &MainWindow::refreshKeyPressed);
     QObject::connect(inputHandler, &PWT::App::InputHandler::applyKey, this, &MainWindow::applyKeyPressed);
     QObject::connect(inputHandler, &PWT::App::InputHandler::buttonPressed, this, &MainWindow::buttonPressed);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::showWindow, this, &MainWindow::onShowAppWindow);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::toggleAppWindow, this, &MainWindow::onToggleAppWindow);
     QObject::connect(inputHandler, &PWT::App::InputHandler::gamepadConnected, clientSettings, &PWT::UI::PAGE::ClientSettings::onGamepadAdded);
     QObject::connect(inputHandler, &PWT::App::InputHandler::gamepadDisconnected, clientSettings, &PWT::UI::PAGE::ClientSettings::onGamepadRemoved);
     QObject::connect(clientSettings, &PWT::UI::PAGE::ClientSettings::logSent, this, &MainWindow::onLogSent);
+    QObject::connect(clientSettings, &PWT::UI::PAGE::ClientSettings::saved, this, &MainWindow::onSettingsSaved);
     QObject::connect(daemons, &PWT::UI::PAGE::Daemons::logSent, this, &MainWindow::onLogSent);
     QObject::connect(daemons, &PWT::UI::PAGE::Daemons::activeDaemonChanged, this, &MainWindow::onActiveDaemonChanged);
     QObject::connect(daemons, &PWT::UI::PAGE::Daemons::daemonListChanged, this, &MainWindow::onDaemonListChanged);
@@ -88,6 +92,18 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+void MainWindow::closeEvent(QCloseEvent *event) {
+    event->ignore();
+
+    if (appSettings.getCloseToTray() && !trayIcon.isNull()) {
+        trayIcon->show();
+        hide();
+
+    } else {
+        QApplication::quit();
+    }
+}
+
 QString MainWindow::getAppDataPath() const {
     QString path = u"%1/PowerTuner"_s.arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
     const QDir qdir;
@@ -96,6 +112,26 @@ QString MainWindow::getAppDataPath() const {
         return "";
 
     return path;
+}
+
+void MainWindow::setTrayIcon() {
+    if (appSettings.getCloseToTray() && !trayIcon.isNull())
+        return;
+
+    if (appSettings.getCloseToTray()) {
+        QMenu *menu = new QMenu(this);
+        QAction *exitAct = new QAction(u"Exit"_s, this);
+
+        menu->addAction(exitAct);
+        trayIcon.reset(new QSystemTrayIcon(QIcon(u":/icons/tray"_s), this));
+        trayIcon->setContextMenu(menu);
+        trayIcon->hide();
+        QObject::connect(trayIcon.get(), &QSystemTrayIcon::activated, this, &MainWindow::onTrayIconClicked);
+        QObject::connect(exitAct, &QAction::triggered, this, &QApplication::quit);
+
+    } else {
+        trayIcon.reset(nullptr);
+    }
 }
 
 void MainWindow::navbarPageChanged(const int idx) const {
@@ -120,14 +156,18 @@ void MainWindow::buttonPressed(const PWT::ButtonKey key, const bool gamepad) con
     static_cast<PWT::UI::PAGE::PPage *>(pages->currentWidget())->handleButton(key, gamepad);
 }
 
-void MainWindow::onShowAppWindow() {
+void MainWindow::onToggleAppWindow() {
     if (windowState() == Qt::WindowActive && appSettings.getCloseToTray()) {
+        trayIcon->show();
         setWindowState(Qt::WindowMinimized);
-        setVisible(false);
+        hide();
 
     } else {
+        if (!trayIcon.isNull())
+            trayIcon->hide();
+
         setWindowState(Qt::WindowActive);
-        setVisible(true);
+        show();
     }
 }
 
@@ -142,4 +182,21 @@ void MainWindow::onActiveDaemonChanged() {
 
 void MainWindow::onDaemonListChanged() const {
     clientSettings->refreshDaemonList();
+}
+
+void MainWindow::onSettingsSaved(const bool writeResult) {
+    setTrayIcon();
+}
+
+void MainWindow::onTrayIconClicked(const QSystemTrayIcon::ActivationReason reason) {
+    switch (reason) {
+        case QSystemTrayIcon::Trigger: {
+            trayIcon->hide();
+            setWindowState(Qt::WindowActive);
+            show();
+        }
+            break;
+        default:
+            break;
+    }
 }

@@ -318,10 +318,14 @@ namespace PWT::UI::PAGE {
         settings.setKeyboardApply(static_cast<Qt::Key>(kbApply->currentData().toInt()));
         settings.setGamepadMappings(gamepadMappings);
 
-        if (!settings.save())
+        if (!settings.save()) {
             emit logSent(u"failed to write settings to disk"_s);
-        else
+            emit saved(false);
+
+        } else {
             emit logSent(u"settings saved successfully"_s);
+            emit saved(true);
+        }
     }
 
     void ClientSettings::onGamepadMapChanged(const QString &text) {

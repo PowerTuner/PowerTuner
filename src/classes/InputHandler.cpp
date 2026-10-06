@@ -175,6 +175,6 @@ namespace PWT::App {
         else if (button == mapping.inputMode)
             emit buttonPressed(ButtonKey::InputMode, true);
         else if (button == GamepadButton::APP_COMBO)
-            emit showWindow();
+            emit toggleAppWindow();
     }
 }
