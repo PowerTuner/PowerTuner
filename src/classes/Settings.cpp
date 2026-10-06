@@ -116,7 +116,8 @@ namespace PWT::App {
             kbScrollDown >>
             kbScrollTop >>
             kbScrollBottom >>
-            kbInputMode;
+            kbInputMode >>
+            windowState;
 
         in.close();
         loadStyle();
@@ -162,7 +163,8 @@ namespace PWT::App {
             kbScrollDown <<
             kbScrollTop <<
             kbScrollBottom <<
-            kbInputMode;
+            kbInputMode <<
+            windowState;
 
         return out.commit();
     }

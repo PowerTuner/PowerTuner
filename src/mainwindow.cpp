@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     installEventFilter(inputHandler);
     setTrayIcon();
+    setWindowState(appSettings.getWindowState());
     pal.setColor(QPalette::Window, appSettings.getStyle()->mainWindowBackground());
     pal.setColor(QPalette::WindowText, appSettings.getStyle()->mainWindowText());
     setPalette(pal);
@@ -100,6 +101,17 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         hide();
 
     } else {
+        if (appSettings.getRememberWindowState()) {
+            if (isMaximized())
+                appSettings.setWindowState(Qt::WindowMaximized);
+            else if (isFullScreen())
+                appSettings.setWindowState(Qt::WindowFullScreen);
+            else
+                appSettings.setWindowState(Qt::WindowActive);
+
+            std::ignore = appSettings.save();
+        }
+
         QApplication::quit();
     }
 }

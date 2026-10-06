@@ -54,6 +54,7 @@ namespace PWT::App {
         Qt::Key kbScrollTop = Qt::Key_F3;
         Qt::Key kbScrollBottom = Qt::Key_F4;
         Qt::Key kbInputMode = Qt::Key_Tab;
+        Qt::WindowState windowState = Qt::WindowActive;
 
         Settings();
 
@@ -89,6 +90,7 @@ namespace PWT::App {
         [[nodiscard]] Qt::Key getKeyboardScrollBottom() const { return kbScrollBottom; }
         [[nodiscard]] Qt::Key getKeyboardInputMode() const { return kbInputMode; }
         [[nodiscard]] QHash<QString, GamepadMapping> getGamepadMappings() const { return gamepadMappings; }
+        [[nodiscard]] Qt::WindowState getWindowState() const { return windowState; }
         void addDaemon(const Daemon &d) { daemonList.push_back(d); }
         void setDefaultDaemon(const int idx) { defaultDaemon = idx; }
         void setCloseToTray(const bool enable) { closeToTray = enable; }
@@ -112,6 +114,7 @@ namespace PWT::App {
         void setKeyboardScrollTop(const Qt::Key key) { kbScrollTop = key; }
         void setKeyboardScrollBottom(const Qt::Key key) { kbScrollBottom = key; }
         void setKeyboardInputMode(const Qt::Key key) { kbInputMode = key; }
+        void setWindowState(const Qt::WindowState state) { windowState = state; }
 
         [[nodiscard]] static Settings &get();
         void setPath(const QString &diskPath);
