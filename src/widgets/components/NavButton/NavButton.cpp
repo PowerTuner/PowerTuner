@@ -20,7 +20,13 @@
 #include "NavButton.h"
 
 namespace PWT::UI {
+    using namespace Qt::StringLiterals;
+
     NavButton::NavButton(const QString &title, const QString &icon) {
+        QFont nvFont = font();
+
+        nvFont.setFamily(u"Font Awesome 7 Free Solid"_s);
+        setFont(nvFont);
         setText(icon);
         setToolTip(title);
         setFixedSize(btnWH, btnWH);
