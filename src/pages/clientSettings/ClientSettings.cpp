@@ -128,7 +128,6 @@ namespace PWT::UI::PAGE {
         quitBehavior->addItems({u"Quit"_s, u"Tray"_s});
         delGamepadMap->setFixedWidth(50);
 
-        gamepadSelLyt->addWidget(new QLabel(u"Gamepad"_s));
         gamepadSelLyt->addStretch();
         gamepadSelLyt->addWidget(gamepadStatus);
         gamepadSelLyt->addWidget(gamepadMap);
@@ -185,7 +184,7 @@ namespace PWT::UI::PAGE {
         lyt->addLayout(makeHItem(u"Application shortcut key 2"_s, gpComboSlot2));
         lyt->addLayout(makeHItem(u"Application shortcut key 3"_s, gpComboSlot3));
         lyt->addStretch();
-        lyt->addSpacing(12);
+        lyt->addSpacing(20);
         lyt->addLayout(applyBtnLyt);
 
         setFocusPolicy(Qt::NoFocus);
