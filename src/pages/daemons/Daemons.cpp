@@ -19,7 +19,6 @@
 
 #include "Daemons.h"
 #include "../../widgets/components/Button/Button.h"
-#include "../../widgets/pages/Title/Title.h"
 #include "../PageUtils.h"
 
 namespace PWT::UI::PAGE {
@@ -56,11 +55,11 @@ namespace PWT::UI::PAGE {
 
         lyt->addLayout(makeHItem(u"Active daemon"_s, activeDaemon));
         lyt->addSpacing(10);
-        lyt->addWidget(new Title(u"\uf055 Add daemon"_s));
+        lyt->addLayout(makeTitle(u"Add daemon"_s, u"\uf055"_s));
         lyt->addLayout(addLyt);
         lyt->addSpacing(6);
         lyt->addLayout(addBtnLyt);
-        lyt->addWidget(new Title(u"\uf6d5 Daemons"_s));
+        lyt->addLayout(makeTitle(u"Daemons"_s, u"\uf6d5"_s));
         lyt->addLayout(daemonListLyt);
         lyt->addStretch();
         collectPageInputs(lyt);

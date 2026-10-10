@@ -21,4 +21,5 @@
 namespace PWT::UI::PAGE {
     [[nodiscard]] QHBoxLayout *makeHItem(const QString &label, QWidget *widget);
     [[nodiscard]] QVBoxLayout *makeVItem(const QString &label, QWidget *widget);
+    [[nodiscard]] QHBoxLayout *makeTitle(const QString &title, const QString &icon);
 }

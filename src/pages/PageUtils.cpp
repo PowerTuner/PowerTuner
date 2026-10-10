@@ -18,6 +18,7 @@
 #include <QLabel>
 
 #include "PageUtils.h"
+#include "../widgets/pages/Title/Title.h"
 
 namespace PWT::UI::PAGE {
     QHBoxLayout *makeHItem(const QString &label, QWidget *widget) {
@@ -37,5 +38,14 @@ namespace PWT::UI::PAGE {
         vlyt->addWidget(widget);
 
         return vlyt;
+    }
+
+    QHBoxLayout *makeTitle(const QString &title, const QString &icon) {
+        QHBoxLayout *lyt = new QHBoxLayout();
+
+        lyt->addWidget(new Title(title, icon));
+        lyt->addStretch();
+
+        return lyt;
     }
 }

@@ -15,34 +15,46 @@
   * You should have received a copy of the GNU General Public License
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <QHBoxLayout>
 #include <QPainter>
-#include <QFontMetrics>
+#include <QLabel>
 
 #include "Title.h"
 
 namespace PWT::UI {
-    Title::Title(const QString &text): QLabel(text) {
-        QFont lfont = font();
+    using namespace Qt::StringLiterals;
 
+    Title::Title(const QString &text, const QString &icon) {
+        QHBoxLayout *lyt = new QHBoxLayout();
+        QLabel *icn = new QLabel(icon);
+        QLabel *lbl = new QLabel(text);
+        QFont lfont = font();
+        QFont icfont = font();
+        QPalette pal = palette();
+
+        pal.setColor(QPalette::WindowText, appTheme->titleText());
         lfont.setBold(true);
         lfont.setWeight(QFont::ExtraBold);
         lfont.setPointSize(lfont.pointSize() + 6);
-        setFont(lfont);
-        setContentsMargins(0, 5, 0, 5);
+        lbl->setFont(lfont);
+        icfont.setPointSize(icfont.pointSize() + 6);
+        icfont.setFamily(u"Font Awesome 7 Free"_s);
+        icn->setFont(icfont);
+
+        lyt->addWidget(icn);
+        lyt->addWidget(lbl);
+
+        setPalette(pal);
+        setLayout(lyt);
     }
 
     void Title::paintEvent(QPaintEvent *) {
-        const QRect textRect = QFontMetrics(font()).boundingRect(text());
-        const QRect bgRect {2, 0, textRect.width() + 35, textRect.height() + 4};
         QPainter p(this);
 
         p.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
         p.setPen(appTheme->titleBackground());
         p.setBrush(appTheme->titleBackground());
-        p.drawRoundedRect(bgRect, 20, 20);
-
-        p.setPen(appTheme->titleText());
-        p.drawText(bgRect, Qt::AlignCenter, text());
+        p.drawRoundedRect(rect(), 20, 20);
     }
 }

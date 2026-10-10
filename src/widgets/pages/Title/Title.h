@@ -16,12 +16,12 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <QLabel>
+#include <QWidget>
 
 #include "../../../classes/Settings.h"
 
 namespace PWT::UI {
-    class Title final: public QLabel {
+    class Title final: public QWidget {
     private:
         const std::shared_ptr<Style::Style> appTheme = App::Settings::get().getStyle();
 
@@ -29,6 +29,6 @@ namespace PWT::UI {
         void paintEvent(QPaintEvent *) override;
 
     public:
-        explicit Title(const QString &text);
+        Title(const QString &text, const QString &icon);
     };
 }

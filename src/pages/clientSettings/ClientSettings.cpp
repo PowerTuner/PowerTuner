@@ -18,7 +18,6 @@
 #include <QMetaEnum>
 
 #include "ClientSettings.h"
-#include "../../widgets/pages/Title/Title.h"
 #include "../../widgets/components/Button/Button.h"
 #include "../../include/keyMap.h"
 #include "../../include/GamepadButtonMap.h"
@@ -137,14 +136,14 @@ namespace PWT::UI::PAGE {
         applyBtnLyt->addStretch();
         applyBtnLyt->addWidget(applyBtn);
         lyt->setSpacing(12);
-        lyt->addWidget(new Title(u"\uf2d0 Application"_s));
+        lyt->addLayout(makeTitle(u"Application"_s, u"\uf2d0"_s));
         lyt->addLayout(makeHItem(u"Default daemon"_s, defaultDaemon));
         lyt->addLayout(makeHItem(u"Quit behavior"_s, quitBehavior));
         lyt->addLayout(makeHItem(u"Remember window state"_s, rememberWindowState));
         lyt->addLayout(makeHItem(u"Run at startup"_s, startup));
         lyt->addLayout(makeHItem(u"Theme"_s, theme));
         lyt->addSpacing(6);
-        lyt->addWidget(new Title(u"\uf11c Keyboard mapping"_s));
+        lyt->addLayout(makeTitle(u"Keyboard mapping"_s, u"\uf11c"_s));
         lyt->addLayout(makeHItem(u"Up"_s, kbUp));
         lyt->addLayout(makeHItem(u"Down"_s, kbDown));
         lyt->addLayout(makeHItem(u"Left"_s, kbLeft));
@@ -163,7 +162,7 @@ namespace PWT::UI::PAGE {
         lyt->addLayout(makeHItem(u"Refresh"_s, kbRefresh));
         lyt->addLayout(makeHItem(u"Apply"_s, kbApply));
         lyt->addSpacing(6);
-        lyt->addWidget(new Title(u"\uf11b Gamepad mapping"_s));
+        lyt->addLayout(makeTitle(u"Gamepad mapping"_s, u"\uf11b"_s));
         lyt->addLayout(gamepadSelLyt);
         lyt->addLayout(makeHItem(u"Up"_s, gpUp));
         lyt->addLayout(makeHItem(u"Down"_s, gpDown));

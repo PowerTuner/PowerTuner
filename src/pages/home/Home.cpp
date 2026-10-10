@@ -16,7 +16,7 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "Home.h"
-#include "../../widgets/pages/Title/Title.h"
+#include "../PageUtils.h"
 
 namespace PWT::UI::PAGE {
     using namespace Qt::StringLiterals;
@@ -47,7 +47,7 @@ namespace PWT::UI::PAGE {
         cpuL2Cache = new Label(u"L2 cache"_s, noValue);
         cpuL3Cache = new Label(u"L3 cache"_s, noValue);
 
-        lyt->addWidget(new Title(u"\ue4e5 Device"_s));
+        lyt->addLayout(makeTitle(u"Device"_s, u"\ue4e5"_s));
         lyt->addWidget(product);
         lyt->addWidget(manufacturer);
         lyt->addWidget(os);
@@ -58,7 +58,7 @@ namespace PWT::UI::PAGE {
         lyt->addWidget(biosDate);
         lyt->addWidget(ram);
         lyt->addSpacing(14);
-        lyt->addWidget(new Title(u"\uf2db CPU"_s));
+        lyt->addLayout(makeTitle(u"CPU"_s, u"\uf2db"_s));
         lyt->addWidget(cpuBrand);
         lyt->addWidget(cpuCodename);
         lyt->addWidget(cpuTechNode);
