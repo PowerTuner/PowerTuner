@@ -23,20 +23,30 @@
 
 using namespace Qt::StringLiterals;
 
-int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
-    MainWindow w;
-    QFont font = w.font();
+[[nodiscard]]
+static QFont loadFonts() {
+    const int notoSans = QFontDatabase::addApplicationFont(u":/fonts/noto-sans-regular"_s);
+    QFont font;
 
-    QApplication::setQuitOnLastWindowClosed(false);
     QFontDatabase::addApplicationFont(u":/fonts/fontawesome-solid"_s);
     QFontDatabase::addApplicationFont(u":/fonts/fontawesome-brands"_s);
+
+    font.setFamilies(QFontDatabase::applicationFontFamilies(notoSans));
     font.setPointSize(14);
     font.setWeight(QFont::Medium);
 
+    QApplication::setFont(font);
+    return font;
+}
+
+int main(int argc, char *argv[]) {
+    QApplication a(argc, argv);
+    MainWindow w;
+
+    QApplication::setQuitOnLastWindowClosed(false);
+    w.setFont(loadFonts());
     w.setWindowTitle(u"PowerTuner %1.%2"_s.arg(VER_MAJOR).arg(VER_MINOR));
     w.resize(1024, 600);
-    w.setFont(font);
     w.show();
 
     return QApplication::exec();
