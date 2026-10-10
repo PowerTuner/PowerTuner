@@ -4,3 +4,6 @@
 [submodule "src/extern/SDL_GameControllerDB"]
 	path = src/extern/SDL_GameControllerDB
 	url = https://github.com/mdqinc/SDL_GameControllerDB
+[submodule "src/extern/libPWTWin32"]
+	path = src/extern/libPWTWin32
+	url = https://github.com/PowerTuner/libPWTWin32
