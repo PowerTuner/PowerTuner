@@ -6,6 +6,8 @@ include(CheckIPOSupported)
 set(PROJECT_AUTHOR "kylon")
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(OS_SRC "")
+set(OS_LIBS "")
 
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
 
@@ -41,12 +43,32 @@ set(SDL_UNIX_CONSOLE_BUILD ON)
 add_subdirectory(src/extern/SDL EXCLUDE_FROM_ALL)
 set_property(TARGET SDL3-static PROPERTY POSITION_INDEPENDENT_CODE ON)
 
+if (LINUX)
+    list(APPEND OS_SRC
+        src/classes/StartupLinux.cpp
+        src/classes/StartupLinux.h
+    )
+elseif (WIN32)
+    add_subdirectory(src/extern/libPWTWin32)
+
+    list(APPEND OS_SRC
+        src/classes/StartupWindows.cpp
+        src/classes/StartupWindows.h
+    )
+
+    list(APPEND OS_LIBS
+        PWT::WIN32
+    )
+endif ()
+
 qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     mainwindow.ui
 
     src/main.cpp
     src/mainwindow.cpp
     src/mainwindow.h
+    src/Factories.cpp
+    src/Factories.h
 
     src/styles/StyleType.h
     src/styles/Style.h
@@ -65,6 +87,7 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     src/classes/InputHandler.h
     src/classes/GamepadWorker.cpp
     src/classes/GamepadWorker.h
+    src/classes/Startup.h
 
     src/widgets/components/PInputItem.h
     src/widgets/components/Switch/SwitchButton.cpp
@@ -117,9 +140,11 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     src/pages/clientSettings/ClientSettings.h
     src/pages/daemons/Daemons.cpp
     src/pages/daemons/Daemons.h
+
+    ${OS_SRC}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt::Core Qt::Widgets SDL3::SDL3)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt::Core Qt::Widgets SDL3::SDL3 ${OS_LIBS})
 
 check_ipo_supported(RESULT has_ipo OUTPUT ipo_error)
 if (has_ipo)

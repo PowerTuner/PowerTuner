@@ -17,6 +17,8 @@
  */
 #include <QApplication>
 #include <QFontDatabase>
+#include <QCommandLineParser>
+#include <QCloseEvent>
 
 #include "mainwindow.h"
 #include "../version.h"
@@ -40,14 +42,25 @@ static QFont loadFonts() {
 }
 
 int main(int argc, char *argv[]) {
+    const QCommandLineOption sOpt {u"s"_s, u"start minimized"_s};
     QApplication a(argc, argv);
+    QCommandLineParser cmdParser;
     MainWindow w;
 
     QApplication::setQuitOnLastWindowClosed(false);
     w.setFont(loadFonts());
     w.setWindowTitle(u"PowerTuner %1.%2"_s.arg(VER_MAJOR).arg(VER_MINOR));
     w.resize(1024, 600);
-    w.show();
+    cmdParser.addOption(sOpt);
+    cmdParser.process(a);
+
+    if (cmdParser.isSet(u"s"_s)) {
+        QCloseEvent evt{};
+        QCoreApplication::sendEvent(&w, &evt);
+
+    } else {
+        w.show();
+    }
 
     return QApplication::exec();
 }

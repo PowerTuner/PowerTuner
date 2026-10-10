@@ -52,6 +52,7 @@ private:
 
     [[nodiscard]] QString getAppDataPath() const;
     void setTrayIcon();
+    void setStartup() const;
 
 protected:
     void closeEvent(QCloseEvent *event) override;

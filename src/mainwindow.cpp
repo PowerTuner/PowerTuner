@@ -23,6 +23,7 @@
 #include "mainwindow.h"
 #include "../ui_mainwindow.h"
 #include "classes/InputHandler.h"
+#include "Factories.h"
 
 using namespace Qt::StringLiterals;
 
@@ -37,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     QVBoxLayout *windowLyt = new QVBoxLayout();
     QHBoxLayout *mainLyt = new QHBoxLayout();
     PWT::App::InputHandler *inputHandler = new PWT::App::InputHandler(this);
+    PWT::App::Startup &startup = PWT::startupFactory();
     QPalette pal = palette();
 
     navbar = new PWT::UI::Navbar();
@@ -85,6 +87,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     QObject::connect(daemons, &PWT::UI::PAGE::Daemons::logSent, this, &MainWindow::onLogSent);
     QObject::connect(daemons, &PWT::UI::PAGE::Daemons::activeDaemonChanged, this, &MainWindow::onActiveDaemonChanged);
     QObject::connect(daemons, &PWT::UI::PAGE::Daemons::daemonListChanged, this, &MainWindow::onDaemonListChanged);
+    QObject::connect(&startup, &PWT::App::Startup::logSent, this, &MainWindow::onLogSent);
 
     inputHandler->startGamepadThread();
 }
@@ -146,6 +149,18 @@ void MainWindow::setTrayIcon() {
     }
 }
 
+void MainWindow::setStartup() const {
+    PWT::App::Startup &startup = PWT::startupFactory();
+
+    if (appSettings.getRunAtStartup()) {
+        if (!startup.set())
+            logs->write(u"failed to create startup shortcut"_s);
+
+    } else if (!startup.unset()) {
+        logs->write(u"failed to remove startup shortcut"_s);
+    }
+}
+
 void MainWindow::navbarPageChanged(const int idx) const {
     pages->setCurrentIndex(idx);
 }
@@ -198,6 +213,10 @@ void MainWindow::onDaemonListChanged() const {
 
 void MainWindow::onSettingsSaved(const bool writeResult) {
     setTrayIcon();
+
+    if (writeResult) {
+        setStartup();
+    }
 }
 
 void MainWindow::onTrayIconClicked(const QSystemTrayIcon::ActivationReason reason) {
