@@ -20,6 +20,15 @@
 #include "LabelButton.h"
 
 namespace PWT::UI {
+    using namespace Qt::StringLiterals;
+
+    LabelButton::LabelButton(const QString& text): QLabel(text) {
+        QFont lFont = font();
+
+        lFont.setFamily(u"Font Awesome 7 Free"_s);
+        setFont(lFont);
+    }
+
     void LabelButton::mouseReleaseEvent(QMouseEvent *event) {
         if (event->button() == Qt::LeftButton)
             emit clicked();

@@ -28,7 +28,7 @@ namespace PWT::UI {
         void leaveEvent(QEvent *) override;
 
     public:
-        explicit LabelButton(const QString &text): QLabel(text) {}
+        explicit LabelButton(const QString &text);
 
     signals:
         void clicked();
