@@ -65,10 +65,10 @@ namespace PWT::App {
         gamepadWorker->moveToThread(gamepadThread);
 
         QObject::connect(gamepadThread, &QThread::started, gamepadWorker, &GamepadWorker::startSDLEventsThread);
-        QObject::connect(gamepadWorker, &GamepadWorker::logSent, this, &InputHandler::onLogSent);
+        QObject::connect(gamepadWorker, &GamepadWorker::logSent, this, &InputHandler::logSent);
         QObject::connect(gamepadWorker, &GamepadWorker::initFail, this, &InputHandler::onSDLInitFail);
-        QObject::connect(gamepadWorker, &GamepadWorker::gamepadConnected, this, &InputHandler::onGamepadConnected);
-        QObject::connect(gamepadWorker, &GamepadWorker::gamepadDisconnected, this, &InputHandler::onGamepadDisconnected);
+        QObject::connect(gamepadWorker, &GamepadWorker::gamepadConnected, this, &InputHandler::gamepadConnected);
+        QObject::connect(gamepadWorker, &GamepadWorker::gamepadDisconnected, this, &InputHandler::gamepadDisconnected);
         QObject::connect(gamepadWorker, &GamepadWorker::gamepadButton, this, &InputHandler::onGamepadButton);
         QObject::connect(this, &InputHandler::appFocusChange, gamepadWorker, &GamepadWorker::focusChange);
 
@@ -115,10 +115,6 @@ namespace PWT::App {
             emit buttonPressed(ButtonKey::ScrollDown, false);
     }
 
-    void InputHandler::onLogSent(const QString &msg, const std::source_location loc) {
-        emit logSent(msg, loc);
-    }
-
     void InputHandler::onSDLInitFail() {
         gamepadThread->quit();
         gamepadThread->wait();
@@ -127,14 +123,6 @@ namespace PWT::App {
 
         gamepadThread = nullptr;
         gamepadWorker = nullptr;
-    }
-
-    void InputHandler::onGamepadConnected(const QString &gid) {
-        emit gamepadConnected(gid);
-    }
-
-    void InputHandler::onGamepadDisconnected(const QString &gid) {
-        emit gamepadDisconnected(gid);
     }
 
     void InputHandler::onGamepadButton(const QString &gid, const GamepadButton button) {

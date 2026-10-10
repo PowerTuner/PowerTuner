@@ -43,10 +43,7 @@ namespace PWT::App {
         void startGamepadThread();
 
     private slots:
-        void onLogSent(const QString &msg, std::source_location loc);
         void onSDLInitFail();
-        void onGamepadConnected(const QString &gid);
-        void onGamepadDisconnected(const QString &gid);
         void onGamepadButton(const QString &gid, GamepadButton button);
 
     signals:
