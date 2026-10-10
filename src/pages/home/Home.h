@@ -24,7 +24,6 @@ namespace PWT::UI::PAGE {
         Q_OBJECT
 
     private:
-        static inline const QString noValue = "-";
         Label *product;
         Label *manufacturer;
         Label *os;

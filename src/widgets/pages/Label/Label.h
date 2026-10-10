@@ -18,11 +18,16 @@
 
  */
 #pragma once
-#include <QWidget>
+#include <QLabel>
 
 namespace PWT::UI {
     class Label final: public QWidget {
+    private:
+        QLabel *lbl;
+
     public:
-        Label(const QString &title, const QString &text);
+        explicit Label(const QString &title, const QString &text = "");
+
+        void setText(const QString &text = "") const;
     };
 }

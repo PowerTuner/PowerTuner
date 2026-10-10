@@ -16,18 +16,25 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <QHBoxLayout>
-#include <QLabel>
 
 #include "Label.h"
 
 namespace PWT::UI {
+    using namespace Qt::StringLiterals;
+
     Label::Label(const QString &title, const QString &text) {
         QHBoxLayout *lyt = new QHBoxLayout();
 
+        lbl = new QLabel(text.isEmpty() ? u"-"_s : text);
+
         lyt->addWidget(new QLabel(title));
         lyt->addStretch();
-        lyt->addWidget(new QLabel(text));
+        lyt->addWidget(lbl);
 
         setLayout(lyt);
+    }
+
+    void Label::setText(const QString &text) const {
+        lbl->setText(text.isEmpty() ? u"-"_s : text);
     }
 }
