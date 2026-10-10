@@ -131,7 +131,7 @@ namespace PWT::UI::PAGE {
         emit daemonListChanged();
     }
 
-    void Daemons::onActiveDaemonChanged() {
+    void Daemons::onActiveDaemonChanged(const int) {
         emit activeDaemonChanged();
     }
 }

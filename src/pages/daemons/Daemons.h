@@ -42,7 +42,7 @@ namespace PWT::UI::PAGE {
     private slots:
         void onAddDaemonClicked();
         void onDeleteDaemonClicked();
-        void onActiveDaemonChanged();
+        void onActiveDaemonChanged(int);
 
     signals:
         void activeDaemonChanged();
