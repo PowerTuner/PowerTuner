@@ -32,6 +32,7 @@ namespace PWT::UI::PAGE {
         Button *delGamepadMap = new Button(u"\uf1f8"_s);
         Button *reloadSdlDb = new Button(u"Reload SDL database"_s);
         Button *applyBtn = new Button(u"Apply"_s);
+        QFont iconFont = font();
 
         defaultDaemon = new Select();
         quitBehavior = new Select();
@@ -127,7 +128,9 @@ namespace PWT::UI::PAGE {
             gpComboSlot3->addItem(label, static_cast<int>(button));
         }
 
+        iconFont.setFamily(u"Font Awesome 7 Free"_s);
         quitBehavior->addItems({u"Quit"_s, u"Tray"_s});
+        gamepadStatus->setFont(iconFont);
         delGamepadMap->setFixedWidth(50);
 
         gamepadSelLyt->addStretch();
