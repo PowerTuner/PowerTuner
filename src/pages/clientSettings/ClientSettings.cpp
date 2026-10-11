@@ -27,8 +27,10 @@ namespace PWT::UI::PAGE {
     ClientSettings::ClientSettings() {
         QHBoxLayout *applyBtnLyt = new QHBoxLayout();
         QHBoxLayout *gamepadSelLyt = new QHBoxLayout();
+        QHBoxLayout *reloadSdlDbLyt = new QHBoxLayout();
         const QMetaEnum styleEnumMeta = QMetaEnum::fromType<Style::StyleType>();
         Button *delGamepadMap = new Button(u"\uf1f8"_s);
+        Button *reloadSdlDb = new Button(u"Reload SDL database"_s);
         Button *applyBtn = new Button(u"Apply"_s);
 
         defaultDaemon = new Select();
@@ -132,6 +134,8 @@ namespace PWT::UI::PAGE {
         gamepadSelLyt->addWidget(gamepadStatus);
         gamepadSelLyt->addWidget(gamepadMap);
         gamepadSelLyt->addWidget(delGamepadMap);
+        reloadSdlDbLyt->addStretch();
+        reloadSdlDbLyt->addWidget(reloadSdlDb);
         applyBtnLyt->addStretch();
         applyBtnLyt->addWidget(applyBtn);
         lyt->setSpacing(12);
@@ -183,6 +187,7 @@ namespace PWT::UI::PAGE {
         lyt->addLayout(makeHItem(u"Application shortcut key 1"_s, gpComboSlot1));
         lyt->addLayout(makeHItem(u"Application shortcut key 2"_s, gpComboSlot2));
         lyt->addLayout(makeHItem(u"Application shortcut key 3"_s, gpComboSlot3));
+        lyt->addLayout(reloadSdlDbLyt);
         lyt->addStretch();
         lyt->addSpacing(20);
         lyt->addLayout(applyBtnLyt);
@@ -194,6 +199,7 @@ namespace PWT::UI::PAGE {
 
         QObject::connect(gamepadMap, &Select::currentTextChanged, this, &ClientSettings::onGamepadMapChanged);
         QObject::connect(delGamepadMap, &Button::clicked, this, &ClientSettings::onGamepadMapDeleted);
+        QObject::connect(reloadSdlDb, &Button::clicked, this, &ClientSettings::reloadSDLDB);
         QObject::connect(applyBtn, &Button::clicked, this, &ClientSettings::onApplyClicked);
     }
 

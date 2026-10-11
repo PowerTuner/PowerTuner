@@ -31,12 +31,13 @@ namespace PWT::App {
         Settings &appSettings = Settings::get();
         GamepadWorker *gamepadWorker = nullptr;
         QThread *gamepadThread = nullptr;
+        QString appDataPath;
 
         void handleKeyboardReleaseKey(Qt::Key key);
         void handleKeyboardPressKey(Qt::Key key);
 
     public:
-        explicit InputHandler(QObject *parent);
+        InputHandler(QObject *parent, const QString &dataPath);
         ~InputHandler() override;
 
         bool eventFilter(QObject *watched, QEvent *event) override;
@@ -45,6 +46,9 @@ namespace PWT::App {
     private slots:
         void onSDLInitFail();
         void onGamepadButton(const QString &gid, GamepadButton button);
+
+    public slots:
+        void loadSDLDB();
 
     signals:
         void logSent(const QString &msg, std::source_location loc = std::source_location::current());

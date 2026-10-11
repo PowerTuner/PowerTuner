@@ -424,6 +424,8 @@ namespace PWT::App {
             return;
         }
 
+        emit initOk();
+
         while (!QThread::currentThread()->isInterruptionRequested()) {
             SDL_Event evt;
 

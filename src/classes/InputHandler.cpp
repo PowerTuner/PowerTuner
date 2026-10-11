@@ -16,11 +16,16 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <QKeyEvent>
+#include <QFile>
 
 #include "InputHandler.h"
 
 namespace PWT::App {
-    InputHandler::InputHandler(QObject *parent): QObject(parent) {}
+    using namespace Qt::StringLiterals;
+
+    InputHandler::InputHandler(QObject *parent, const QString &dataPath): QObject(parent) {
+        appDataPath = dataPath;
+    }
 
     InputHandler::~InputHandler() {
         if (gamepadThread != nullptr) {
@@ -66,6 +71,7 @@ namespace PWT::App {
 
         QObject::connect(gamepadThread, &QThread::started, gamepadWorker, &GamepadWorker::startSDLEventsThread);
         QObject::connect(gamepadWorker, &GamepadWorker::logSent, this, &InputHandler::logSent);
+        QObject::connect(gamepadWorker, &GamepadWorker::initOk, this, &InputHandler::loadSDLDB);
         QObject::connect(gamepadWorker, &GamepadWorker::initFail, this, &InputHandler::onSDLInitFail);
         QObject::connect(gamepadWorker, &GamepadWorker::gamepadConnected, this, &InputHandler::gamepadConnected);
         QObject::connect(gamepadWorker, &GamepadWorker::gamepadDisconnected, this, &InputHandler::gamepadDisconnected);
@@ -113,6 +119,40 @@ namespace PWT::App {
             emit buttonPressed(ButtonKey::ScrollUp, false);
         else if (key == appSettings.getKeyboardScrollDown())
             emit buttonPressed(ButtonKey::ScrollDown, false);
+    }
+
+    void InputHandler::loadSDLDB() {
+        if (appDataPath.isEmpty())
+            return;
+
+        const QString dbPath = u"%1/sdl_gamepad_db.txt"_s.arg(appDataPath);
+        QFile dbF(dbPath);
+        int count;
+
+        if (!dbF.exists()) {
+            QFile builtinDB(u":/sdl/db"_s);
+
+            if (!dbF.open(QFile::WriteOnly | QFile::Text) || !builtinDB.open(QFile::ReadOnly | QFile::Text)) {
+                emit logSent(u"failed to open gamepad mappings db"_s);
+                return;
+            }
+
+            if (dbF.write(builtinDB.readAll()) == -1) {
+                emit logSent(u"failed to extract gamepad mappings db"_s);
+                return;
+            }
+
+            dbF.flush();
+            dbF.close();
+            builtinDB.close();
+        }
+
+        count = SDL_AddGamepadMappingsFromFile(dbPath.toStdString().c_str());
+
+        if (count == -1)
+            emit logSent(u"failed to load gamepad mappings"_s);
+        else
+            emit logSent(u"%1 SDL gamepad mappings loaded"_s.arg(count));
     }
 
     void InputHandler::onSDLInitFail() {

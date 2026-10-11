@@ -66,6 +66,7 @@ namespace PWT::App {
 
     signals:
         void logSent(const QString &msg, std::source_location loc = std::source_location::current());
+        void initOk();
         void initFail();
         void gamepadConnected(const QString &gamepadID);
         void gamepadDisconnected(const QString &gamepadID);

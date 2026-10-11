@@ -95,6 +95,7 @@ namespace PWT::UI::PAGE {
         void onGamepadRemoved(const QString &id) const;
 
     signals:
+        void reloadSDLDB();
         void saved(bool writeResult);
     };
 }

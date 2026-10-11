@@ -35,10 +35,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     appSettings.setPath(dataPath);
 
     const bool isDefaultSettings = !appSettings.load();
+    const PWT::App::Startup &startup = PWT::startupFactory();
     QVBoxLayout *windowLyt = new QVBoxLayout();
     QHBoxLayout *mainLyt = new QHBoxLayout();
-    PWT::App::InputHandler *inputHandler = new PWT::App::InputHandler(this);
-    PWT::App::Startup &startup = PWT::startupFactory();
+    PWT::App::InputHandler *inputHandler = new PWT::App::InputHandler(this, dataPath);
     QPalette pal = palette();
 
     navbar = new PWT::UI::Navbar();
@@ -83,6 +83,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     QObject::connect(inputHandler, &PWT::App::InputHandler::gamepadConnected, clientSettings, &PWT::UI::PAGE::ClientSettings::onGamepadAdded);
     QObject::connect(inputHandler, &PWT::App::InputHandler::gamepadDisconnected, clientSettings, &PWT::UI::PAGE::ClientSettings::onGamepadRemoved);
     QObject::connect(clientSettings, &PWT::UI::PAGE::ClientSettings::logSent, this, &MainWindow::onLogSent);
+    QObject::connect(clientSettings, &PWT::UI::PAGE::ClientSettings::reloadSDLDB, inputHandler, &PWT::App::InputHandler::loadSDLDB);
     QObject::connect(clientSettings, &PWT::UI::PAGE::ClientSettings::saved, this, &MainWindow::onSettingsSaved);
     QObject::connect(daemons, &PWT::UI::PAGE::Daemons::logSent, this, &MainWindow::onLogSent);
     QObject::connect(daemons, &PWT::UI::PAGE::Daemons::activeDaemonChanged, this, &MainWindow::onActiveDaemonChanged);
