@@ -50,6 +50,7 @@ int main(int argc, char *argv[]) {
     QApplication::setQuitOnLastWindowClosed(false);
     w.setFont(loadFonts());
     w.setWindowTitle(u"PowerTuner %1.%2"_s.arg(VER_MAJOR).arg(VER_MINOR));
+    w.setWindowIcon(QIcon(u":/icons/icon"_s));
     w.resize(1024, 600);
     cmdParser.addOption(sOpt);
     cmdParser.process(a);

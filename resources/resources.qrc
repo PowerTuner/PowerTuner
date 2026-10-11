@@ -25,6 +25,7 @@
         <file alias="db">../src/extern/SDL_GameControllerDB/gamecontrollerdb.txt</file>
     </qresource>
     <qresource prefix="/icons">
+        <file alias="icon">icons/icon.png</file>
         <file alias="tray">icons/trayicon.jpg</file>
     </qresource>
 </RCC>
