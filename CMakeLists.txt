@@ -49,11 +49,14 @@ if (LINUX)
         src/classes/StartupLinux.h
     )
 elseif (WIN32)
+    configure_file(resources/cmake/windows/win.rc.in ${CMAKE_CURRENT_SOURCE_DIR}/win.rc)
     add_subdirectory(src/extern/libPWTWin32)
 
     list(APPEND OS_SRC
         src/classes/StartupWindows.cpp
         src/classes/StartupWindows.h
+
+        win.rc
     )
 
     list(APPEND OS_LIBS
