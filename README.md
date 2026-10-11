@@ -59,4 +59,12 @@ Qt hybrid desktop/handheld client for [PowerTunerDaemon](https://github.com/Powe
 
 ---
 
+### SDL game controller db override
+
+The controller db can be found in Powertuner data folder, which is logged when you run the client.  
+If no db exists, run the client once, to extract it to disk, or create it yourself.  
+Restart the client, or go to **settings** -> **Reload SDL database**, to load the new db.
+
+---
+
 image generator tool was used for tray and app icons
