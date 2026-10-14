@@ -330,7 +330,7 @@ namespace PWT::App {
                             repeatTimer->invalidate();
                         else if (axisState.leftX > 0)
                             setHeldButton(it->second, GamepadButton::ANALOG_LEFT_RIGHT);
-                        else
+                        else if (axisState.leftX < 0)
                             setHeldButton(it->second, GamepadButton::ANALOG_LEFT_LEFT);
                     }
                         break;
@@ -345,7 +345,7 @@ namespace PWT::App {
                             repeatTimer->invalidate();
                         else if (axisState.leftY > 0)
                             setHeldButton(it->second, GamepadButton::ANALOG_LEFT_DOWN);
-                        else
+                        else if (axisState.leftY < 0)
                             setHeldButton(it->second, GamepadButton::ANALOG_LEFT_UP);
                     }
                         break;
@@ -360,7 +360,7 @@ namespace PWT::App {
                             repeatTimer->invalidate();
                         else if (axisState.rightX > 0)
                             setHeldButton(it->second, GamepadButton::ANALOG_RIGHT_RIGHT);
-                        else
+                        else if (axisState.rightX < 0)
                             setHeldButton(it->second, GamepadButton::ANALOG_RIGHT_LEFT);
                     }
                         break;
@@ -375,7 +375,7 @@ namespace PWT::App {
                             repeatTimer->invalidate();
                         else if (axisState.rightY > 0)
                             setHeldButton(it->second, GamepadButton::ANALOG_RIGHT_DOWN);
-                        else
+                        else if (axisState.rightY < 0)
                             setHeldButton(it->second, GamepadButton::ANALOG_RIGHT_UP);
                     }
                         break;

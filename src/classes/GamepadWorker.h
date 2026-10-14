@@ -38,7 +38,7 @@ namespace PWT::App {
         };
 
         static constexpr int repeatTimeout = 280;
-        static constexpr int axisMax = (SDL_JOYSTICK_AXIS_MAX * 90) / 100;
+        static constexpr int axisMax = (SDL_JOYSTICK_AXIS_MAX * 70) / 100;
         Settings &appSettings = Settings::get();
         QHash<SDL_JoystickID, std::pair<SDL_Gamepad *, QString>> gamepadsMap;
         std::pair<QString, GamepadButton> heldButton;
