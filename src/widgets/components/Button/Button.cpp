@@ -21,9 +21,7 @@
 #include "Button.h"
 
 namespace PWT::UI {
-    Button::Button(const QString &text, const bool rounded): QPushButton(text), PInputItem(this) {
-        isRounded = rounded;
-
+    Button::Button(const QString &text): QPushButton(text), PInputItem(this) {
         setFocusPolicy(Qt::NoFocus);
     }
 
@@ -34,11 +32,7 @@ namespace PWT::UI {
         p.setRenderHint(QPainter::Antialiasing);
         p.setPen(isFocused ? QPen(appTheme->focusBorder(), 2) : appTheme->buttonBorder());
         p.setBrush(!isEnabled() ? appTheme->disabled() : (isHovered ? appTheme->buttonHovered() : appTheme->button()));
-
-        if (isRounded)
-            p.drawRoundedRect(btnRect, 5, 5);
-        else
-            p.drawRect(btnRect);
+        p.drawRoundedRect(btnRect, 5, 5);
 
         p.setPen(isEnabled() ? appTheme->buttonLabel() : appTheme->disabledText());
         p.drawText(btnRect, Qt::AlignCenter, text());

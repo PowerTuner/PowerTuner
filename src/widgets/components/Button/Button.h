@@ -28,7 +28,6 @@ namespace PWT::UI {
     private:
         const std::shared_ptr<Style::Style> appTheme = App::Settings::get().getStyle();
         bool isHovered = false;
-        bool isRounded;
 
     protected:
         void paintEvent(QPaintEvent *) override;
@@ -38,7 +37,7 @@ namespace PWT::UI {
         void leaveEvent(QEvent *) override;
 
     public:
-        explicit Button(const QString &text, bool rounded = true);
+        explicit Button(const QString &text);
 
         void activate() override;
     };
