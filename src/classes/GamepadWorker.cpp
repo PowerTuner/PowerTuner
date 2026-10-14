@@ -326,7 +326,7 @@ namespace PWT::App {
 
                         if (old == axisState.leftX)
                             break;
-                        else if (axisState.leftX == 0 && (heldButton.second == GamepadButton::ANALOG_LEFT_LEFT || heldButton.second == GamepadButton::ANALOG_LEFT_RIGHT))
+                        else if (axisState.leftY != 0 || (axisState.leftX == 0 && (heldButton.second == GamepadButton::ANALOG_LEFT_LEFT || heldButton.second == GamepadButton::ANALOG_LEFT_RIGHT)))
                             repeatTimer->invalidate();
                         else if (axisState.leftX > 0)
                             setHeldButton(it->second, GamepadButton::ANALOG_LEFT_RIGHT);
@@ -341,7 +341,7 @@ namespace PWT::App {
 
                         if (old == axisState.leftY)
                             break;
-                        if (axisState.leftY == 0 && (heldButton.second == GamepadButton::ANALOG_LEFT_DOWN || heldButton.second == GamepadButton::ANALOG_LEFT_UP))
+                        if (axisState.leftX != 0 || (axisState.leftY == 0 && (heldButton.second == GamepadButton::ANALOG_LEFT_DOWN || heldButton.second == GamepadButton::ANALOG_LEFT_UP)))
                             repeatTimer->invalidate();
                         else if (axisState.leftY > 0)
                             setHeldButton(it->second, GamepadButton::ANALOG_LEFT_DOWN);
@@ -356,7 +356,7 @@ namespace PWT::App {
 
                         if (old == axisState.rightX)
                             break;
-                        if (axisState.rightX == 0 && (heldButton.second == GamepadButton::ANALOG_RIGHT_RIGHT || heldButton.second == GamepadButton::ANALOG_RIGHT_LEFT))
+                        if (axisState.rightY != 0 || (axisState.rightX == 0 && (heldButton.second == GamepadButton::ANALOG_RIGHT_RIGHT || heldButton.second == GamepadButton::ANALOG_RIGHT_LEFT)))
                             repeatTimer->invalidate();
                         else if (axisState.rightX > 0)
                             setHeldButton(it->second, GamepadButton::ANALOG_RIGHT_RIGHT);
@@ -371,7 +371,7 @@ namespace PWT::App {
 
                         if (old == axisState.rightY)
                             break;
-                        if (axisState.rightY == 0 && (heldButton.second == GamepadButton::ANALOG_RIGHT_DOWN || heldButton.second == GamepadButton::ANALOG_RIGHT_UP))
+                        if (axisState.rightX != 0 || (axisState.rightY == 0 && (heldButton.second == GamepadButton::ANALOG_RIGHT_DOWN || heldButton.second == GamepadButton::ANALOG_RIGHT_UP)))
                             repeatTimer->invalidate();
                         else if (axisState.rightY > 0)
                             setHeldButton(it->second, GamepadButton::ANALOG_RIGHT_DOWN);
