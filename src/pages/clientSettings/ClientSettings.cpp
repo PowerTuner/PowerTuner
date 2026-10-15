@@ -133,9 +133,9 @@ namespace PWT::UI::PAGE {
         gamepadStatus->setFont(iconFont);
         delGamepadMap->setFixedWidth(50);
 
-        gamepadSelLyt->addStretch();
-        gamepadSelLyt->addWidget(gamepadStatus);
         gamepadSelLyt->addWidget(gamepadMap);
+        gamepadSelLyt->addWidget(gamepadStatus);
+        gamepadSelLyt->addStretch();
         gamepadSelLyt->addWidget(delGamepadMap);
         reloadSdlDbLyt->addStretch();
         reloadSdlDbLyt->addWidget(reloadSdlDb);
@@ -170,6 +170,7 @@ namespace PWT::UI::PAGE {
         lyt->addSpacing(6);
         lyt->addLayout(makeTitle(u"Gamepad mapping"_s, u"\uf11b"_s));
         lyt->addLayout(gamepadSelLyt);
+        lyt->addSpacing(12);
         lyt->addLayout(makeHItem(u"Up"_s, gpUp));
         lyt->addLayout(makeHItem(u"Down"_s, gpDown));
         lyt->addLayout(makeHItem(u"Left"_s, gpLeft));
