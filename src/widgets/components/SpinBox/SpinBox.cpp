@@ -126,21 +126,18 @@ namespace PWT::UI {
         editBox->setFocused(enable);
     }
 
-    void SpinBox::activate() {
+    void SpinBox::activate(const bool gamepad) {
+        if (gamepad) {
+            emit showVKeyboard(editBox->text());
+            return;
+        }
+
         isActive = true;
-        editBox->activate();
+        editBox->activate(false);
     }
 
     void SpinBox::handleButton(const ButtonKey key) {
         switch (key) {
-            case ButtonKey::Up: {
-                addToValue();
-            }
-                break;
-            case ButtonKey::Down: {
-                subtractFromValue();
-            }
-                break;
             case ButtonKey::Back: {
                 clampToRange();
                 isActive = false;
@@ -150,6 +147,17 @@ namespace PWT::UI {
             default:
                 break;
         }
+    }
+
+    void SpinBox::writeVKeyboardText(const QString &text) {
+        QString tmp = text;
+        int pos = 0;
+
+        if (editBox->validator()->validate(tmp, pos) != QValidator::Acceptable)
+            return;
+
+        editBox->clear();
+        editBox->setText(text);
     }
 
     void SpinBox::onEditReturnPressed() {

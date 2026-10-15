@@ -56,7 +56,12 @@ namespace PWT::UI {
             emit mouseActivation(this);
     }
 
-    void LineEdit::activate() {
+    void LineEdit::activate(const bool gamepad) {
+        if (gamepad) {
+            emit showVKeyboard(text());
+            return;
+        }
+
         isActive = true;
         setFocus();
         update();
@@ -73,5 +78,10 @@ namespace PWT::UI {
             default:
                 break;
         }
+    }
+
+    void LineEdit::writeVKeyboardText(const QString &text) {
+        clear();
+        setText(text);
     }
 }

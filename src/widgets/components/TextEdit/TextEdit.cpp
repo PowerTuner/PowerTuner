@@ -37,16 +37,23 @@ namespace PWT::UI {
     void TextEdit::paintEvent(QPaintEvent *event) {
         QTextEdit::paintEvent(event);
 
-        if (isFocused || isActive) {
-            QPainter p(viewport());
+        QPainter p(viewport());
 
+        if (isFocused || isActive) {
             p.setRenderHint(QPainter::Antialiasing);
             p.setPen(QPen(isActive ? appTheme->textEditActive() : appTheme->focusBorder(), 2));
             p.drawRoundedRect(viewport()->rect(), 4, 4);
         }
+
+        if (drawCursor) {
+            const QRect rect = cursorRect(textCursor());
+
+            p.setPen(appTheme->textEditText());
+            p.drawLine(rect.topLeft(), rect.bottomLeft());
+        }
     }
 
-    void TextEdit::activate() {
+    void TextEdit::activate(const bool gamepad) {
         isActive = true;
         update();
     }

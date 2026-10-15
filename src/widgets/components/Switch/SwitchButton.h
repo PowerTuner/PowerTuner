@@ -44,6 +44,6 @@ namespace PWT::UI {
     public:
         SwitchButton();
 
-        void activate() override;
+        void activate(bool gamepad) override;
     };
 }

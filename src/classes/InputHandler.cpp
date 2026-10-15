@@ -82,6 +82,9 @@ namespace PWT::App {
     }
 
     void InputHandler::handleKeyboardReleaseKey(const Qt::Key key) {
+        if (vKeyboardShown)
+            return;
+
         if (key == appSettings.getKeyboardNavbarUp())
             emit navbarUpKey();
         else if (key == appSettings.getKeyboardNavbarDown())
@@ -103,6 +106,9 @@ namespace PWT::App {
     }
 
     void InputHandler::handleKeyboardPressKey(const Qt::Key key) {
+        if (vKeyboardShown)
+            return;
+
         if (key == appSettings.getKeyboardUp())
             emit buttonPressed(ButtonKey::Up, false);
         else if (key == appSettings.getKeyboardDown())
@@ -165,7 +171,16 @@ namespace PWT::App {
         gamepadWorker = nullptr;
     }
 
+    void InputHandler::onVKeyboardShown(const bool shown) {
+        vKeyboardShown = shown;
+    }
+
     void InputHandler::onGamepadButton(const QString &gid, const GamepadButton button) {
+        if (vKeyboardShown) {
+            emit gamepadButtonPressed(button);
+            return;
+        }
+
         const GamepadMapping mapping = appSettings.getGamepadMapping(gid);
 
         if (button == mapping.navbarUp)

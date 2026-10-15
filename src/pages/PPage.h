@@ -47,11 +47,13 @@ namespace PWT::UI::PAGE {
         PPage();
 
         virtual void handleButton(ButtonKey key, bool gamepad);
+        void writeVKeyboardText(const QString &text) const;
 
     protected slots:
         void onPinputMouseActivation(PInputItem *itm);
 
     signals:
         void logSent(const QString &msg, std::source_location loc = std::source_location::current());
+        void showVKeyboard(const QString &text);
     };
 }

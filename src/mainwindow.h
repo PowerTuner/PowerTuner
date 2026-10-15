@@ -24,6 +24,7 @@
 #include "classes/Settings.h"
 #include "widgets/complex/Navbar/Navbar.h"
 #include "widgets/complex/Statusbar/Statusbar.h"
+#include "widgets/complex/VirtualKeyboard/VirtualKeyboard.h"
 #include "pages/home/Home.h"
 #include "pages/logs/Logs.h"
 #include "pages/clientSettings/ClientSettings.h"
@@ -45,17 +46,20 @@ private:
     QStackedWidget *pages;
     PWT::UI::Navbar *navbar;
     PWT::UI::Statusbar *statusbar;
+    PWT::UI::VirtualKeyboard *vKeyboard = nullptr;
     PWT::UI::PAGE::Home *home;
     PWT::UI::PAGE::Logs *logs;
     PWT::UI::PAGE::ClientSettings *clientSettings;
     PWT::UI::PAGE::Daemons *daemons;
 
     [[nodiscard]] QString getAppDataPath() const;
+    void initVKeyboard();
     void setTrayIcon();
     void setStartup() const;
 
 protected:
     void closeEvent(QCloseEvent *event) override;
+    void resizeEvent(QResizeEvent *) override;
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
@@ -68,10 +72,18 @@ private slots:
     void refreshKeyPressed() const;
     void applyKeyPressed() const;
     void buttonPressed(PWT::ButtonKey key, bool gamepad) const;
+    void gamepadButtonPressed(PWT::GamepadButton button) const;
     void onToggleAppWindow();
     void onLogSent(const QString &msg, std::source_location loc) const;
     void onActiveDaemonChanged();
     void onDaemonListChanged() const;
     void onSettingsSaved(bool writeResult);
+    void onGamepadConnected(const QString &gid);
     void onTrayIconClicked(QSystemTrayIcon::ActivationReason reason);
+    void onShowVKeyboard(const QString &text);
+    void onHideVKeyboard();
+    void onVKeyboardWriteText(const QString &text) const;
+
+signals:
+    void vKeyboardShown(bool shown);
 };

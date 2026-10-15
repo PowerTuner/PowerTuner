@@ -66,8 +66,11 @@ namespace PWT::UI::PAGE {
         focusFirstWidget();
 
         QObject::connect(daemonName, &LineEdit::mouseActivation, this, &Daemons::onPinputMouseActivation);
+        QObject::connect(daemonName, &LineEdit::showVKeyboard, this, &Daemons::showVKeyboard);
         QObject::connect(daemonAddr, &LineEdit::mouseActivation, this, &Daemons::onPinputMouseActivation);
+        QObject::connect(daemonAddr, &LineEdit::showVKeyboard, this, &Daemons::showVKeyboard);
         QObject::connect(daemonPort, &SpinBox::mouseActivation, this, &Daemons::onPinputMouseActivation);
+        QObject::connect(daemonPort, &SpinBox::showVKeyboard, this, &Daemons::showVKeyboard);
         QObject::connect(addBtn, &Button::clicked, this, &Daemons::onAddDaemonClicked);
         QObject::connect(activeDaemon, &Select::currentIndexChanged, this, &Daemons::onActiveDaemonChanged);
     }

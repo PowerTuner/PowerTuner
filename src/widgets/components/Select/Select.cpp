@@ -80,7 +80,7 @@ namespace PWT::UI {
         p.drawPolygon(arrow);
     }
 
-    void Select::activate() {
+    void Select::activate(const bool gamepad) {
         isActive = true;
         update();
     }

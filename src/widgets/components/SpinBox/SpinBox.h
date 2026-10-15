@@ -42,8 +42,9 @@ namespace PWT::UI {
         void addToValue() const;
         void subtractFromValue() const;
         void setFocused(bool enable) override;
-        void activate() override;
+        void activate(bool gamepad) override;
         void handleButton(ButtonKey key) override;
+        void writeVKeyboardText(const QString &text) override;
 
     private slots:
         void onEditReturnPressed();
@@ -51,5 +52,6 @@ namespace PWT::UI {
 
     signals:
         void mouseActivation(PInputItem *itm);
+        void showVKeyboard(const QString &text);
     };
 }

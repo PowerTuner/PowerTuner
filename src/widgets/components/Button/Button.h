@@ -39,6 +39,6 @@ namespace PWT::UI {
     public:
         explicit Button(const QString &text);
 
-        void activate() override;
+        void activate(bool gamepad) override;
     };
 }

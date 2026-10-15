@@ -36,10 +36,12 @@ namespace PWT::UI {
     public:
         LineEdit();
 
-        void activate() override;
+        void activate(bool gamepad) override;
         void handleButton(ButtonKey key) override;
+        void writeVKeyboardText(const QString &text) override;
 
     signals:
         void mouseActivation(PInputItem *itm);
+        void showVKeyboard(const QString &text);
     };
 }

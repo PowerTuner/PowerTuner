@@ -66,7 +66,7 @@ namespace PWT::UI {
         QPushButton::mouseReleaseEvent(event);
     }
 
-    void Button::activate() {
+    void Button::activate(const bool gamepad) {
         emit clicked();
     }
 }

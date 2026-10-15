@@ -33,9 +33,10 @@ namespace PWT::UI {
         explicit PInputItem(QWidget *wdg): item(wdg) {}
         virtual ~PInputItem() = default;
 
-        virtual void activate() = 0;
+        virtual void activate(bool gamepad) = 0;
 
         virtual void handleButton(ButtonKey key) {}
+        virtual void writeVKeyboardText(const QString &text) {}
         [[nodiscard]] bool active() const { return isActive; }
 
         virtual void setFocused(const bool enable) {

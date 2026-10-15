@@ -31,6 +31,7 @@ namespace PWT::App {
         Settings &appSettings = Settings::get();
         GamepadWorker *gamepadWorker = nullptr;
         QThread *gamepadThread = nullptr;
+        bool vKeyboardShown = false;
         QString appDataPath;
 
         void handleKeyboardReleaseKey(Qt::Key key);
@@ -49,6 +50,7 @@ namespace PWT::App {
 
     public slots:
         void loadSDLDB();
+        void onVKeyboardShown(bool shown);
 
     signals:
         void logSent(const QString &msg, std::source_location loc = std::source_location::current());
@@ -57,6 +59,7 @@ namespace PWT::App {
         void refreshKey();
         void applyKey();
         void buttonPressed(ButtonKey key, bool gamepad);
+        void gamepadButtonPressed(GamepadButton button);
         void appFocusChange(bool focused);
         void gamepadConnected(const QString &gid);
         void gamepadDisconnected(const QString &gid);

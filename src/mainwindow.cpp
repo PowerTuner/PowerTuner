@@ -79,15 +79,19 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     QObject::connect(inputHandler, &PWT::App::InputHandler::refreshKey, this, &MainWindow::refreshKeyPressed);
     QObject::connect(inputHandler, &PWT::App::InputHandler::applyKey, this, &MainWindow::applyKeyPressed);
     QObject::connect(inputHandler, &PWT::App::InputHandler::buttonPressed, this, &MainWindow::buttonPressed);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::gamepadButtonPressed, this, &MainWindow::gamepadButtonPressed);
     QObject::connect(inputHandler, &PWT::App::InputHandler::toggleAppWindow, this, &MainWindow::onToggleAppWindow);
-    QObject::connect(inputHandler, &PWT::App::InputHandler::gamepadConnected, clientSettings, &PWT::UI::PAGE::ClientSettings::onGamepadAdded);
+    QObject::connect(inputHandler, &PWT::App::InputHandler::gamepadConnected, this, &MainWindow::onGamepadConnected);
     QObject::connect(inputHandler, &PWT::App::InputHandler::gamepadDisconnected, clientSettings, &PWT::UI::PAGE::ClientSettings::onGamepadRemoved);
+    QObject::connect(this, &MainWindow::vKeyboardShown, inputHandler, &PWT::App::InputHandler::onVKeyboardShown);
     QObject::connect(clientSettings, &PWT::UI::PAGE::ClientSettings::logSent, this, &MainWindow::onLogSent);
     QObject::connect(clientSettings, &PWT::UI::PAGE::ClientSettings::reloadSDLDB, inputHandler, &PWT::App::InputHandler::loadSDLDB);
     QObject::connect(clientSettings, &PWT::UI::PAGE::ClientSettings::saved, this, &MainWindow::onSettingsSaved);
+    QObject::connect(clientSettings, &PWT::UI::PAGE::ClientSettings::showVKeyboard, this, &MainWindow::onShowVKeyboard);
     QObject::connect(daemons, &PWT::UI::PAGE::Daemons::logSent, this, &MainWindow::onLogSent);
     QObject::connect(daemons, &PWT::UI::PAGE::Daemons::activeDaemonChanged, this, &MainWindow::onActiveDaemonChanged);
     QObject::connect(daemons, &PWT::UI::PAGE::Daemons::daemonListChanged, this, &MainWindow::onDaemonListChanged);
+    QObject::connect(daemons, &PWT::UI::PAGE::Daemons::showVKeyboard, this, &MainWindow::onShowVKeyboard);
     QObject::connect(&startup, &PWT::App::Startup::logSent, this, &MainWindow::onLogSent);
 
     inputHandler->startGamepadThread();
@@ -120,6 +124,11 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     }
 }
 
+void MainWindow::resizeEvent(QResizeEvent *) {
+    if (vKeyboard != nullptr && vKeyboard->isVisible())
+        vKeyboard->resize(width(), height());
+}
+
 QString MainWindow::getAppDataPath() const {
     QString path = u"%1/PowerTuner"_s.arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
     const QDir qdir;
@@ -128,6 +137,15 @@ QString MainWindow::getAppDataPath() const {
         return "";
 
     return path;
+}
+
+void MainWindow::initVKeyboard() {
+    vKeyboard = new PWT::UI::VirtualKeyboard(this);
+
+    vKeyboard->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    vKeyboard->hide();
+    QObject::connect(vKeyboard, &PWT::UI::VirtualKeyboard::hideKeyboard, this, &MainWindow::onHideVKeyboard);
+    QObject::connect(vKeyboard, &PWT::UI::VirtualKeyboard::writeText, this, &MainWindow::onVKeyboardWriteText);
 }
 
 void MainWindow::setTrayIcon() {
@@ -181,7 +199,12 @@ void MainWindow::applyKeyPressed() const {
 }
 
 void MainWindow::buttonPressed(const PWT::ButtonKey key, const bool gamepad) const {
-    static_cast<PWT::UI::PAGE::PPage *>(pages->currentWidget())->handleButton(key, gamepad);
+    if (vKeyboard == nullptr || !vKeyboard->isVisible())
+        static_cast<PWT::UI::PAGE::PPage *>(pages->currentWidget())->handleButton(key, gamepad);
+}
+
+void MainWindow::gamepadButtonPressed(const PWT::GamepadButton button) const {
+    vKeyboard->handleButton(button);
 }
 
 void MainWindow::onToggleAppWindow() {
@@ -220,6 +243,13 @@ void MainWindow::onSettingsSaved(const bool writeResult) {
     }
 }
 
+void MainWindow::onGamepadConnected(const QString &gid) {
+    if (vKeyboard == nullptr)
+        initVKeyboard();
+
+    clientSettings->onGamepadAdded(gid);
+}
+
 void MainWindow::onTrayIconClicked(const QSystemTrayIcon::ActivationReason reason) {
     switch (reason) {
         case QSystemTrayIcon::Trigger: {
@@ -231,4 +261,22 @@ void MainWindow::onTrayIconClicked(const QSystemTrayIcon::ActivationReason reaso
         default:
             break;
     }
+}
+
+void MainWindow::onShowVKeyboard(const QString &text) {
+    vKeyboard->move(0, 0);
+    vKeyboard->resize(width(), height());
+    vKeyboard->setText(text);
+    vKeyboard->show();
+    vKeyboard->raise();
+    emit vKeyboardShown(true);
+}
+
+void MainWindow::onHideVKeyboard() {
+    emit vKeyboardShown(false);
+    vKeyboard->hide();
+}
+
+void MainWindow::onVKeyboardWriteText(const QString &text) const {
+    static_cast<PWT::UI::PAGE::PPage *>(pages->currentWidget())->writeVKeyboardText(text);
 }

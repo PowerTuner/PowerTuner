@@ -27,6 +27,7 @@ namespace PWT::UI {
 
     private:
         const std::shared_ptr<Style::Style> appTheme = App::Settings::get().getStyle();
+        bool drawCursor = false;
 
     protected:
         void paintEvent(QPaintEvent *event) override;
@@ -34,7 +35,9 @@ namespace PWT::UI {
     public:
         TextEdit();
 
-        void activate() override;
+        void setDrawCursor(const bool enable) { drawCursor = enable; }
+
+        void activate(bool gamepad) override;
         void handleButton(ButtonKey key) override;
     };
 }

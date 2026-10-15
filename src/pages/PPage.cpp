@@ -163,7 +163,7 @@ namespace PWT::UI::PAGE {
             case ButtonKey::Action: {
                 if (isValidFocusIndex()) {
                     scrollArea->ensureWidgetVisible(inputList[focusedIdx].first);
-                    inputList[focusedIdx].second->activate();
+                    inputList[focusedIdx].second->activate(gamepad);
                 }
             }
                 break;
@@ -197,6 +197,10 @@ namespace PWT::UI::PAGE {
         }
     }
 
+    void PPage::writeVKeyboardText(const QString &text) const {
+        inputList[focusedIdx].second->writeVKeyboardText(text);
+    }
+
     void PPage::onPinputMouseActivation(PInputItem *itm) {
         int idx = 0;
 
@@ -213,7 +217,7 @@ namespace PWT::UI::PAGE {
         }
 
         itm->setFocused(true);
-        itm->activate();
+        itm->activate(false);
         focusedIdx = idx;
     }
 }

@@ -122,6 +122,8 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${QT_RESOURCE}
     src/widgets/complex/Navbar/Navbar.h
     src/widgets/complex/Statusbar/Statusbar.cpp
     src/widgets/complex/Statusbar/Statusbar.h
+    src/widgets/complex/VirtualKeyboard/VirtualKeyboard.cpp
+    src/widgets/complex/VirtualKeyboard/VirtualKeyboard.h
 
     src/widgets/pages/Label/Label.cpp
     src/widgets/pages/Label/Label.h

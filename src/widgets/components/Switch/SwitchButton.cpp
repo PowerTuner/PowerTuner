@@ -49,7 +49,7 @@ namespace PWT::UI {
         p.drawRoundedRect(thumb, 18, 18);
     }
 
-    void SwitchButton::activate() {
+    void SwitchButton::activate(const bool gamepad) {
         toggle();
     }
 }
