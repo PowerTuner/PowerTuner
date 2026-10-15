@@ -201,6 +201,7 @@ namespace PWT::UI::PAGE {
         collectPageInputs(lyt);
         focusFirstWidget();
 
+        QObject::connect(quitBehavior, &Select::currentIndexChanged, this, &ClientSettings::onQuitBehaviorChanged);
         QObject::connect(gamepadMap, &Select::currentTextChanged, this, &ClientSettings::onGamepadMapChanged);
         QObject::connect(delGamepadMap, &Button::clicked, this, &ClientSettings::onGamepadMapDeleted);
         QObject::connect(reloadSdlDb, &Button::clicked, this, &ClientSettings::reloadSDLDB);
@@ -208,6 +209,8 @@ namespace PWT::UI::PAGE {
     }
 
     void ClientSettings::loadSettings() {
+        const QSignalBlocker quitBhvBlock {quitBehavior};
+
         gamepadMappings = settings.getGamepadMappings();
 
         for (const auto &[id, map]: gamepadMappings.asKeyValueRange())
@@ -235,6 +238,7 @@ namespace PWT::UI::PAGE {
         kbNavbarDown->setCurrentIndex(kbNavbarDown->findData(settings.getKeyboardNavbarDown()));
         kbRefresh->setCurrentIndex(kbRefresh->findData(settings.getKeyboardRefresh()));
         kbApply->setCurrentIndex(kbApply->findData(settings.getKeyboardApply()));
+        onQuitBehaviorChanged(quitBehavior->currentIndex());
         onGamepadMapChanged(gamepadMap->currentText());
     }
 
@@ -339,6 +343,13 @@ namespace PWT::UI::PAGE {
             emit logSent(u"settings saved successfully"_s);
             emit saved(true);
         }
+    }
+
+    void ClientSettings::onQuitBehaviorChanged(const int idx) const {
+        if (idx == 0)
+            startup->setChecked(false);
+
+        startup->setEnabled(idx != 0);
     }
 
     void ClientSettings::onGamepadMapChanged(const QString &text) {

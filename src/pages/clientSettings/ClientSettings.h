@@ -87,6 +87,7 @@ namespace PWT::UI::PAGE {
 
     private slots:
         void onApplyClicked();
+        void onQuitBehaviorChanged(int idx) const;
         void onGamepadMapChanged(const QString &text);
         void onGamepadMapDeleted();
 
